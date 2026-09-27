@@ -1,19 +1,23 @@
 import api from './api'
 import { AdminUser, AuthResponse, LoginRequest } from '../types/auth'
+import { getDeviceFingerprint, getDeviceName } from '../utils/fingerprint'
 
 export const authService = {
   login: async (credentials: LoginRequest): Promise<AuthResponse> => {
+    const deviceFingerprint = await getDeviceFingerprint()
+    const deviceName = getDeviceName()
+
     const payload = {
       email: credentials.identifier,
       password: credentials.password,
-      deviceFingerprint: 'admin-web-dashboard',
-      deviceName: 'Admin Web Dashboard',
+      deviceFingerprint,
+      deviceName,
     }
 
     const response = await api.post('/api/v1/auth/login', payload, {
       headers: {
         'X-Client-Type': 'WEB',
-        'X-Device-Fingerprint': 'admin-web-dashboard',
+        'X-Device-Fingerprint': deviceFingerprint,
       },
     })
 
@@ -29,7 +33,23 @@ export const authService = {
   },
 
   logout: async (): Promise<void> => {
-    await api.post('/api/v1/auth/logout')
+    try {
+      const deviceFingerprint = await getDeviceFingerprint()
+      await api.post(
+        '/api/v1/auth/logout',
+        {
+          deviceFingerprint,
+        },
+        {
+          headers: {
+            'X-Client-Type': 'WEB',
+            'X-Device-Fingerprint': deviceFingerprint,
+          },
+        }
+      )
+    } catch (err) {
+      console.warn('Backend logout warning (handled gracefully):', err)
+    }
   },
 
   getCurrentUser: async (): Promise<AdminUser> => {
@@ -42,7 +62,17 @@ export const authService = {
   },
 
   refreshToken: async (): Promise<{ accessToken: string; user?: AdminUser }> => {
-    const response = await api.post('/api/v1/auth/refresh')
+    const deviceFingerprint = await getDeviceFingerprint()
+    const response = await api.post(
+      '/api/v1/auth/refresh',
+      {},
+      {
+        headers: {
+          'X-Client-Type': 'WEB',
+          'X-Device-Fingerprint': deviceFingerprint,
+        },
+      }
+    )
     const resData = response.data
     if (resData && typeof resData === 'object' && 'data' in resData && resData.data) {
       return resData.data

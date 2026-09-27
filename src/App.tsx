@@ -1,20 +1,31 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAppSelector } from './store'
 import ProtectedRoute from './components/layout/ProtectedRoute'
 import AdminLayout from './components/layout/AdminLayout'
-import LoginPage from './pages/LoginPage'
-import DashboardPage from './pages/DashboardPage'
-import UsersPage from './pages/UsersPage'
-import PostsPage from './pages/PostsPage'
-import ReportsPage from './pages/ReportsPage'
-import GroupsPage from './pages/GroupsPage'
-import BlacklistPage from './pages/BlacklistPage'
-import AuditLogsPage from './pages/AuditLogsPage'
-import NotFoundPage from './pages/NotFoundPage'
+import { PageSkeleton } from './components/common/Skeleton'
+
+// Code-split page components for high-speed initial bundle
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'))
+const UsersPage = lazy(() => import('./pages/UsersPage'))
+const PostsPage = lazy(() => import('./pages/PostsPage'))
+const ReportsPage = lazy(() => import('./pages/ReportsPage'))
+const GroupsPage = lazy(() => import('./pages/GroupsPage'))
+const BlacklistPage = lazy(() => import('./pages/BlacklistPage'))
+const AuditLogsPage = lazy(() => import('./pages/AuditLogsPage'))
+const SettingsPage = lazy(() => import('./pages/SettingsPage'))
+const SearchPage = lazy(() => import('./pages/SearchPage'))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 export const App: React.FC = () => {
   const isDark = useAppSelector((state) => state.theme.isDark)
+  const user = useAppSelector((state) => state.auth.user)
+
+  const isModerator =
+    user?.role === 'MODERATOR' ||
+    (user?.roles && user.roles.includes('ROLE_MODERATOR') && !user.roles.includes('ROLE_ADMIN'))
 
   useEffect(() => {
     if (isDark) {
@@ -26,32 +37,49 @@ export const App: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Public Login Route */}
-        <Route path="/login" element={<LoginPage />} />
+      <Suspense fallback={<PageSkeleton />}>
+        <Routes>
+          {/* Public Login Route */}
+          <Route path="/login" element={<LoginPage />} />
 
-        {/* Protected Admin Routes */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <AdminLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<DashboardPage />} />
-          <Route path="users" element={<UsersPage />} />
-          <Route path="posts" element={<PostsPage />} />
-          <Route path="reports" element={<ReportsPage />} />
-          <Route path="groups" element={<GroupsPage />} />
-          <Route path="blacklist" element={<BlacklistPage />} />
-          <Route path="audit-logs" element={<AuditLogsPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
+          {/* Protected Admin Routes */}
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<DashboardPage />} />
+            <Route path="analytics" element={<AnalyticsPage />} />
+            <Route path="search" element={<SearchPage />} />
+            <Route
+              path="users"
+              element={isModerator ? <Navigate to="/" replace /> : <UsersPage />}
+            />
+            <Route path="posts" element={<PostsPage />} />
+            <Route path="reports" element={<ReportsPage />} />
+            <Route
+              path="groups"
+              element={isModerator ? <Navigate to="/" replace /> : <GroupsPage />}
+            />
+            <Route path="blacklist" element={<BlacklistPage />} />
+            <Route
+              path="audit-logs"
+              element={isModerator ? <Navigate to="/" replace /> : <AuditLogsPage />}
+            />
+            <Route
+              path="settings"
+              element={isModerator ? <Navigate to="/" replace /> : <SettingsPage />}
+            />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
 
-        {/* Catch-all */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          {/* Catch-all */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }

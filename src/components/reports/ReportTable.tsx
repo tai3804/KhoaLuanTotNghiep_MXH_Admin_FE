@@ -9,12 +9,14 @@ export interface ReportTableProps {
   reports: Report[]
   isLoading?: boolean
   onResolveClick: (report: Report) => void
+  highlightId?: string | number
 }
 
 export const ReportTable: React.FC<ReportTableProps> = ({
   reports,
   isLoading,
   onResolveClick,
+  highlightId,
 }) => {
   const columns: Column<Report>[] = [
     {
@@ -112,14 +114,21 @@ export const ReportTable: React.FC<ReportTableProps> = ({
             size="sm"
             onClick={() => onResolveClick(report)}
           >
-            {report.status === 'PENDING' ? 'Xử Lý' : 'Xem Lại'}
+            {report.status === 'PENDING' ? 'Xem & Xử Lý' : 'Xem Lại'}
           </Button>
         </div>
       ),
     },
   ]
 
-  return <DataTable columns={columns} data={reports} isLoading={isLoading} />
+  return (
+    <DataTable
+      columns={columns}
+      data={reports}
+      isLoading={isLoading}
+      highlightId={highlightId}
+    />
+  )
 }
 
 export default ReportTable

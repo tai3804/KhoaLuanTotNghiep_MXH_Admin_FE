@@ -21,19 +21,23 @@ export const GroupsPage: React.FC = () => {
 
   useEffect(() => {
     const fetchGroups = async () => {
-      dispatch(setLoading(true))
+      if (groups.length === 0) {
+        dispatch(setLoading(true))
+      }
       try {
         const data = await groupService.getAllGroups()
         dispatch(setGroups(data))
       } catch (e) {
         console.error('Failed to load groups:', e)
-        dispatch(setGroups([]))
+        if (groups.length === 0) {
+          dispatch(setGroups([]))
+        }
       } finally {
         dispatch(setLoading(false))
       }
     }
     fetchGroups()
-  }, [dispatch])
+  }, [dispatch, groups.length])
 
   const handleDeleteConfirm = async () => {
     if (!deleteTarget) return

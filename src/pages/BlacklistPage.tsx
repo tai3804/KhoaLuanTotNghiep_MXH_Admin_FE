@@ -19,19 +19,23 @@ export const BlacklistPage: React.FC = () => {
 
   useEffect(() => {
     const fetchBlacklist = async () => {
-      dispatch(setLoading(true))
+      if (blacklist.length === 0) {
+        dispatch(setLoading(true))
+      }
       try {
         const data = await settingsService.getBlacklist()
         dispatch(setBlacklist(data))
       } catch (e) {
         console.error('Failed to load blacklist:', e)
-        dispatch(setBlacklist([]))
+        if (blacklist.length === 0) {
+          dispatch(setBlacklist([]))
+        }
       } finally {
         dispatch(setLoading(false))
       }
     }
     fetchBlacklist()
-  }, [dispatch])
+  }, [dispatch, blacklist.length])
 
   const handleAddWord = async (word: string) => {
     dispatch(setActionLoading(true))

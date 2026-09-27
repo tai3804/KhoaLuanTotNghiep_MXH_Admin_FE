@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../store'
 import {
   setReports,
@@ -12,6 +13,7 @@ import { deletePostSuccess } from '../store/slices/postSlice'
 import { addToast } from '../store/slices/toastSlice'
 import { reportService } from '../services/reportService'
 import { postService } from '../services/postService'
+import { playNotificationSound } from '../utils/soundAlert'
 import ReportFilterBar from '../components/reports/ReportFilterBar'
 import ReportTable from '../components/reports/ReportTable'
 import ResolveReportModal from '../components/reports/ResolveReportModal'
@@ -19,6 +21,7 @@ import Pagination from '../components/common/Pagination'
 
 export const ReportsPage: React.FC = () => {
   const dispatch = useAppDispatch()
+  const [searchParams] = useSearchParams()
   const { reports, selectedReport, filter, isLoading, actionLoading } =
     useAppSelector((state) => state.report)
 
@@ -26,19 +29,38 @@ export const ReportsPage: React.FC = () => {
 
   useEffect(() => {
     const fetchReports = async () => {
-      dispatch(setLoading(true))
+      if (reports.length === 0) {
+        dispatch(setLoading(true))
+      }
       try {
         const data = await reportService.getAllReports()
         dispatch(setReports(data))
       } catch (e) {
         console.error('Failed to load reports:', e)
-        dispatch(setReports([]))
+        if (reports.length === 0) {
+          dispatch(setReports([]))
+        }
       } finally {
         dispatch(setLoading(false))
       }
     }
     fetchReports()
-  }, [dispatch])
+  }, [dispatch, reports.length])
+
+  const highlightedReportId = searchParams.get('reportId')
+
+  // Automatically navigate pagination page if highlighted report is not on the first page
+  useEffect(() => {
+    if (!highlightedReportId || reports.length === 0) return
+
+    const index = reports.findIndex((r) => String(r.id) === String(highlightedReportId))
+    if (index !== -1) {
+      const targetPage = Math.floor(index / filter.limit) + 1
+      if (targetPage !== filter.page) {
+        dispatch(setFilter({ page: targetPage }))
+      }
+    }
+  }, [highlightedReportId, reports, filter.limit, filter.page, dispatch])
 
   const filteredReports = useMemo(() => {
     return reports.filter((r) => {
@@ -81,6 +103,7 @@ export const ReportsPage: React.FC = () => {
 
       const newStatus = action === 'DISMISS' ? 'DISMISSED' : 'RESOLVED'
       dispatch(resolveReportSuccess({ reportId, status: newStatus }))
+      playNotificationSound()
 
       dispatch(
         addToast({
@@ -123,6 +146,7 @@ export const ReportsPage: React.FC = () => {
       <ReportTable
         reports={paginatedReports}
         isLoading={isLoading}
+        highlightId={highlightedReportId || undefined}
         onResolveClick={(report) => {
           dispatch(setSelectedReport(report))
           setIsResolveModalOpen(true)

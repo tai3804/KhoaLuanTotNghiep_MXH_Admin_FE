@@ -1,6 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios'
 import { store } from '../store'
 import { setCredentials, logout } from '../store/slices/authSlice'
+import { getDeviceFingerprint } from '../utils/fingerprint'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
@@ -12,12 +13,20 @@ export const api = axios.create({
   withCredentials: true, // Crucial for sending/receiving HttpOnly cookies (refresh token)
 })
 
-// Request Interceptor: Attach Access Token from in-memory Redux store
+// Request Interceptor: Attach Access Token and Device Fingerprint
 api.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  async (config: InternalAxiosRequestConfig) => {
     const token = store.getState().auth.token
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`
+    }
+
+    if (config.headers) {
+      const fingerprint = await getDeviceFingerprint()
+      if (fingerprint && !config.headers['X-Device-Fingerprint']) {
+        config.headers['X-Device-Fingerprint'] = fingerprint
+        config.headers['X-Client-Type'] = 'WEB'
+      }
     }
     return config
   },
@@ -51,8 +60,12 @@ api.interceptors.response.use(
 
     // If 401 Unauthorized and not already retrying
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
-      if (originalRequest.url?.includes('/api/v1/auth/login') || originalRequest.url?.includes('/api/v1/auth/refresh')) {
-        // If login or refresh itself fails with 401, don't loop
+      if (
+        originalRequest.url?.includes('/api/v1/auth/login') ||
+        originalRequest.url?.includes('/api/v1/auth/refresh') ||
+        originalRequest.url?.includes('/api/v1/auth/logout')
+      ) {
+        // If login, refresh, or logout itself fails with 401, don't loop
         return Promise.reject(error)
       }
 
@@ -74,10 +87,17 @@ api.interceptors.response.use(
 
       try {
         // Call refresh endpoint with cookie credentials
+        const fingerprint = await getDeviceFingerprint()
         const refreshResponse = await axios.post(
           `/api/v1/auth/refresh`,
           {},
-          { withCredentials: true }
+          {
+            headers: {
+              'X-Client-Type': 'WEB',
+              'X-Device-Fingerprint': fingerprint,
+            },
+            withCredentials: true,
+          }
         )
 
         const newAccessToken =

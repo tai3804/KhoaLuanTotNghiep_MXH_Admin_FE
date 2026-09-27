@@ -9,6 +9,7 @@ import groupReducer from './slices/groupSlice'
 import settingsReducer from './slices/settingsSlice'
 import toastReducer from './slices/toastSlice'
 import themeReducer from './slices/themeSlice'
+import analyticsReducer from './slices/analyticsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     settings: settingsReducer,
     toast: toastReducer,
     theme: themeReducer,
+    analytics: analyticsReducer,
   },
 })
 

@@ -12,6 +12,7 @@ import DashboardMetrics from '../components/dashboard/DashboardMetrics'
 import AnalyticsCharts from '../components/dashboard/AnalyticsCharts'
 import CategoryPieChart from '../components/dashboard/CategoryPieChart'
 import RecentActivity from '../components/dashboard/RecentActivity'
+import { DashboardSkeleton } from '../components/common/Skeleton'
 
 export const DashboardPage: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -22,7 +23,10 @@ export const DashboardPage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(setLoading(true))
+      // Instant 0ms render if data already exists in Redux, only load skeleton on first open
+      if (!stats) {
+        dispatch(setLoading(true))
+      }
       try {
         const [statsData, growthData, interData, catData, reportsData] =
           await Promise.all([
@@ -51,6 +55,22 @@ export const DashboardPage: React.FC = () => {
 
     fetchData()
   }, [dispatch])
+
+  if (isLoading && !stats) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+            Bảng Điều Khiển Tổng Quan
+          </h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            Đang tải dữ liệu số liệu hệ thống...
+          </p>
+        </div>
+        <DashboardSkeleton />
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">

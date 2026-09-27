@@ -3,13 +3,20 @@ export type UserRole = 'USER' | 'MODERATOR' | 'ADMIN'
 
 export interface User {
   id: string
+  userId?: string
   username: string
   email: string
   fullName: string
+  firstName?: string
+  lastName?: string
   avatarUrl?: string
   coverUrl?: string
   bio?: string
   phoneNumber?: string
+  gender?: string
+  dateOfBirth?: string
+  location?: string
+  website?: string
   role: UserRole | string
   status: UserStatus
   isBanned?: boolean
@@ -17,11 +24,16 @@ export interface User {
   bannedAt?: string
   bannedUntil?: string
   emailVerified?: boolean
-  createdAt: string
-  updatedAt?: string
+  followerCount?: number
+  followingCount?: number
+  friendCount?: number
   postsCount?: number
   friendsCount?: number
   reportsCount?: number
+  isOnline?: boolean
+  lastActiveAt?: string
+  createdAt: string
+  updatedAt?: string
 }
 
 export interface UserFilter {
