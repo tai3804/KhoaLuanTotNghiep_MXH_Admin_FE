@@ -11,6 +11,7 @@ import {
   BookX,
   History,
   Sliders,
+  Cpu,
 } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { logout } from '../../store/slices/authSlice'
@@ -96,6 +97,12 @@ export const Sidebar: React.FC = () => {
         to: '/blacklist',
         label: 'Từ điển từ cấm',
         icon: <BookX className="w-5 h-5 shrink-0" />,
+        roles: ['ADMIN', 'MODERATOR'],
+      },
+      {
+        to: '/ai-moderation',
+        label: 'Kiểm duyệt tự động AI',
+        icon: <Cpu className="w-5 h-5 shrink-0" />,
         roles: ['ADMIN', 'MODERATOR'],
       },
       {

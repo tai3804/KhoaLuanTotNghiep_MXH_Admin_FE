@@ -14,6 +14,7 @@ const PostsPage = lazy(() => import('./pages/PostsPage'))
 const ReportsPage = lazy(() => import('./pages/ReportsPage'))
 const GroupsPage = lazy(() => import('./pages/GroupsPage'))
 const BlacklistPage = lazy(() => import('./pages/BlacklistPage'))
+const AiModerationPage = lazy(() => import('./pages/AiModerationPage'))
 const AuditLogsPage = lazy(() => import('./pages/AuditLogsPage'))
 const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 const SearchPage = lazy(() => import('./pages/SearchPage'))
@@ -65,6 +66,7 @@ export const App: React.FC = () => {
               element={isModerator ? <Navigate to="/" replace /> : <GroupsPage />}
             />
             <Route path="blacklist" element={<BlacklistPage />} />
+            <Route path="ai-moderation" element={<AiModerationPage />} />
             <Route
               path="audit-logs"
               element={isModerator ? <Navigate to="/" replace /> : <AuditLogsPage />}
