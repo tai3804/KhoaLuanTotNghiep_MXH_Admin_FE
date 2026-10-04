@@ -208,23 +208,27 @@ export const TrendingHashtags: React.FC<TrendingHashtagsProps> = ({
           <Flame className="w-3.5 h-3.5 text-amber-500" />
           Đám Mây Từ Khóa Nổi Bật (Tag Cloud)
         </h4>
-        <div className="flex flex-wrap gap-2">
-          {hashtags.map((h, i) => (
-            <button
-              key={h.tag}
-              onClick={() => setSearch(h.tag)}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                i === 0
-                  ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-sm'
-                  : i <= 2
-                  ? 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30'
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:text-indigo-600'
-              }`}
-            >
-              {h.tag} <span className="text-[10px] opacity-70">({h.postCount})</span>
-            </button>
-          ))}
-        </div>
+        {hashtags.length === 0 ? (
+          <p className="text-xs text-slate-400 italic">Chưa có hashtag hoặc từ khóa nổi bật trong các bài viết.</p>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            {hashtags.map((h, i) => (
+              <button
+                key={h.tag}
+                onClick={() => setSearch(h.tag)}
+                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  i === 0
+                    ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-sm'
+                    : i <= 2
+                    ? 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:text-indigo-600'
+                }`}
+              >
+                {h.tag} <span className="text-[10px] opacity-70">({h.postCount})</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

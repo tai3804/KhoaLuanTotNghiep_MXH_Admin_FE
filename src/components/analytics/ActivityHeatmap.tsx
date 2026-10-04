@@ -171,10 +171,12 @@ export const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
               Ngày Bùng Nổ Nhất
             </h4>
             <p className="text-base font-black text-violet-600 dark:text-violet-400 mt-0.5">
-              {data.peakDay}
+              {data.peakDay || 'Chưa xác định'}
             </p>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-              Lượng bài viết tăng +38% so với đầu tuần
+              {data.totalWeeklyInteractions > 0
+                ? `Tổng ${data.totalWeeklyInteractions.toLocaleString()} lượt tương tác trong tuần`
+                : 'Chưa có đủ dữ liệu tương tác'}
             </p>
           </div>
         </div>
@@ -186,10 +188,12 @@ export const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
               Khuyến Nghị Tối Ưu
             </h4>
             <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-0.5">
-              Đẩy thông báo & sự kiện lúc 20:00
+              {data.peakTimeRange && data.peakTimeRange !== '--:--'
+                ? `Đăng bài vào khung ${data.peakTimeRange}`
+                : 'Thu thập thêm dữ liệu khung giờ'}
             </p>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-              Giúp tối đa hóa lượt xem và tương tác
+              Giúp tối đa hóa lượt xem và tương tác của thành viên
             </p>
           </div>
         </div>

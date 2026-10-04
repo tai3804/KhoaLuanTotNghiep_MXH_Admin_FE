@@ -49,9 +49,9 @@ export const AnalyticsExportModal: React.FC<AnalyticsExportModalProps> = ({
       ['Tổng người dùng:', stats?.totalUsers ?? 0],
       ['Tổng bài viết:', stats?.totalPosts ?? 0],
       ['Tổng lượt tương tác tuần:', heatmap?.totalWeeklyInteractions ?? 0],
-      ['Khung giờ vàng tương tác:', heatmap?.peakTimeRange ?? '19:30 - 22:30'],
-      ['Ngày cao điểm nhất:', heatmap?.peakDay ?? 'Thứ Bảy & Chủ Nhật'],
-      ['Tỷ lệ giữ chân người dùng:', `${demographics?.averageRetentionRate ?? 84.6}%`],
+      ['Khung giờ vàng tương tác:', heatmap?.peakTimeRange || 'Chưa xác định'],
+      ['Ngày cao điểm nhất:', heatmap?.peakDay || 'Chưa xác định'],
+      ['Tỷ lệ giữ chân người dùng:', demographics?.averageRetentionRate != null && demographics.averageRetentionRate > 0 ? `${demographics.averageRetentionRate}%` : 'Chưa có dữ liệu'],
       [''],
       ['II. TOP HASHTAG & XU HƯỚNG BÙNG NỔ'],
       ['Hạng', 'Hashtag', 'Chuyên mục', 'Số bài viết', 'Tăng trưởng (%)', 'Điểm tương tác', 'Trạng thái'],
@@ -170,19 +170,21 @@ export const AnalyticsExportModal: React.FC<AnalyticsExportModalProps> = ({
             <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800">
               <span className="text-slate-400 block text-[10px]">Giờ cao điểm</span>
               <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                {heatmap?.peakTimeRange ?? '19:30 - 22:30'}
+                {heatmap?.peakTimeRange || '--:--'}
               </span>
             </div>
             <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800">
               <span className="text-slate-400 block text-[10px]">Top 1 Hashtag</span>
               <span className="font-bold text-amber-600 dark:text-amber-400 truncate block">
-                {trends[0]?.tag ?? '#KhoaLuanTotNghiep'}
+                {trends[0]?.tag || 'Chưa có'}
               </span>
             </div>
             <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800">
               <span className="text-slate-400 block text-[10px]">Tỷ lệ giữ chân</span>
               <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                {demographics?.averageRetentionRate ?? 84.6}%
+                {demographics?.averageRetentionRate != null && demographics.averageRetentionRate > 0
+                  ? `${demographics.averageRetentionRate}%`
+                  : '--%'}
               </span>
             </div>
           </div>
@@ -205,19 +207,27 @@ export const AnalyticsExportModal: React.FC<AnalyticsExportModalProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {trends.slice(0, 5).map((t) => (
-                  <tr key={t.tag} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                    <td className="px-3 py-2 font-bold text-center w-10">#{t.rank}</td>
-                    <td className="px-3 py-2 font-semibold text-indigo-600 dark:text-indigo-400">
-                      {t.tag}
-                    </td>
-                    <td className="px-3 py-2 text-slate-500">{t.category}</td>
-                    <td className="px-3 py-2 text-right font-bold">{t.postCount}</td>
-                    <td className="px-3 py-2 text-right font-bold text-emerald-600">
-                      +{t.growthPercentage}%
+                {trends.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="px-3 py-4 text-center text-slate-400">
+                      Chưa có hashtag thịnh hành
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  trends.slice(0, 5).map((t) => (
+                    <tr key={t.tag} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                      <td className="px-3 py-2 font-bold text-center w-10">#{t.rank}</td>
+                      <td className="px-3 py-2 font-semibold text-indigo-600 dark:text-indigo-400">
+                        {t.tag}
+                      </td>
+                      <td className="px-3 py-2 text-slate-500">{t.category}</td>
+                      <td className="px-3 py-2 text-right font-bold">{t.postCount}</td>
+                      <td className="px-3 py-2 text-right font-bold text-emerald-600">
+                        +{t.growthPercentage}%
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

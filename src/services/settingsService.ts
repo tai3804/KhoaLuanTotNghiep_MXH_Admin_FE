@@ -74,51 +74,16 @@ export const settingsService = {
         ? rawData.data
         : []
 
-      if (list.length > 0) {
-        const CORRECT_PORTS: Record<string, number> = {
-          'Eureka Discovery Server': 8761,
-          'API Gateway': 8080,
-          'Auth Service': 8081,
-          'Post Service': 8082,
-          'Notification Service': 8083,
-          'Media Service': 8084,
-          'User Service': 8085,
-          'Call Service': 8086,
-          'Chat Service': 8087,
-          'Feed Service': 8088,
-          'Admin Service': 8090,
-          'AI Service': 8091,
-        }
-
-        return list.map((svc) => {
-          const port = CORRECT_PORTS[svc.name] || svc.port
-          const isNotification = svc.name === 'Notification Service'
-          return {
-            ...svc,
-            port,
-            // If backend pinged legacy 8086 for notification, correct status to UP
-            status: isNotification && svc.port === 8086 ? 'UP' : svc.status,
-          }
-        })
-      }
+      return list.map((svc) => ({
+        name: svc.name,
+        port: svc.port,
+        status: svc.status,
+        responseTimeMs: svc.responseTimeMs,
+      }))
     } catch (e) {
-      console.warn('Fallback getting service health:', e)
+      console.warn('Error fetching service health:', e)
+      return []
     }
-
-    return [
-      { name: 'Eureka Discovery Server', port: 8761, status: 'UP', responseTimeMs: 1 },
-      { name: 'API Gateway', port: 8080, status: 'UP', responseTimeMs: 1 },
-      { name: 'Auth Service', port: 8081, status: 'UP', responseTimeMs: 1 },
-      { name: 'Post Service', port: 8082, status: 'UP', responseTimeMs: 1 },
-      { name: 'Notification Service', port: 8083, status: 'UP', responseTimeMs: 1 },
-      { name: 'Media Service', port: 8084, status: 'UP', responseTimeMs: 1 },
-      { name: 'User Service', port: 8085, status: 'UP', responseTimeMs: 1 },
-      { name: 'Call Service', port: 8086, status: 'DOWN', responseTimeMs: 0 },
-      { name: 'Chat Service', port: 8087, status: 'UP', responseTimeMs: 1 },
-      { name: 'Feed Service', port: 8088, status: 'UP', responseTimeMs: 1 },
-      { name: 'Admin Service', port: 8090, status: 'UP', responseTimeMs: 1 },
-      { name: 'AI Service', port: 8091, status: 'UP', responseTimeMs: 1 },
-    ]
   },
 
   getSystemConfigs: async (): Promise<Record<string, string>> => {
@@ -127,14 +92,7 @@ export const settingsService = {
       return response.data || {}
     } catch (e) {
       console.warn('Error fetching system configs:', e)
-      return {
-        maintenance_mode: 'false',
-        allow_registration: 'true',
-        ai_moderation_enabled: 'true',
-        max_upload_size_mb: '25',
-        system_announcement: '',
-        max_reports_auto_hide: '5',
-      }
+      return {}
     }
   },
 
