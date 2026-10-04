@@ -59,10 +59,10 @@ export const PostPreviewModal: React.FC<PostPreviewModalProps> = ({
             shape="rounded"
           />
           <div>
-            <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+            <h4 className="text-sm font-bold text-[#050505] dark:text-[#e4e6eb]">
               {post.author?.fullName}
             </h4>
-            <div className="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
+            <div className="flex items-center gap-2 text-xs text-[#65676b] dark:text-[#b0b3b8] mt-0.5">
               <span>@{post.author?.username}</span>
               <span>•</span>
               <span className="flex items-center gap-1">
@@ -79,7 +79,7 @@ export const PostPreviewModal: React.FC<PostPreviewModalProps> = ({
         </div>
 
         {/* Content Body */}
-        <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#3a3b3c]/40 border border-[#e4e6eb] dark:border-[#393a3b] text-sm text-slate-800 dark:text-[#e4e6eb] whitespace-pre-line leading-relaxed">
+        <div className="p-4 rounded-2xl bg-[#f0f2f5] dark:bg-[#3a3b3c]/40 border border-[#e4e6eb] dark:border-[#393a3b] text-sm text-[#050505] dark:text-[#e4e6eb] whitespace-pre-line leading-relaxed">
           {post.content}
         </div>
 
@@ -98,17 +98,17 @@ export const PostPreviewModal: React.FC<PostPreviewModalProps> = ({
         )}
 
         {/* Interaction Bar */}
-        <div className="flex items-center gap-6 py-3 border-y border-[#e4e6eb] dark:border-[#393a3b] text-xs font-semibold text-slate-500 dark:text-[#b0b3b8]">
+        <div className="flex items-center gap-6 py-3 border-y border-[#e4e6eb] dark:border-[#393a3b] text-xs font-semibold text-[#65676b] dark:text-[#b0b3b8]">
           <span className="flex items-center gap-1.5">
-            <Heart className="w-4 h-4 text-rose-500" />
+            <Heart className="w-4 h-4 text-[#fa383e]" />
             {post.likesCount} Lượt thích
           </span>
           <span className="flex items-center gap-1.5">
-            <MessageSquare className="w-4 h-4 text-[#1877f2]" />
+            <MessageSquare className="w-4 h-4 text-[#0866ff]" />
             {post.commentsCount} Bình luận
           </span>
           <span className="flex items-center gap-1.5">
-            <Share2 className="w-4 h-4 text-emerald-500" />
+            <Share2 className="w-4 h-4 text-[#31a24c]" />
             {post.sharesCount} Chia sẻ
           </span>
         </div>
@@ -118,3 +118,4 @@ export const PostPreviewModal: React.FC<PostPreviewModalProps> = ({
 }
 
 export default PostPreviewModal
+

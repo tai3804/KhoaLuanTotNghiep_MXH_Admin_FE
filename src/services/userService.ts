@@ -1,7 +1,77 @@
 import api from './api'
 import { User } from '../types/user'
 
+export interface CachedUserProfile {
+  userId: string
+  fullName: string
+  username: string
+  avatarUrl?: string
+}
+
+export const userProfileCache: Record<string, CachedUserProfile> = {}
+const userProfilePendingMap = new Map<string, Promise<CachedUserProfile | null>>()
+
+export const formatVietnameseName = (u: any): string => {
+  if (!u) return 'Người dùng'
+  const lastName = (u.lastName || '').trim()
+  const middleName = (u.middleName || '').trim()
+  const firstName = (u.firstName || '').trim()
+
+  if (lastName && firstName) {
+    return [lastName, middleName, firstName].filter(Boolean).join(' ')
+  }
+  if (firstName || lastName) {
+    return [lastName, middleName, firstName].filter(Boolean).join(' ')
+  }
+  if (u.fullName && u.fullName !== 'Người dùng' && u.fullName !== 'Thành viên') {
+    return u.fullName.trim()
+  }
+  return u.username || u.email?.split('@')[0] || 'Người dùng'
+}
+
+export const fetchUserProfile = async (userId: string): Promise<CachedUserProfile | null> => {
+  if (!userId || userId === 'unknown' || userId === 'null' || userId === 'undefined') return null
+
+  if (userProfileCache[userId]) {
+    return userProfileCache[userId]
+  }
+
+  if (userProfilePendingMap.has(userId)) {
+    return userProfilePendingMap.get(userId)!
+  }
+
+  const promise = (async () => {
+    try {
+      const res = await api.get(`/api/v1/users/profile/${userId}`)
+      const raw = res.data?.data || res.data
+      if (raw) {
+        const fullName = formatVietnameseName(raw)
+        const username = raw.username || raw.email?.split('@')[0] || 'user'
+        const avatarUrl = raw.avatarUrl || raw.avatar || undefined
+        const profile: CachedUserProfile = {
+          userId,
+          fullName,
+          username,
+          avatarUrl,
+        }
+        userProfileCache[userId] = profile
+        return profile
+      }
+    } catch {
+      // ignore
+    } finally {
+      userProfilePendingMap.delete(userId)
+    }
+    return null
+  })()
+
+  userProfilePendingMap.set(userId, promise)
+  return promise
+}
+
 export const userService = {
+  formatVietnameseName,
+  fetchUserProfile,
   getAllUsers: async (): Promise<User[]> => {
     const response = await api.get('/api/v1/admin/users')
     const rawData = response.data
@@ -12,22 +82,26 @@ export const userService = {
       : []
 
     return usersList.map((u) => {
-      const fullName =
-        u.fullName ||
-        `${u.firstName || ''} ${u.lastName || ''}`.trim() ||
-        u.username ||
-        u.email ||
-        'Người dùng'
-
+      const fullName = formatVietnameseName(u)
       const isBanned = u.isBanned ?? u.status === 'BANNED'
+      const id = String(u.id || u.userId)
+
+      // Warm up user profile cache
+      userProfileCache[id] = {
+        userId: id,
+        fullName,
+        username: u.username || u.email?.split('@')[0] || id,
+        avatarUrl: u.avatarUrl,
+      }
 
       return {
-        id: String(u.id || u.userId),
-        userId: String(u.userId || u.id),
-        username: u.username || u.email?.split('@')[0] || u.id,
+        id,
+        userId: id,
+        username: u.username || u.email?.split('@')[0] || id,
         email: u.email || '',
         fullName,
         firstName: u.firstName,
+        middleName: u.middleName,
         lastName: u.lastName,
         avatarUrl: u.avatarUrl,
         coverUrl: u.coverUrl,

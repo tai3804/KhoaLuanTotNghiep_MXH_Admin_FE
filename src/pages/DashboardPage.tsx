@@ -60,10 +60,10 @@ export const DashboardPage: React.FC = () => {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+          <h2 className="text-xl font-bold text-[#050505] dark:text-[#e4e6eb] tracking-tight">
             Bảng Điều Khiển Tổng Quan
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-[#65676b] dark:text-[#b0b3b8] mt-1">
             Đang tải dữ liệu số liệu hệ thống...
           </p>
         </div>
@@ -76,10 +76,10 @@ export const DashboardPage: React.FC = () => {
     <div className="space-y-6">
       {/* Top Header */}
       <div>
-        <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+        <h2 className="text-xl font-bold text-[#050505] dark:text-[#e4e6eb] tracking-tight">
           Bảng Điều Khiển Tổng Quan
         </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-xs text-[#65676b] dark:text-[#b0b3b8] mt-1">
           Theo dõi số liệu tăng trưởng, tương tác và báo cáo vi phạm toàn hệ thống mạng xã hội
         </p>
       </div>
@@ -104,3 +104,4 @@ export const DashboardPage: React.FC = () => {
 }
 
 export default DashboardPage
+

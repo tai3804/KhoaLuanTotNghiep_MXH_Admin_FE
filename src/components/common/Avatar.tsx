@@ -47,14 +47,14 @@ export const Avatar: React.FC<AvatarProps> = ({
         src={src}
         alt={alt || name}
         onError={() => setImgError(true)}
-        className={`${sizeClasses} ${shapeClasses} object-cover ring-2 ring-slate-100 dark:ring-slate-800 shrink-0 ${className}`}
+        className={`${sizeClasses} ${shapeClasses} object-cover ring-2 ring-[#e4e6eb] dark:ring-[#393a3b] shrink-0 ${className}`}
       />
     )
   }
 
   return (
     <div
-      className={`${sizeClasses} ${shapeClasses} flex items-center justify-center font-bold bg-linear-to-tr from-indigo-600 to-violet-600 text-white shadow-xs shrink-0 ring-2 ring-indigo-500/20 select-none ${className}`}
+      className={`${sizeClasses} ${shapeClasses} flex items-center justify-center font-bold bg-[#0866ff] text-white shadow-xs shrink-0 ring-2 ring-[#0866ff]/20 select-none ${className}`}
       title={name || alt}
     >
       {initials ? (
@@ -69,3 +69,4 @@ export const Avatar: React.FC<AvatarProps> = ({
 }
 
 export default Avatar
+

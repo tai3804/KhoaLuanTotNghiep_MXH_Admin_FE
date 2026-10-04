@@ -20,17 +20,17 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2 py-4">
-      <p className="text-xs text-slate-500 dark:text-slate-400">
-        Hiển thị <span className="font-semibold text-slate-700 dark:text-slate-200">{startItem}</span> đến{' '}
-        <span className="font-semibold text-slate-700 dark:text-slate-200">{endItem}</span> trong tổng số{' '}
-        <span className="font-semibold text-slate-700 dark:text-slate-200">{totalItems}</span> bản ghi
+      <p className="text-xs text-[#65676b] dark:text-[#b0b3b8]">
+        Hiển thị <span className="font-semibold text-[#050505] dark:text-[#e4e6eb]">{startItem}</span> đến{' '}
+        <span className="font-semibold text-[#050505] dark:text-[#e4e6eb]">{endItem}</span> trong tổng số{' '}
+        <span className="font-semibold text-[#050505] dark:text-[#e4e6eb]">{totalItems}</span> bản ghi
       </p>
 
       <div className="flex items-center gap-1.5">
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage <= 1}
-          className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="p-2 rounded-xl border border-[#e4e6eb] dark:border-[#393a3b] text-[#050505] dark:text-[#e4e6eb] hover:bg-[#f0f2f5] dark:hover:bg-[#3a3b3c] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
           title="Trang trước"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -51,14 +51,14 @@ export const Pagination: React.FC<PaginationProps> = ({
             return (
               <React.Fragment key={page}>
                 {showEllipsis && (
-                  <span className="px-2 text-xs text-slate-400">...</span>
+                  <span className="px-2 text-xs text-[#65676b] dark:text-[#b0b3b8]">...</span>
                 )}
                 <button
                   onClick={() => onPageChange(page)}
-                  className={`w-8 h-8 rounded-lg text-xs font-semibold transition-all ${
+                  className={`min-w-[32px] h-8 px-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                     currentPage === page
-                      ? 'bg-indigo-600 text-white shadow-xs'
-                      : 'border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                      ? 'bg-[#0866ff] text-white shadow-xs font-bold'
+                      : 'border border-[#e4e6eb] dark:border-[#393a3b] text-[#050505] dark:text-[#e4e6eb] hover:bg-[#f0f2f5] dark:hover:bg-[#3a3b3c]'
                   }`}
                 >
                   {page}
@@ -70,7 +70,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage >= totalPages}
-          className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="p-2 rounded-xl border border-[#e4e6eb] dark:border-[#393a3b] text-[#050505] dark:text-[#e4e6eb] hover:bg-[#f0f2f5] dark:hover:bg-[#3a3b3c] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
           title="Trang tiếp"
         >
           <ChevronRight className="w-4 h-4" />
@@ -81,3 +81,4 @@ export const Pagination: React.FC<PaginationProps> = ({
 }
 
 export default Pagination
+

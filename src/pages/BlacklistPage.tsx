@@ -10,6 +10,7 @@ import {
 import { addToast } from '../store/slices/toastSlice'
 import { settingsService } from '../services/settingsService'
 import BlacklistWordManager from '../components/settings/BlacklistWordManager'
+import { ShieldAlert } from 'lucide-react'
 
 export const BlacklistPage: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -86,10 +87,11 @@ export const BlacklistPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+        <h2 className="text-2xl font-bold text-[#050505] dark:text-[#E4E6EB] tracking-tight flex items-center gap-2.5">
+          <ShieldAlert className="w-7 h-7 text-[#FA383E]" />
           Cấu Hình Từ Điển Từ Cấm
         </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-sm text-[#65676B] dark:text-[#B0B3B8] mt-1">
           Quản lý các cụm từ nhạy cảm, lừa đảo hoặc thù ghét để hệ thống tự động kiểm duyệt
         </p>
       </div>

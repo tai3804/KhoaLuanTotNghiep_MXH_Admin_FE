@@ -54,28 +54,28 @@ export const Modal: React.FC<ModalProps> = ({
       />
 
       <div
-        className={`relative w-full ${maxWidthClasses} bg-white dark:bg-[#242526] border border-[#e4e6eb] dark:border-[#393a3b] rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col max-h-[90vh]`}
+        className={`relative w-full ${maxWidthClasses} bg-white dark:bg-[#242526] border border-[#E4E6EB] dark:border-[#393A3B] rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col max-h-[90vh]`}
         role="dialog"
         aria-modal="true"
       >
         {/* Header */}
         {(title || description) && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-[#e4e6eb] dark:border-[#393a3b]">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-[#E4E6EB] dark:border-[#393A3B]">
             <div>
               {title && (
-                <h3 className="text-lg font-bold text-slate-900 dark:text-[#e4e6eb]">
+                <h3 className="text-lg font-bold text-[#050505] dark:text-[#E4E6EB]">
                   {title}
                 </h3>
               )}
               {description && (
-                <p className="text-xs text-slate-500 dark:text-[#b0b3b8] mt-0.5">
+                <p className="text-xs text-[#65676B] dark:text-[#B0B3B8] mt-0.5">
                   {description}
                 </p>
               )}
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-[#e4e6eb] rounded-lg hover:bg-slate-100 dark:hover:bg-[#3a3b3c] transition-colors"
+              className="p-1.5 text-[#65676B] hover:text-[#050505] dark:hover:text-[#E4E6EB] rounded-xl hover:bg-[#F0F2F5] dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -83,11 +83,11 @@ export const Modal: React.FC<ModalProps> = ({
         )}
 
         {/* Body */}
-        <div className="p-6 overflow-y-auto flex-1 text-slate-700 dark:text-[#e4e6eb]">{children}</div>
+        <div className="p-6 overflow-y-auto flex-1 text-[#050505] dark:text-[#E4E6EB]">{children}</div>
 
         {/* Footer */}
         {footer && (
-          <div className="flex items-center justify-end gap-3 px-6 py-4 bg-slate-50 dark:bg-[#18191a]/80 border-t border-[#e4e6eb] dark:border-[#393a3b]">
+          <div className="flex items-center justify-end gap-3 px-6 py-4 bg-[#F0F2F5]/60 dark:bg-[#18191A]/80 border-t border-[#E4E6EB] dark:border-[#393A3B]">
             {footer}
           </div>
         )}

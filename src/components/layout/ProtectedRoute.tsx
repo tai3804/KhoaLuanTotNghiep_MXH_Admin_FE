@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../store'
-import { setCredentials, logout, setLoading } from '../../store/slices/authSlice'
+import { useAppDispatch, useAppSelector, store } from '../../store'
+import { setCredentials, logout, setLoading, parseTokenPayload } from '../../store/slices/authSlice'
 import { authService } from '../../services/authService'
+import Logo from '../common/Logo'
 
 export interface ProtectedRouteProps {
   children: React.ReactNode
@@ -53,19 +54,86 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     }
   }, [token, dispatch])
 
+  // Proactive background silent refresh timer: renew access token before it expires without reload
+  useEffect(() => {
+    if (!token) return
+
+    const payload = parseTokenPayload(token)
+    if (!payload || !payload.exp) return
+
+    const expiresAtMs = payload.exp * 1000
+    const now = Date.now()
+    const timeRemaining = expiresAtMs - now
+
+    // Refresh 2 minutes before expiry, or at 75% of remaining lifetime
+    const bufferMs = Math.min(120000, Math.max(10000, timeRemaining * 0.25))
+    const delayMs = Math.max(timeRemaining - bufferMs, 5000)
+
+    const timer = setTimeout(async () => {
+      try {
+        const data = await authService.refreshToken()
+        const newAccessToken = (data as any)?.accessToken || (data as any)?.token || (data as any)?.data?.accessToken
+        const user = (data as any)?.user || (data as any)?.data?.user
+        if (newAccessToken) {
+          dispatch(setCredentials({ token: newAccessToken, user }))
+        }
+      } catch (err) {
+        console.warn('[Admin] Proactive background token refresh notice:', err)
+      }
+    }, delayMs)
+
+    return () => clearTimeout(timer)
+  }, [token, dispatch])
+
+  // Check token freshness on tab focus or wake from sleep
+  useEffect(() => {
+    const checkFreshness = async () => {
+      const currentToken = store.getState().auth.token
+      if (!currentToken) return
+
+      const payload = parseTokenPayload(currentToken)
+      if (!payload || !payload.exp) return
+
+      const timeRemaining = payload.exp * 1000 - Date.now()
+      if (timeRemaining < 60000) {
+        try {
+          const data = await authService.refreshToken()
+          const newAccessToken = (data as any)?.accessToken || (data as any)?.token || (data as any)?.data?.accessToken
+          const user = (data as any)?.user || (data as any)?.data?.user
+          if (newAccessToken) {
+            dispatch(setCredentials({ token: newAccessToken, user }))
+          }
+        } catch (err) {
+          console.warn('[Admin] Focus token renewal notice:', err)
+        }
+      }
+    }
+
+    window.addEventListener('focus', checkFreshness)
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        checkFreshness()
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange)
+
+    return () => {
+      window.removeEventListener('focus', checkFreshness)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
+  }, [dispatch])
+
   if (checkingAuth || isLoading) {
     return (
-      <div className="min-h-screen w-screen bg-slate-50 dark:bg-[#18191a] flex flex-col items-center justify-center text-slate-800 dark:text-slate-200 gap-4 transition-colors">
+      <div className="min-h-screen w-screen bg-[#F0F2F5] dark:bg-[#18191A] flex flex-col items-center justify-center text-[#050505] dark:text-[#E4E6EB] gap-4 transition-colors">
         <div className="relative flex items-center justify-center">
-          <div className="w-12 h-12 rounded-2xl bg-linear-to-tr from-[#1877f2] to-violet-600 flex items-center justify-center text-white shadow-xl shadow-[#1877f2]/30 animate-pulse">
-            <span className="font-black text-sm">KLTN</span>
-          </div>
+          <Logo size="lg" />
         </div>
         <div className="flex flex-col items-center gap-1.5">
-          <div className="w-32 h-1.5 bg-slate-200 dark:bg-[#3a3b3c] rounded-full overflow-hidden">
-            <div className="w-full h-full bg-[#1877f2] animate-indeterminate" />
+          <div className="w-32 h-1.5 bg-[#E4E6EB] dark:bg-[#3A3B3C] rounded-full overflow-hidden">
+            <div className="w-full h-full bg-[#0866FF] animate-indeterminate" />
           </div>
-          <span className="text-[11px] font-semibold text-slate-400 dark:text-[#b0b3b8]">
+          <span className="text-[11px] font-semibold text-[#65676B] dark:text-[#B0B3B8]">
             Đang xác thực quyền Admin...
           </span>
         </div>

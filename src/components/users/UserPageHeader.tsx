@@ -16,10 +16,10 @@ export const UserPageHeader: React.FC<UserPageHeaderProps> = ({
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+        <h2 className="text-xl font-bold text-[#050505] dark:text-[#e4e6eb] tracking-tight">
           Quản Lý Người Dùng & Phân Quyền
         </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-xs text-[#65676b] dark:text-[#b0b3b8] mt-1">
           Xem danh sách tài khoản, hồ sơ thành viên, cấp quyền Admin/Moderator và quản lý bảo mật
         </p>
       </div>
@@ -55,3 +55,4 @@ export const UserPageHeader: React.FC<UserPageHeaderProps> = ({
 }
 
 export default UserPageHeader
+

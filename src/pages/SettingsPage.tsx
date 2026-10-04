@@ -7,6 +7,7 @@ import {
   AlertTriangle,
   Lock,
   Server,
+  Settings,
 } from 'lucide-react'
 import { settingsService } from '../services/settingsService'
 import Button from '../components/common/Button'
@@ -113,18 +114,14 @@ export const SettingsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-linear-to-tr from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20">
-              <Sliders className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
-                Cấu Hình Hệ Thống (System Settings)
-              </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Quản lý các tham số vận hành mạng xã hội, kiểm duyệt AI và phân phối tài nguyên
-              </p>
-            </div>
+            <h2 className="text-2xl font-bold text-[#050505] dark:text-[#E4E6EB] tracking-tight flex items-center gap-2.5">
+              <Settings className="w-7 h-7 text-[#0866FF] dark:text-[#2D88FF]" />
+              Cấu Hình Hệ Thống (System Settings)
+            </h2>
           </div>
+          <p className="text-sm text-[#65676B] dark:text-[#B0B3B8] mt-1">
+            Quản lý các tham số vận hành mạng xã hội, kiểm duyệt AI và phân phối tài nguyên
+          </p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -155,14 +152,14 @@ export const SettingsPage: React.FC = () => {
         <div
           className={`p-4 rounded-xl flex items-center gap-3 transition-all animate-in fade-in slide-in-from-top-2 ${
             toastMessage.type === 'success'
-              ? 'bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
-              : 'bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300'
+              ? 'bg-[#DCFCE7] dark:bg-[#31A24C]/20 border border-[#31A24C]/30 text-[#31A24C] dark:text-[#31A24C]'
+              : 'bg-[#FEE2E2] dark:bg-[#FA383E]/20 border border-[#FA383E]/30 text-[#FA383E]'
           }`}
         >
           {toastMessage.type === 'success' ? (
-            <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+            <CheckCircle2 className="w-5 h-5 shrink-0 text-[#31A24C]" />
           ) : (
-            <AlertTriangle className="w-5 h-5 shrink-0 text-rose-600 dark:text-rose-400" />
+            <AlertTriangle className="w-5 h-5 shrink-0 text-[#FA383E]" />
           )}
           <span className="text-sm font-semibold">{toastMessage.text}</span>
         </div>
@@ -170,13 +167,13 @@ export const SettingsPage: React.FC = () => {
 
       {/* Maintenance Mode Warning Banner */}
       {configs.maintenance_mode === 'true' && (
-        <div className="p-4 rounded-2xl bg-amber-500/10 border-2 border-amber-500/30 flex items-start gap-3.5">
-          <AlertTriangle className="w-6 h-6 text-amber-500 shrink-0 mt-0.5" />
+        <div className="p-4 rounded-2xl bg-[#FEF3C7] dark:bg-[#F5C33B]/15 border-2 border-[#F5C33B]/40 flex items-start gap-3.5">
+          <AlertTriangle className="w-6 h-6 text-[#B78103] dark:text-[#F5C33B] shrink-0 mt-0.5" />
           <div>
-            <h4 className="text-sm font-bold text-amber-700 dark:text-amber-400">
+            <h4 className="text-sm font-bold text-[#B78103] dark:text-[#F5C33B]">
               Hệ thống đang ở chế độ Bảo trì (Maintenance Mode)
             </h4>
-            <p className="text-xs text-amber-600/90 dark:text-amber-400/80 mt-1">
+            <p className="text-xs text-[#B78103]/90 dark:text-[#F5C33B]/80 mt-1">
               Người dùng thông thường sẽ không thể đăng nhập hoặc tương tác với mạng xã hội. Chỉ quản trị viên mới có thể truy cập hệ thống.
             </p>
           </div>
@@ -207,17 +204,17 @@ export const SettingsPage: React.FC = () => {
       <CacheManagerSection />
 
       {/* Audit Log Footer Note */}
-      <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+      <div className="p-4 rounded-2xl bg-[#F0F2F5] dark:bg-[#242526] border border-[#E4E6EB] dark:border-[#393A3B] flex items-center justify-between text-xs text-[#65676B] dark:text-[#B0B3B8]">
         <div className="flex items-center gap-2">
-          <Lock className="w-4 h-4 text-slate-400" />
+          <Lock className="w-4 h-4 text-[#65676B] dark:text-[#B0B3B8]" />
           <span>
             Mọi thay đổi cấu hình sẽ được lưu vết vào{' '}
-            <strong>Nhật ký kiểm duyệt (Audit Log)</strong> với mã hành động{' '}
-            <code>UPDATE_SYSTEM_CONFIG</code>.
+            <strong className="text-[#050505] dark:text-[#E4E6EB]">Nhật ký kiểm duyệt (Audit Log)</strong> với mã hành động{' '}
+            <code className="text-[#0866FF] dark:text-[#2D88FF] font-mono">UPDATE_SYSTEM_CONFIG</code>.
           </span>
         </div>
-        <div className="flex items-center gap-1 font-bold text-slate-700 dark:text-slate-300">
-          <Server className="w-4 h-4 text-emerald-500" />
+        <div className="flex items-center gap-1 font-bold text-[#050505] dark:text-[#E4E6EB]">
+          <Server className="w-4 h-4 text-[#31A24C]" />
           <span>Admin Service Active</span>
         </div>
       </div>

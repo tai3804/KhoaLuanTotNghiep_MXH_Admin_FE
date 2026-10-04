@@ -147,7 +147,12 @@ export const UsersPage: React.FC = () => {
   }
 
   const handleBanConfirm = async (userId: string, reason: string) => {
-    if (currentUser && (String(currentUser.id) === String(userId) || currentUser.email === selectedUser?.email)) {
+    const targetUser = users.find((u) => String(u.id) === String(userId))
+    const isSelf = currentUser && (
+      String(currentUser.id) === String(userId) ||
+      (targetUser && currentUser.email && targetUser.email && currentUser.email.toLowerCase() === targetUser.email.toLowerCase())
+    )
+    if (isSelf) {
       dispatch(
         addToast({
           type: 'error',
@@ -219,7 +224,12 @@ export const UsersPage: React.FC = () => {
   }
 
   const handleRoleChange = async (userId: string, newRole: string) => {
-    if (currentUser && (String(currentUser.id) === String(userId) || (selectedUser && currentUser.email === selectedUser.email) || (roleTarget && currentUser.email === roleTarget.email))) {
+    const targetUser = users.find((u) => String(u.id) === String(userId)) || roleTarget || (selectedUser?.id === userId ? selectedUser : null)
+    const isSelf = currentUser && (
+      String(currentUser.id) === String(userId) ||
+      (targetUser && currentUser.email && targetUser.email && currentUser.email.toLowerCase() === targetUser.email.toLowerCase())
+    )
+    if (isSelf) {
       dispatch(
         addToast({
           type: 'error',
@@ -241,6 +251,7 @@ export const UsersPage: React.FC = () => {
           message: `Đã cập nhật vai trò thành ${newRole}.`,
         })
       )
+      setRoleTarget(null)
     } catch {
       dispatch(
         addToast({

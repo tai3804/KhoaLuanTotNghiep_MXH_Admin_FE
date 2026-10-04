@@ -23,10 +23,10 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
     <div className="p-6 rounded-2xl bg-white dark:bg-[#242526] border border-[#e4e6eb] dark:border-[#393a3b] shadow-xs">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-[#e4e6eb]">
+          <h3 className="text-base font-bold text-[#050505] dark:text-[#e4e6eb]">
             Tăng Trưởng Người Dùng Mới
           </h3>
-          <p className="text-xs text-slate-500 dark:text-[#b0b3b8] mt-0.5">
+          <p className="text-xs text-[#65676b] dark:text-[#b0b3b8] mt-0.5">
             Thống kê tài khoản đăng ký mới theo thời gian
           </p>
         </div>
@@ -34,8 +34,8 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
 
       <div className="h-72 w-full flex items-center justify-center">
         {data.length === 0 ? (
-          <div className="flex flex-col items-center justify-center text-slate-400 dark:text-[#b0b3b8] gap-2">
-            <BarChart3 className="w-8 h-8 opacity-40" />
+          <div className="flex flex-col items-center justify-center text-[#65676b] dark:text-[#b0b3b8] gap-2">
+            <BarChart3 className="w-8 h-8 opacity-40 text-[#bcc0c4]" />
             <span className="text-xs">Chưa có dữ liệu thống kê tăng trưởng từ máy chủ</span>
           </div>
         ) : (
@@ -43,8 +43,8 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
             <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#1877f2" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#1877f2" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#0866ff" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#0866ff" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid
@@ -75,7 +75,7 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
                 type="monotone"
                 dataKey="newUsers"
                 name="User mới"
-                stroke="#1877f2"
+                stroke="#0866ff"
                 strokeWidth={3}
                 fillOpacity={1}
                 fill="url(#colorUsers)"
@@ -89,4 +89,5 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
 }
 
 export default AnalyticsCharts
+
 

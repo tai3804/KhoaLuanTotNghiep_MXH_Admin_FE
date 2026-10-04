@@ -134,23 +134,23 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
     switch (bannerType) {
       case 'CRITICAL':
         return {
-          badge: 'bg-rose-500 text-white',
-          bannerBg: 'bg-rose-600 text-white shadow-lg shadow-rose-600/20',
+          badge: 'bg-[#FA383E] text-white',
+          bannerBg: 'bg-[#FA383E] text-white shadow-xs',
           icon: <ShieldAlert className="w-4 h-4 shrink-0 text-white animate-bounce" />,
           label: 'Khẩn Cấp / Sự Cố',
         }
       case 'INFO':
         return {
-          badge: 'bg-blue-500 text-white',
-          bannerBg: 'bg-[#1877f2] text-white shadow-lg shadow-[#1877f2]/20',
+          badge: 'bg-[#0866FF] text-white',
+          bannerBg: 'bg-[#0866FF] text-white shadow-xs',
           icon: <Info className="w-4 h-4 shrink-0 text-white" />,
           label: 'Thông Báo Chung',
         }
       default:
         return {
-          badge: 'bg-amber-500 text-white',
-          bannerBg: 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20 font-medium',
-          icon: <AlertTriangle className="w-4 h-4 shrink-0 text-slate-950" />,
+          badge: 'bg-[#F5C33B] text-black font-semibold',
+          bannerBg: 'bg-[#F5C33B] text-black shadow-xs font-semibold',
+          icon: <AlertTriangle className="w-4 h-4 shrink-0 text-black" />,
           label: 'Bảo Trì / Cảnh Báo',
         }
     }
@@ -159,20 +159,20 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
   const currentStyle = getBannerStyle()
 
   return (
-    <div className="bg-white dark:bg-[#242526] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs space-y-6">
+    <div className="bg-white dark:bg-[#242526] rounded-2xl border border-[#E4E6EB] dark:border-[#393A3B] p-6 shadow-xs space-y-6">
       {/* Header with Active State Badge */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 dark:border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#E4E6EB] dark:border-[#393A3B]">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-500">
+          <div className="p-2 rounded-xl bg-[#FEF3C7] dark:bg-[#F5C33B]/20 text-[#B78103] dark:text-[#F5C33B]">
             <Megaphone className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">
+              <h3 className="text-base font-bold text-[#050505] dark:text-[#E4E6EB]">
                 Thông Báo Khẩn Toàn Hệ Thống (Flash Banner)
               </h3>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-[#65676B] dark:text-[#B0B3B8]">
               Phát thanh thông báo nổi bật trên đầu trang của toàn bộ người dùng và đặt lịch hẹn giờ phát sóng
             </p>
           </div>
@@ -180,18 +180,18 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
 
         <div>
           {isActive && !isScheduledInFuture ? (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#DCFCE7] dark:bg-[#31A24C]/20 border border-[#31A24C]/30 text-[#31A24C]">
+              <span className="w-2 h-2 rounded-full bg-[#31A24C] animate-pulse" />
               Đang phát trực tiếp
             </span>
           ) : isActive && isScheduledInFuture ? (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#E7F3FF] dark:bg-[#0866FF]/20 border border-[#0866FF]/30 text-[#0866FF] dark:text-[#2D88FF]">
               <Clock className="w-3.5 h-3.5" />
               Đã lên lịch ({new Date(scheduledTime).toLocaleDateString('vi-VN')})
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
-              <span className="w-2 h-2 rounded-full bg-slate-400" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F0F2F5] dark:bg-[#3A3B3C] text-[#65676B] dark:text-[#B0B3B8]">
+              <span className="w-2 h-2 rounded-full bg-[#65676B]" />
               Chưa kích hoạt
             </span>
           )}
@@ -203,14 +203,14 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
         <div
           className={`p-3.5 rounded-xl flex items-center gap-2.5 text-xs font-semibold transition-all animate-in fade-in ${
             localFeedback.type === 'success'
-              ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
-              : 'bg-rose-50 dark:bg-rose-950/40 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
+              ? 'bg-[#DCFCE7] dark:bg-[#31A24C]/20 text-[#31A24C] border border-[#31A24C]/30'
+              : 'bg-[#FEE2E2] dark:bg-[#FA383E]/20 text-[#FA383E] border border-[#FA383E]/30'
           }`}
         >
           {localFeedback.type === 'success' ? (
-            <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-[#31A24C]" />
           ) : (
-            <AlertTriangle className="w-4 h-4 shrink-0 text-rose-600" />
+            <AlertTriangle className="w-4 h-4 shrink-0 text-[#FA383E]" />
           )}
           <span>{localFeedback.text}</span>
         </div>
@@ -219,9 +219,9 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
       <div className="space-y-4">
         {/* 1. Announcement Text Input */}
         <div className="space-y-1.5">
-          <label className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center justify-between">
+          <label className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB] flex items-center justify-between">
             <span>Nội dung thông báo phát sóng:</span>
-            <span className="text-[11px] text-slate-400 font-normal">
+            <span className="text-[11px] text-[#65676B] dark:text-[#B0B3B8] font-normal">
               {announcementText.length}/300 ký tự
             </span>
           </label>
@@ -231,7 +231,7 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
             rows={3}
             onChange={(e) => setAnnouncementText(e.target.value)}
             placeholder="Ví dụ: Hệ thống sẽ tiến hành bảo trì máy chủ định kỳ từ 00:00 đến 02:00 ngày mai. Vui lòng lưu lại các tác vụ..."
-            className="w-full bg-slate-50 dark:bg-[#18191a] text-xs text-slate-900 dark:text-[#e4e6eb] placeholder:text-slate-400 dark:placeholder:text-[#b0b3b8] p-3 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-hidden focus:border-[#1877f2] focus:ring-1 focus:ring-[#1877f2] transition-all resize-none font-medium leading-relaxed"
+            className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-xs text-[#050505] dark:text-[#E4E6EB] placeholder-[#65676B] dark:placeholder-[#B0B3B8] p-3 rounded-xl border border-[#E4E6EB] dark:border-[#393A3B] focus:outline-none focus:ring-2 focus:ring-[#0866FF]/20 focus:border-[#0866FF] transition-all resize-none font-medium leading-relaxed"
           />
         </div>
 
@@ -239,7 +239,7 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Severity Type Selector */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-800 dark:text-slate-200">
+            <label className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB]">
               Mức độ cảnh báo & Màu sắc Banner:
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -248,8 +248,8 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
                 onClick={() => setBannerType('INFO')}
                 className={`py-2 px-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
                   bannerType === 'INFO'
-                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border-blue-500 shadow-xs'
-                    : 'bg-slate-50 dark:bg-[#18191a] text-slate-600 dark:text-[#b0b3b8] border-slate-200 dark:border-slate-800 hover:bg-slate-100'
+                    ? 'bg-[#E7F3FF] dark:bg-[#0866FF]/20 text-[#0866FF] dark:text-[#2D88FF] border-[#0866FF]'
+                    : 'bg-[#F0F2F5] dark:bg-[#3A3B3C] text-[#65676B] dark:text-[#B0B3B8] border-[#E4E6EB] dark:border-[#393A3B]'
                 }`}
               >
                 <Info className="w-3.5 h-3.5" />
@@ -261,8 +261,8 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
                 onClick={() => setBannerType('WARNING')}
                 className={`py-2 px-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
                   bannerType === 'WARNING'
-                    ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border-amber-500 shadow-xs'
-                    : 'bg-slate-50 dark:bg-[#18191a] text-slate-600 dark:text-[#b0b3b8] border-slate-200 dark:border-slate-800 hover:bg-slate-100'
+                    ? 'bg-[#FEF3C7] dark:bg-[#F5C33B]/20 text-[#B78103] dark:text-[#F5C33B] border-[#F5C33B]'
+                    : 'bg-[#F0F2F5] dark:bg-[#3A3B3C] text-[#65676B] dark:text-[#B0B3B8] border-[#E4E6EB] dark:border-[#393A3B]'
                 }`}
               >
                 <AlertTriangle className="w-3.5 h-3.5" />
@@ -274,8 +274,8 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
                 onClick={() => setBannerType('CRITICAL')}
                 className={`py-2 px-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
                   bannerType === 'CRITICAL'
-                    ? 'bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 border-rose-500 shadow-xs'
-                    : 'bg-slate-50 dark:bg-[#18191a] text-slate-600 dark:text-[#b0b3b8] border-slate-200 dark:border-slate-800 hover:bg-slate-100'
+                    ? 'bg-[#FEE2E2] dark:bg-[#FA383E]/20 text-[#FA383E] border-[#FA383E]'
+                    : 'bg-[#F0F2F5] dark:bg-[#3A3B3C] text-[#65676B] dark:text-[#B0B3B8] border-[#E4E6EB] dark:border-[#393A3B]'
                 }`}
               >
                 <ShieldAlert className="w-3.5 h-3.5" />
@@ -286,13 +286,13 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
 
           {/* Duration Selector */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-800 dark:text-slate-200">
+            <label className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB]">
               Thời gian hiển thị (Tự động tắt sau):
             </label>
             <select
               value={durationHours}
               onChange={(e) => setDurationHours(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-[#18191a] text-xs font-semibold text-slate-800 dark:text-[#e4e6eb] px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-hidden focus:border-[#1877f2] cursor-pointer"
+              className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-xs font-semibold text-[#050505] dark:text-[#E4E6EB] px-3.5 py-2.5 rounded-xl border border-[#E4E6EB] dark:border-[#393A3B] focus:outline-none focus:ring-2 focus:ring-[#0866FF]/20 cursor-pointer"
             >
               <option value="1">1 Giờ</option>
               <option value="6">6 Giờ</option>
@@ -305,11 +305,11 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
         </div>
 
         {/* 3. Scheduling Section */}
-        <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800 space-y-3">
+        <div className="p-4 rounded-xl bg-[#F0F2F5]/70 dark:bg-[#3A3B3C]/30 border border-[#E4E6EB] dark:border-[#393A3B] space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-blue-500" />
-              <span className="text-xs font-bold text-slate-900 dark:text-white">
+              <Clock className="w-4 h-4 text-[#0866FF] dark:text-[#2D88FF]" />
+              <span className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB]">
                 Hẹn Giờ Phát Thông Báo (Scheduled Broadcast)
               </span>
             </div>
@@ -318,7 +318,7 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
               type="button"
               onClick={() => setIsScheduled(!isScheduled)}
               className={`w-11 h-6 rounded-full transition-colors relative cursor-pointer ${
-                isScheduled ? 'bg-[#1877f2]' : 'bg-slate-300 dark:bg-slate-700'
+                isScheduled ? 'bg-[#0866FF]' : 'bg-[#CED0D4] dark:bg-[#3A3B3C]'
               }`}
             >
               <div
@@ -332,14 +332,14 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
           {isScheduled && (
             <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 animate-in fade-in">
               <div className="flex-1 space-y-1">
-                <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                <span className="text-[11px] text-[#65676B] dark:text-[#B0B3B8] font-medium">
                   Chọn thời điểm bắt đầu hiển thị banner:
                 </span>
                 <input
                   type="datetime-local"
                   value={scheduledTime}
                   onChange={(e) => setScheduledTime(e.target.value)}
-                  className="w-full bg-white dark:bg-[#242526] text-xs font-semibold text-slate-900 dark:text-white px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-hidden focus:border-[#1877f2] cursor-pointer"
+                  className="w-full bg-white dark:bg-[#242526] text-xs font-semibold text-[#050505] dark:text-[#E4E6EB] px-3.5 py-2 rounded-xl border border-[#E4E6EB] dark:border-[#393A3B] focus:outline-none focus:ring-2 focus:ring-[#0866FF]/20 cursor-pointer"
                 />
               </div>
             </div>
@@ -349,7 +349,7 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
         {/* 4. Live Preview Banner Box */}
         {announcementText.trim() && (
           <div className="space-y-1.5 pt-2">
-            <label className="text-[11px] font-bold text-slate-400 dark:text-[#b0b3b8] uppercase tracking-wider flex items-center gap-1.5">
+            <label className="text-[11px] font-bold text-[#65676B] dark:text-[#B0B3B8] uppercase tracking-wider flex items-center gap-1.5">
               <Eye className="w-3.5 h-3.5" />
               <span>Xem trước giao diện Flash Banner phía người dùng:</span>
             </label>
@@ -370,14 +370,14 @@ export const SystemAnnouncementCard: React.FC<SystemAnnouncementCardProps> = ({
         )}
 
         {/* 5. Action Buttons Footer */}
-        <div className="flex flex-wrap items-center justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+        <div className="flex flex-wrap items-center justify-end gap-3 pt-3 border-t border-[#E4E6EB] dark:border-[#393A3B]">
           {isActive && (
             <Button
               variant="outline"
               size="sm"
               onClick={handleDeactivateAnnouncement}
               disabled={isSubmitting}
-              className="text-rose-600 border-rose-200 dark:border-rose-900/40 hover:bg-rose-50 dark:hover:bg-rose-500/10 cursor-pointer"
+              className="text-[#FA383E] border-[#FA383E]/40 hover:bg-[#FA383E]/10 cursor-pointer"
             >
               <Trash2 className="w-3.5 h-3.5 mr-1.5" />
               Gỡ bỏ thông báo

@@ -1,5 +1,6 @@
 import api from './api'
 import { Report, ResolveReportPayload } from '../types/report'
+import { userService, userProfileCache, formatVietnameseName } from './userService'
 
 export const reportService = {
   getAllReports: async (): Promise<Report[]> => {
@@ -14,26 +15,47 @@ export const reportService = {
         ? rawData.data.content
         : []
 
-      return reportsList.map((r) => ({
-        id: r.id || r.reportId,
-        targetType: r.targetType || 'POST',
-        targetId: String(r.targetId || ''),
-        reason: r.reason || 'Khác',
-        description: r.description || r.details || '',
-        reporterId: r.reporterId,
-        reporter: r.reporter || {
-          id: r.reporterId || 'anon',
-          username: r.reporterUsername || 'reporter',
-          fullName: r.reporterName || 'Người dùng',
-          avatarUrl: r.reporterAvatarUrl,
-        },
-        status: r.status || 'PENDING',
-        createdAt: r.createdAt || new Date().toISOString(),
-        resolvedAt: r.resolvedAt,
-        resolvedBy: r.resolvedBy,
-        resolutionNotes: r.resolutionNotes,
-        targetData: r.targetData,
-      }))
+      // Extract unique reporter IDs & target user IDs to pre-fetch profiles
+      const userIds = Array.from(
+        new Set(
+          reportsList
+            .flatMap((r) => [
+              r.reporterId ? String(r.reporterId) : null,
+              r.targetType === 'USER' && r.targetId ? String(r.targetId) : null,
+            ])
+            .filter((id): id is string => Boolean(id && id !== 'anon' && id !== 'unknown'))
+        )
+      )
+
+      if (userIds.length > 0) {
+        await Promise.allSettled(userIds.map((id) => userService.fetchUserProfile(id)))
+      }
+
+      return reportsList.map((r) => {
+        const reporterId = r.reporterId ? String(r.reporterId) : ''
+        const cachedReporter = reporterId ? userProfileCache[reporterId] : null
+
+        return {
+          id: r.id || r.reportId,
+          targetType: r.targetType || 'POST',
+          targetId: String(r.targetId || ''),
+          reason: r.reason || 'Khác',
+          description: r.description || r.details || '',
+          reporterId: r.reporterId,
+          reporter: {
+            id: reporterId || 'anon',
+            username: cachedReporter?.username || r.reporter?.username || r.reporterUsername || 'reporter',
+            fullName: cachedReporter?.fullName || r.reporter?.fullName || r.reporterName || 'Người dùng',
+            avatarUrl: cachedReporter?.avatarUrl || r.reporter?.avatarUrl || r.reporterAvatarUrl,
+          },
+          status: r.status || 'PENDING',
+          createdAt: r.createdAt || new Date().toISOString(),
+          resolvedAt: r.resolvedAt,
+          resolvedBy: r.resolvedBy,
+          resolutionNotes: r.resolutionNotes,
+          targetData: r.targetData,
+        }
+      })
     } catch (err) {
       console.warn('Failed to fetch all reports:', err)
       return []
@@ -52,26 +74,46 @@ export const reportService = {
         ? rawData.data.content
         : []
 
-      return reportsList.map((r) => ({
-        id: r.id || r.reportId,
-        targetType: r.targetType || 'POST',
-        targetId: String(r.targetId || ''),
-        reason: r.reason || 'Khác',
-        description: r.description || r.details || '',
-        reporterId: r.reporterId,
-        reporter: r.reporter || {
-          id: r.reporterId || 'anon',
-          username: r.reporterUsername || 'reporter',
-          fullName: r.reporterName || 'Người dùng',
-          avatarUrl: r.reporterAvatarUrl,
-        },
-        status: r.status || 'PENDING',
-        createdAt: r.createdAt || new Date().toISOString(),
-        resolvedAt: r.resolvedAt,
-        resolvedBy: r.resolvedBy,
-        resolutionNotes: r.resolutionNotes,
-        targetData: r.targetData,
-      }))
+      const userIds = Array.from(
+        new Set(
+          reportsList
+            .flatMap((r) => [
+              r.reporterId ? String(r.reporterId) : null,
+              r.targetType === 'USER' && r.targetId ? String(r.targetId) : null,
+            ])
+            .filter((id): id is string => Boolean(id && id !== 'anon' && id !== 'unknown'))
+        )
+      )
+
+      if (userIds.length > 0) {
+        await Promise.allSettled(userIds.map((id) => userService.fetchUserProfile(id)))
+      }
+
+      return reportsList.map((r) => {
+        const reporterId = r.reporterId ? String(r.reporterId) : ''
+        const cachedReporter = reporterId ? userProfileCache[reporterId] : null
+
+        return {
+          id: r.id || r.reportId,
+          targetType: r.targetType || 'POST',
+          targetId: String(r.targetId || ''),
+          reason: r.reason || 'Khác',
+          description: r.description || r.details || '',
+          reporterId: r.reporterId,
+          reporter: {
+            id: reporterId || 'anon',
+            username: cachedReporter?.username || r.reporter?.username || r.reporterUsername || 'reporter',
+            fullName: cachedReporter?.fullName || r.reporter?.fullName || r.reporterName || 'Người dùng',
+            avatarUrl: cachedReporter?.avatarUrl || r.reporter?.avatarUrl || r.reporterAvatarUrl,
+          },
+          status: r.status || 'PENDING',
+          createdAt: r.createdAt || new Date().toISOString(),
+          resolvedAt: r.resolvedAt,
+          resolvedBy: r.resolvedBy,
+          resolutionNotes: r.resolutionNotes,
+          targetData: r.targetData,
+        }
+      })
     } catch (err) {
       console.warn('Failed to fetch pending reports:', err)
       return []
@@ -83,6 +125,13 @@ export const reportService = {
       const response = await api.get(`/api/v1/moderation/reports/${id}`)
       const r = response.data?.data || response.data
       if (!r) return null
+
+      const reporterId = r.reporterId ? String(r.reporterId) : ''
+      let cachedReporter = reporterId ? userProfileCache[reporterId] : null
+      if (!cachedReporter && reporterId) {
+        cachedReporter = await userService.fetchUserProfile(reporterId)
+      }
+
       return {
         id: r.id || r.reportId,
         targetType: r.targetType || 'POST',
@@ -90,11 +139,11 @@ export const reportService = {
         reason: r.reason || 'Khác',
         description: r.description || r.details || '',
         reporterId: r.reporterId,
-        reporter: r.reporter || {
-          id: r.reporterId || 'anon',
-          username: r.reporterUsername || 'reporter',
-          fullName: r.reporterName || 'Người dùng',
-          avatarUrl: r.reporterAvatarUrl,
+        reporter: {
+          id: reporterId || 'anon',
+          username: cachedReporter?.username || r.reporter?.username || r.reporterUsername || 'reporter',
+          fullName: cachedReporter?.fullName || r.reporter?.fullName || r.reporterName || 'Người dùng',
+          avatarUrl: cachedReporter?.avatarUrl || r.reporter?.avatarUrl || r.reporterAvatarUrl,
         },
         status: r.status || 'PENDING',
         createdAt: r.createdAt || new Date().toISOString(),
@@ -155,11 +204,7 @@ export const reportService = {
           author: authorData
             ? {
                 id: authorData.id || authorData.userId || postData.authorId,
-                fullName:
-                  authorData.fullName ||
-                  `${authorData.firstName || ''} ${authorData.lastName || ''}`.trim() ||
-                  authorData.username ||
-                  'Thành viên',
+                fullName: formatVietnameseName(authorData),
                 username: authorData.username || 'user',
                 avatarUrl: authorData.avatarUrl,
               }
@@ -179,11 +224,7 @@ export const reportService = {
 
         return {
           id: userData.id || userData.userId || targetId,
-          fullName:
-            userData.fullName ||
-            `${userData.firstName || ''} ${userData.lastName || ''}`.trim() ||
-            userData.username ||
-            'Người dùng',
+          fullName: formatVietnameseName(userData),
           username: userData.username || 'user',
           avatarUrl: userData.avatarUrl,
           coverUrl: userData.coverUrl,

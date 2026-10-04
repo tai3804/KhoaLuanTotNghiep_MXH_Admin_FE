@@ -22,10 +22,10 @@ export const UserBulkActionBar: React.FC<UserBulkActionBarProps> = ({
   if (selectedCount === 0) return null
 
   return (
-    <div className="p-3.5 rounded-2xl bg-indigo-500/10 dark:bg-indigo-950/40 border border-indigo-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in slide-in-from-top-2">
+    <div className="p-3.5 rounded-2xl bg-[#e7f3ff] dark:bg-[#0866ff]/15 border border-[#0866ff]/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in slide-in-from-top-2">
       <div className="flex items-center gap-2">
-        <CheckSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-        <span className="text-xs font-bold text-indigo-950 dark:text-indigo-200">
+        <CheckSquare className="w-4 h-4 text-[#0866ff] dark:text-[#2d88ff]" />
+        <span className="text-xs font-bold text-[#0866ff] dark:text-[#2d88ff]">
           Đã chọn {selectedCount} / {totalCount} thành viên
         </span>
       </div>
@@ -69,3 +69,4 @@ export const UserBulkActionBar: React.FC<UserBulkActionBarProps> = ({
 }
 
 export default UserBulkActionBar
+

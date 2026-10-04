@@ -80,7 +80,6 @@ export const PostsPage: React.FC = () => {
           message: 'Bài viết vi phạm đã được xóa khỏi hệ thống.',
         })
       )
-      setDeleteTarget(null)
     } catch {
       dispatch(
         addToast({
@@ -89,16 +88,19 @@ export const PostsPage: React.FC = () => {
           message: 'Không thể xóa bài viết này.',
         })
       )
+    } finally {
+      dispatch(setActionLoading(false))
+      setDeleteTarget(null)
     }
   }
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+        <h2 className="text-xl font-bold text-[#050505] dark:text-[#e4e6eb] tracking-tight">
           Quản Lý Bài Viết & Nội Dung
         </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-xs text-[#65676b] dark:text-[#b0b3b8] mt-1">
           Giám sát dòng bảng tin, xem trước nội dung/media và gỡ bỏ bài viết vi phạm chính sách
         </p>
       </div>
@@ -147,3 +149,4 @@ export const PostsPage: React.FC = () => {
 }
 
 export default PostsPage
+

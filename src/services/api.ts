@@ -1,6 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios'
 import { store } from '../store'
-import { setCredentials, logout } from '../store/slices/authSlice'
+import { setCredentials, logout, extractUserFromToken } from '../store/slices/authSlice'
 import { getDeviceFingerprint } from '../utils/fingerprint'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
@@ -13,12 +13,23 @@ export const api = axios.create({
   withCredentials: true, // Crucial for sending/receiving HttpOnly cookies (refresh token)
 })
 
+const setAuthHeader = (config: any, token: string) => {
+  if (!config.headers) {
+    config.headers = {}
+  }
+  if (typeof config.headers.set === 'function') {
+    config.headers.set('Authorization', `Bearer ${token}`)
+  } else {
+    config.headers['Authorization'] = `Bearer ${token}`
+  }
+}
+
 // Request Interceptor: Attach Access Token and Device Fingerprint
 api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     const token = store.getState().auth.token
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`
+    if (token) {
+      setAuthHeader(config, token)
     }
 
     if (config.headers) {
@@ -32,8 +43,6 @@ api.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 )
-
-
 
 let isRefreshing = false
 let failedQueue: Array<{
@@ -52,7 +61,7 @@ const processQueue = (error: Error | null, token: string | null = null) => {
   failedQueue = []
 }
 
-// Response Interceptor: Handle 401 and refresh token via cookie
+// Response Interceptor: Handle 401 and refresh token via cookie or fallback token
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
@@ -70,12 +79,13 @@ api.interceptors.response.use(
       }
 
       if (isRefreshing) {
+        originalRequest._retry = true
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject })
         })
           .then((token) => {
-            if (originalRequest.headers && token) {
-              originalRequest.headers.Authorization = `Bearer ${token}`
+            if (token) {
+              setAuthHeader(originalRequest, token as string)
             }
             return api(originalRequest)
           })
@@ -86,11 +96,12 @@ api.interceptors.response.use(
       isRefreshing = true
 
       try {
-        // Call refresh endpoint with cookie credentials
         const fingerprint = await getDeviceFingerprint()
+        const refreshUrl = API_BASE_URL ? `${API_BASE_URL}/api/v1/auth/refresh` : '/api/v1/auth/refresh'
+
         const refreshResponse = await axios.post(
-          `/api/v1/auth/refresh`,
-          {},
+          refreshUrl,
+          {}, // Refresh token is carried securely via HttpOnly cookie
           {
             headers: {
               'X-Client-Type': 'WEB',
@@ -107,21 +118,27 @@ api.interceptors.response.use(
         const user =
           refreshResponse.data?.user ||
           refreshResponse.data?.data?.user ||
-          store.getState().auth.user
+          store.getState().auth.user ||
+          (newAccessToken ? extractUserFromToken(newAccessToken) : null) ||
+          undefined
 
-        if (newAccessToken && user) {
+        if (newAccessToken) {
           store.dispatch(setCredentials({ token: newAccessToken, user }))
+          api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`
+          setAuthHeader(originalRequest, newAccessToken)
           processQueue(null, newAccessToken)
-          if (originalRequest.headers) {
-            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
-          }
           return api(originalRequest)
         } else {
           throw new Error('No access token returned from refresh endpoint')
         }
-      } catch (refreshError) {
+      } catch (refreshError: any) {
         processQueue(refreshError as Error, null)
-        store.dispatch(logout())
+        // Only clear credentials if the refresh endpoint explicitly returned 401 or 403
+        if (refreshError?.response && (refreshError.response.status === 401 || refreshError.response.status === 403)) {
+          localStorage.removeItem('admin_user')
+          localStorage.removeItem('admin_refresh_token')
+          store.dispatch(logout())
+        }
         return Promise.reject(refreshError)
       } finally {
         isRefreshing = false

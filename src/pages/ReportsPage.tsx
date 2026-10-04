@@ -130,10 +130,10 @@ export const ReportsPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+        <h2 className="text-xl font-black text-[#050505] dark:text-[#E4E6EB] tracking-tight">
           Trung Tâm Kiểm Duyệt & Báo Cáo Vi Phạm
         </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-xs text-[#65676B] dark:text-[#B0B3B8] mt-1">
           Đối soát nội dung bị thành viên khiếu nại, xem xét chứng cứ và thực hiện chế tài xử phạt
         </p>
       </div>
@@ -172,3 +172,4 @@ export const ReportsPage: React.FC = () => {
 }
 
 export default ReportsPage
+

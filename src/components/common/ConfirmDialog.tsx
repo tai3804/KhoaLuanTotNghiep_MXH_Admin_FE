@@ -51,16 +51,16 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         <div
           className={`p-3 rounded-2xl ${
             isDangerous
-              ? 'bg-rose-500/10 text-rose-500'
-              : 'bg-amber-500/10 text-amber-500'
+              ? 'bg-[#FEE2E2] text-[#FA383E] dark:bg-[#FA383E]/20'
+              : 'bg-[#FEF3C7] text-[#B78103] dark:bg-[#F5C33B]/20 dark:text-[#F5C33B]'
           }`}
         >
           <AlertTriangle className="w-8 h-8" />
         </div>
-        <h4 className="text-base font-bold text-slate-900 dark:text-slate-100">
+        <h4 className="text-base font-bold text-[#050505] dark:text-[#E4E6EB]">
           {title}
         </h4>
-        <p className="text-xs text-slate-500 dark:text-slate-400">{message}</p>
+        <p className="text-xs text-[#65676B] dark:text-[#B0B3B8]">{message}</p>
       </div>
     </Modal>
   )

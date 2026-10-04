@@ -100,4 +100,11 @@ export const settingsService = {
     const response = await api.put('/api/v1/admin/settings/system', configs)
     return response.data || {}
   },
+
+  clearCache: async (type: string = 'all'): Promise<{ success: boolean; message: string }> => {
+    const response = await api.post('/api/v1/admin/settings/clear-cache', null, {
+      params: { type },
+    })
+    return response.data
+  },
 }

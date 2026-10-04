@@ -1,5 +1,5 @@
 import React from 'react'
-import { Zap, Clock, Flame, Users } from 'lucide-react'
+import { Zap, Clock, Flame, UserCheck } from 'lucide-react'
 import {
   ActivityHeatmapData,
   TrendingHashtag,
@@ -18,85 +18,86 @@ export const AnalyticsKpiCards: React.FC<AnalyticsKpiCardsProps> = ({
   demographics,
 }) => {
   const topTrend = trends.length > 0 ? trends[0] : null
+  const totalInteractions = heatmap?.totalWeeklyInteractions ?? 0
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {/* Total Weekly Interactions */}
-      <div className="p-4 rounded-2xl bg-white dark:bg-[#242526] border border-slate-200 dark:border-slate-800 shadow-xs flex items-center gap-3.5">
-        <div className="w-11 h-11 rounded-xl bg-blue-500/10 text-[#1877f2] flex items-center justify-center shrink-0">
+      <div className="p-4 rounded-2xl bg-white dark:bg-[#242526] border border-[#E4E6EB] dark:border-[#393A3B] shadow-xs flex items-center gap-3.5">
+        <div className="w-11 h-11 rounded-full bg-[#E7F3FF] dark:bg-[#0866FF]/20 text-[#0866FF] flex items-center justify-center shrink-0">
           <Zap className="w-5 h-5" />
         </div>
         <div className="min-w-0">
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-            Tương Tác Tuần
+          <p className="text-xs font-bold text-[#65676B] dark:text-[#B0B3B8] uppercase tracking-wider">
+            Tương Tác Thực Tế
           </p>
-          <h4 className="text-lg font-black text-slate-900 dark:text-white mt-0.5">
-            {(heatmap?.totalWeeklyInteractions ?? 0).toLocaleString()}
+          <h4 className="text-lg font-black text-[#050505] dark:text-[#E4E6EB] mt-0.5">
+            {totalInteractions.toLocaleString()}
           </h4>
-          <span className="text-[11px] text-slate-500 dark:text-slate-400 truncate block">
-            {heatmap && heatmap.eveningActivityRatio > 0
+          <span className="text-[11px] text-[#65676B] dark:text-[#B0B3B8] truncate block">
+            {totalInteractions > 0 && heatmap && heatmap.eveningActivityRatio > 0
               ? `${heatmap.eveningActivityRatio}% vào khung giờ tối (18h-23h)`
-              : 'Chưa có tương tác ghi nhận'}
+              : 'Chưa có lượt tương tác ghi nhận'}
           </span>
         </div>
       </div>
 
       {/* Peak Hours */}
-      <div className="p-4 rounded-2xl bg-white dark:bg-[#242526] border border-slate-200 dark:border-slate-800 shadow-xs flex items-center gap-3.5">
-        <div className="w-11 h-11 rounded-xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center shrink-0">
+      <div className="p-4 rounded-2xl bg-white dark:bg-[#242526] border border-[#E4E6EB] dark:border-[#393A3B] shadow-xs flex items-center gap-3.5">
+        <div className="w-11 h-11 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
           <Clock className="w-5 h-5" />
         </div>
         <div className="min-w-0">
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-            Khung Giờ Vàng
+          <p className="text-xs font-bold text-[#65676B] dark:text-[#B0B3B8] uppercase tracking-wider">
+            Khung Giờ Cao Điểm
           </p>
           <h4 className="text-lg font-black text-indigo-600 dark:text-indigo-400 mt-0.5">
-            {heatmap?.peakTimeRange || '--:--'}
+            {totalInteractions > 0 ? (heatmap?.peakTimeRange || '--:--') : '--:--'}
           </h4>
-          <span className="text-[11px] text-slate-400 truncate block">
-            {heatmap?.peakDay || 'Chưa xác định'}
+          <span className="text-[11px] text-[#65676B] dark:text-[#B0B3B8] truncate block">
+            {totalInteractions > 0 ? (heatmap?.peakDay || 'Chưa xác định') : 'Chưa có đủ dữ liệu'}
           </span>
         </div>
       </div>
 
       {/* Viral Hashtag */}
-      <div className="p-4 rounded-2xl bg-white dark:bg-[#242526] border border-slate-200 dark:border-slate-800 shadow-xs flex items-center gap-3.5">
-        <div className="w-11 h-11 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
+      <div className="p-4 rounded-2xl bg-white dark:bg-[#242526] border border-[#E4E6EB] dark:border-[#393A3B] shadow-xs flex items-center gap-3.5">
+        <div className="w-11 h-11 rounded-full bg-amber-500/10 text-[#F5C33B] flex items-center justify-center shrink-0">
           <Flame className="w-5 h-5" />
         </div>
         <div className="min-w-0">
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-            Hashtag Bùng Nổ
+          <p className="text-xs font-bold text-[#65676B] dark:text-[#B0B3B8] uppercase tracking-wider">
+            Hashtag Nổi Bật
           </p>
-          <h4 className="text-base font-black text-amber-600 dark:text-amber-400 truncate mt-0.5">
+          <h4 className="text-base font-black text-[#B78103] dark:text-[#F5C33B] truncate mt-0.5">
             {topTrend?.tag || 'Chưa có'}
           </h4>
-          <span className="text-[11px] font-bold text-emerald-500 truncate block">
+          <span className="text-[11px] font-bold text-[#31A24C] truncate block">
             {topTrend
-              ? `+${topTrend.growthPercentage}% (${topTrend.postCount} bài viết)`
-              : 'Chưa có hashtag thịnh hành'}
+              ? `${topTrend.postCount} bài viết đính kèm`
+              : 'Chưa có hashtag trong bài viết'}
           </span>
         </div>
       </div>
 
-      {/* User Retention */}
-      <div className="p-4 rounded-2xl bg-white dark:bg-[#242526] border border-slate-200 dark:border-slate-800 shadow-xs flex items-center gap-3.5">
-        <div className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
-          <Users className="w-5 h-5" />
+      {/* User Retention / Active Users */}
+      <div className="p-4 rounded-2xl bg-white dark:bg-[#242526] border border-[#E4E6EB] dark:border-[#393A3B] shadow-xs flex items-center gap-3.5">
+        <div className="w-11 h-11 rounded-full bg-emerald-500/10 text-[#31A24C] flex items-center justify-center shrink-0">
+          <UserCheck className="w-5 h-5" />
         </div>
         <div className="min-w-0">
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-            Tỷ Lệ Giữ Chân
+          <p className="text-xs font-bold text-[#65676B] dark:text-[#B0B3B8] uppercase tracking-wider">
+            Tài Khoản Hoạt Động
           </p>
-          <h4 className="text-lg font-black text-emerald-600 dark:text-emerald-400 mt-0.5">
+          <h4 className="text-lg font-black text-[#31A24C] mt-0.5">
             {demographics?.averageRetentionRate != null && demographics.averageRetentionRate > 0
               ? `${demographics.averageRetentionRate}%`
-              : '--%'}
+              : '0%'}
           </h4>
-          <span className="text-[11px] text-slate-400 truncate block">
+          <span className="text-[11px] text-[#65676B] dark:text-[#B0B3B8] truncate block">
             {demographics?.dailyActiveRatio != null && demographics.dailyActiveRatio > 0
-              ? `${demographics.dailyActiveRatio}% hoạt động mỗi ngày`
-              : 'Chưa có phân tích'}
+              ? `${demographics.dailyActiveRatio}% tài khoản đang Online`
+              : 'Chưa có tài khoản online'}
           </span>
         </div>
       </div>
@@ -105,3 +106,4 @@ export const AnalyticsKpiCards: React.FC<AnalyticsKpiCardsProps> = ({
 }
 
 export default AnalyticsKpiCards
+

@@ -306,15 +306,15 @@ export const SearchPage: React.FC = () => {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-indigo-500" />
-                <h3 className="text-sm font-bold text-slate-900 dark:text-[#e4e6eb]">
+                <Users className="w-4 h-4 text-[#0866FF]" />
+                <h3 className="text-sm font-bold text-[#050505] dark:text-[#E4E6EB]">
                   Người dùng ({filteredUsers.length})
                 </h3>
               </div>
               {filteredUsers.length > 3 && (
                 <button
                   onClick={() => handleCategorySelect('USERS')}
-                  className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-semibold text-[#0866FF] dark:text-[#2D88FF] hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   Xem toàn bộ {filteredUsers.length} người dùng <ArrowRight className="w-3.5 h-3.5" />
                 </button>
@@ -332,15 +332,15 @@ export const SearchPage: React.FC = () => {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <FileText className="w-4 h-4 text-emerald-500" />
-                <h3 className="text-sm font-bold text-slate-900 dark:text-[#e4e6eb]">
+                <FileText className="w-4 h-4 text-[#31A24C]" />
+                <h3 className="text-sm font-bold text-[#050505] dark:text-[#E4E6EB]">
                   Bài viết ({filteredPosts.length})
                 </h3>
               </div>
               {filteredPosts.length > 4 && (
                 <button
                   onClick={() => handleCategorySelect('POSTS')}
-                  className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-semibold text-[#0866FF] dark:text-[#2D88FF] hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   Xem toàn bộ {filteredPosts.length} bài viết <ArrowRight className="w-3.5 h-3.5" />
                 </button>
@@ -355,15 +355,15 @@ export const SearchPage: React.FC = () => {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4 text-rose-500" />
-                <h3 className="text-sm font-bold text-slate-900 dark:text-[#e4e6eb]">
+                <ShieldAlert className="w-4 h-4 text-[#FA383E]" />
+                <h3 className="text-sm font-bold text-[#050505] dark:text-[#E4E6EB]">
                   Báo cáo vi phạm ({filteredReports.length})
                 </h3>
               </div>
               {filteredReports.length > 3 && (
                 <button
                   onClick={() => handleCategorySelect('REPORTS')}
-                  className="text-xs font-semibold text-rose-600 dark:text-rose-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-semibold text-[#0866FF] dark:text-[#2D88FF] hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   Xem toàn bộ {filteredReports.length} báo cáo <ArrowRight className="w-3.5 h-3.5" />
                 </button>
@@ -379,14 +379,14 @@ export const SearchPage: React.FC = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Users2 className="w-4 h-4 text-cyan-500" />
-                <h3 className="text-sm font-bold text-slate-900 dark:text-[#e4e6eb]">
+                <h3 className="text-sm font-bold text-[#050505] dark:text-[#E4E6EB]">
                   Hội nhóm ({filteredGroups.length})
                 </h3>
               </div>
               {filteredGroups.length > 4 && (
                 <button
                   onClick={() => handleCategorySelect('GROUPS')}
-                  className="text-xs font-semibold text-cyan-600 dark:text-cyan-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-semibold text-[#0866FF] dark:text-[#2D88FF] hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   Xem toàn bộ {filteredGroups.length} hội nhóm <ArrowRight className="w-3.5 h-3.5" />
                 </button>
@@ -435,3 +435,4 @@ export const SearchPage: React.FC = () => {
 }
 
 export default SearchPage
+

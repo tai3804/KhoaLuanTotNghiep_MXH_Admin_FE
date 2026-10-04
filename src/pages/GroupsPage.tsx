@@ -52,7 +52,6 @@ export const GroupsPage: React.FC = () => {
           message: `Hội nhóm "${deleteTarget.name}" đã được giải tán thành công.`,
         })
       )
-      setDeleteTarget(null)
     } catch {
       dispatch(
         addToast({
@@ -61,16 +60,19 @@ export const GroupsPage: React.FC = () => {
           message: 'Không thể giải tán nhóm này.',
         })
       )
+    } finally {
+      dispatch(setActionLoading(false))
+      setDeleteTarget(null)
     }
   }
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+        <h2 className="text-xl font-black text-[#050505] dark:text-[#E4E6EB] tracking-tight">
           Quản Lý Hội Nhóm & Cộng Đồng
         </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-xs text-[#65676B] dark:text-[#B0B3B8] mt-1">
           Theo dõi các nhóm được tạo bởi người dùng, số lượng thành viên và xử lý giải tán nhóm vi phạm
         </p>
       </div>
@@ -96,3 +98,4 @@ export const GroupsPage: React.FC = () => {
 }
 
 export default GroupsPage
+

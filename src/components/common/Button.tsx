@@ -21,7 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]'
+    'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]'
 
   const sizeStyles = {
     sm: 'px-3 py-1.5 text-xs gap-1.5',
@@ -31,17 +31,17 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantStyles = {
     primary:
-      'bg-[#1877f2] hover:bg-[#166fe5] text-white shadow-xs shadow-[#1877f2]/30 hover:shadow-md hover:shadow-[#1877f2]/40',
+      'bg-[#0866ff] hover:bg-[#0055d6] text-white shadow-xs hover:shadow-md',
     secondary:
-      'bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-[#3a3b3c] dark:hover:bg-[#4e4f50] dark:text-[#e4e6eb]',
+      'bg-[#e4e6eb] hover:bg-[#d8dadf] text-[#050505] dark:bg-[#3a3b3c] dark:hover:bg-[#4e4f50] dark:text-[#e4e6eb]',
     danger:
-      'bg-rose-600 hover:bg-rose-700 text-white shadow-xs shadow-rose-500/30 hover:shadow-md hover:shadow-rose-500/40',
+      'bg-[#fa383e] hover:bg-[#e41e3f] text-white shadow-xs hover:shadow-md',
     warning:
-      'bg-amber-500 hover:bg-amber-600 text-white shadow-xs shadow-amber-500/30',
+      'bg-[#f5c33b] hover:bg-[#e0b028] text-slate-900 shadow-xs',
     outline:
-      'border border-[#e4e6eb] dark:border-[#393a3b] text-slate-700 dark:text-[#e4e6eb] hover:bg-slate-50 dark:hover:bg-[#3a3b3c]/60',
+      'border border-[#ced0d4] dark:border-[#393a3b] text-[#050505] dark:text-[#e4e6eb] hover:bg-[#f0f2f5] dark:hover:bg-[#3a3b3c]',
     ghost:
-      'text-slate-600 dark:text-[#b0b3b8] hover:bg-slate-100 dark:hover:bg-[#3a3b3c]/60 hover:text-slate-900 dark:hover:text-[#e4e6eb]',
+      'text-[#65676b] dark:text-[#b0b3b8] hover:bg-[#f0f2f5] dark:hover:bg-[#3a3b3c] hover:text-[#050505] dark:hover:text-[#e4e6eb]',
   }[variant]
 
   return (

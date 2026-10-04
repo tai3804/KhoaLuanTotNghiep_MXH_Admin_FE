@@ -25,48 +25,36 @@ export const SearchCategoryPills: React.FC<SearchCategoryPillsProps> = ({
     label: string
     icon: React.ReactNode
     count: number
-    activeBg: string
-    activeText: string
   }[] = [
     {
       key: 'ALL',
       label: 'Tất cả mục',
       icon: <Layers className="w-4 h-4" />,
       count: counts.all,
-      activeBg: 'bg-[#1877f2]',
-      activeText: 'text-white',
     },
     {
       key: 'USERS',
       label: 'Người dùng',
       icon: <Users className="w-4 h-4" />,
       count: counts.users,
-      activeBg: 'bg-indigo-600',
-      activeText: 'text-white',
     },
     {
       key: 'POSTS',
       label: 'Bài viết',
       icon: <FileText className="w-4 h-4" />,
       count: counts.posts,
-      activeBg: 'bg-emerald-600',
-      activeText: 'text-white',
     },
     {
       key: 'REPORTS',
       label: 'Báo cáo vi phạm',
       icon: <ShieldAlert className="w-4 h-4" />,
       count: counts.reports,
-      activeBg: 'bg-rose-600',
-      activeText: 'text-white',
     },
     {
       key: 'GROUPS',
       label: 'Hội nhóm',
       icon: <Users2 className="w-4 h-4" />,
       count: counts.groups,
-      activeBg: 'bg-cyan-600',
-      activeText: 'text-white',
     },
   ]
 
@@ -80,8 +68,8 @@ export const SearchCategoryPills: React.FC<SearchCategoryPillsProps> = ({
             onClick={() => onSelectCategory(tab.key)}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
               isActive
-                ? `${tab.activeBg} ${tab.activeText} shadow-sm shadow-${tab.activeBg}/20`
-                : 'bg-white dark:bg-[#242526] text-slate-600 dark:text-[#b0b3b8] border border-slate-200 dark:border-[#393a3b] hover:bg-slate-50 dark:hover:bg-[#3a3b3c] hover:text-slate-900 dark:hover:text-[#e4e6eb]'
+                ? 'bg-[#0866FF] text-white shadow-xs'
+                : 'bg-white dark:bg-[#242526] text-[#65676B] dark:text-[#B0B3B8] border border-[#E4E6EB] dark:border-[#393A3B] hover:bg-[#F0F2F5] dark:hover:bg-[#3A3B3C] hover:text-[#050505] dark:hover:text-[#E4E6EB]'
             }`}
           >
             {tab.icon}
@@ -90,7 +78,7 @@ export const SearchCategoryPills: React.FC<SearchCategoryPillsProps> = ({
               className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold ${
                 isActive
                   ? 'bg-white/20 text-white'
-                  : 'bg-slate-100 dark:bg-[#3a3b3c] text-slate-600 dark:text-[#b0b3b8]'
+                  : 'bg-[#F0F2F5] dark:bg-[#3A3B3C] text-[#65676B] dark:text-[#B0B3B8]'
               }`}
             >
               {tab.count}
@@ -103,3 +91,4 @@ export const SearchCategoryPills: React.FC<SearchCategoryPillsProps> = ({
 }
 
 export default SearchCategoryPills
+

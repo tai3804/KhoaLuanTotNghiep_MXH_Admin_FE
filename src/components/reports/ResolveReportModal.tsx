@@ -4,6 +4,7 @@ import { reportService } from '../../services/reportService'
 import Modal from '../common/Modal'
 import Button from '../common/Button'
 import Badge from '../common/Badge'
+import Avatar from '../common/Avatar'
 import {
   AlertTriangle,
   Trash2,
@@ -83,9 +84,9 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
   const renderPostPreview = () => {
     if (isLoadingTarget) {
       return (
-        <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#242526] border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center space-y-3">
-          <Loader2 className="w-6 h-6 text-[#1877f2] animate-spin" />
-          <p className="text-xs text-slate-500 dark:text-slate-400">Đang tải nội dung bài viết bị khiếu nại...</p>
+        <div className="p-6 rounded-2xl bg-[#F0F2F5] dark:bg-[#3A3B3C]/50 border border-[#E4E6EB] dark:border-[#393A3B] flex flex-col items-center justify-center space-y-3">
+          <Loader2 className="w-6 h-6 text-[#0866FF] animate-spin" />
+          <p className="text-xs text-[#65676B] dark:text-[#B0B3B8]">Đang tải nội dung bài viết bị khiếu nại...</p>
         </div>
       )
     }
@@ -108,37 +109,32 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
     const author = targetDetail.author || {}
 
     return (
-      <div className="rounded-2xl bg-white dark:bg-[#242526] border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+      <div className="rounded-2xl bg-white dark:bg-[#242526] border border-[#E4E6EB] dark:border-[#393A3B] shadow-xs overflow-hidden">
         {/* Post Author Header */}
-        <div className="p-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/50 dark:bg-[#1c1e21]/40">
+        <div className="p-4 flex items-center justify-between border-b border-[#E4E6EB] dark:border-[#393A3B] bg-[#F0F2F5]/50 dark:bg-[#3A3B3C]/20">
           <div className="flex items-center gap-3">
-            {author.avatarUrl ? (
-              <img
-                src={author.avatarUrl}
-                alt={author.fullName || 'Tác giả'}
-                className="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-              />
-            ) : (
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm shadow-sm">
-                {(author.fullName || 'U').charAt(0).toUpperCase()}
-              </div>
-            )}
+            <Avatar
+              src={author.avatarUrl}
+              name={author.fullName || author.username}
+              size="md"
+              shape="rounded"
+            />
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-sm text-slate-900 dark:text-white">
+                <span className="font-bold text-sm text-[#050505] dark:text-[#E4E6EB]">
                   {author.fullName || 'Thành viên'}
                 </span>
                 {author.username && (
-                  <span className="text-xs text-slate-400 dark:text-slate-500 font-medium">
+                  <span className="text-xs text-[#65676B] dark:text-[#B0B3B8] font-medium">
                     @{author.username}
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-2 text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">
+              <div className="flex items-center gap-2 text-[11px] text-[#65676B] dark:text-[#B0B3B8] mt-0.5">
                 <Calendar className="w-3 h-3" />
                 <span>{targetDetail.createdAt ? new Date(targetDetail.createdAt).toLocaleString('vi-VN') : 'Gần đây'}</span>
                 <span>•</span>
-                <span className="flex items-center gap-1 font-medium text-slate-500 dark:text-slate-400">
+                <span className="flex items-center gap-1 font-medium text-[#65676B] dark:text-[#B0B3B8]">
                   {targetDetail.privacy === 'PUBLIC' ? (
                     <>
                       <Globe className="w-3 h-3" /> Công khai
@@ -165,11 +161,11 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
         {/* Post Text Content */}
         <div className="p-4 space-y-3">
           {targetDetail.content ? (
-            <p className="text-sm text-slate-800 dark:text-slate-100 whitespace-pre-line leading-relaxed selection:bg-rose-500/20">
+            <p className="text-sm text-[#050505] dark:text-[#E4E6EB] whitespace-pre-line leading-relaxed selection:bg-[#0866FF]/20">
               {targetDetail.content}
             </p>
           ) : (
-            <p className="text-xs text-slate-400 italic">Bài viết không có văn bản mô tả.</p>
+            <p className="text-xs text-[#65676B] dark:text-[#B0B3B8] italic">Bài viết không có văn bản mô tả.</p>
           )}
 
           {/* Media Attachments Gallery */}
@@ -188,7 +184,7 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
                   <div
                     key={idx}
                     onClick={() => setPreviewMediaUrl(url)}
-                    className="relative group aspect-video sm:aspect-square bg-slate-900 rounded-lg overflow-hidden cursor-pointer border border-slate-200 dark:border-slate-800"
+                    className="relative group aspect-video sm:aspect-square bg-black/10 rounded-lg overflow-hidden cursor-pointer border border-[#E4E6EB] dark:border-[#393A3B]"
                   >
                     <img
                       src={url}
@@ -207,22 +203,22 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
         </div>
 
         {/* Post Metrics Footer */}
-        <div className="px-4 py-2.5 bg-slate-50/80 dark:bg-[#1c1e21]/40 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+        <div className="px-4 py-2.5 bg-[#F0F2F5]/80 dark:bg-[#3A3B3C]/20 border-t border-[#E4E6EB] dark:border-[#393A3B] flex items-center justify-between text-xs text-[#65676B] dark:text-[#B0B3B8]">
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5 font-semibold text-rose-500">
-              <Heart className="w-3.5 h-3.5 fill-rose-500" />
+            <span className="flex items-center gap-1.5 font-semibold text-[#FA383E]">
+              <Heart className="w-3.5 h-3.5 fill-[#FA383E]" />
               {targetDetail.likeCount ?? 0} Thích
             </span>
-            <span className="flex items-center gap-1.5 font-semibold text-sky-500">
+            <span className="flex items-center gap-1.5 font-semibold text-[#0866FF]">
               <MessageCircle className="w-3.5 h-3.5" />
               {targetDetail.commentCount ?? 0} Bình luận
             </span>
-            <span className="flex items-center gap-1.5 font-semibold text-indigo-500">
+            <span className="flex items-center gap-1.5 font-semibold text-[#65676B] dark:text-[#B0B3B8]">
               <Share2 className="w-3.5 h-3.5" />
               {targetDetail.shareCount ?? 0} Chia sẻ
             </span>
           </div>
-          <span className="font-mono text-[11px] text-slate-400">
+          <span className="font-mono text-[11px] text-[#65676B] dark:text-[#B0B3B8]">
             Post ID: #{String(targetDetail.id || report.targetId).substring(0, 13)}...
           </span>
         </div>
@@ -233,9 +229,9 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
   const renderUserPreview = () => {
     if (isLoadingTarget) {
       return (
-        <div className="p-6 rounded-2xl bg-slate-50 dark:bg-[#242526] border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center space-y-3">
-          <Loader2 className="w-6 h-6 text-[#1877f2] animate-spin" />
-          <p className="text-xs text-slate-500 dark:text-slate-400">Đang tải hồ sơ người dùng bị báo cáo...</p>
+        <div className="p-6 rounded-2xl bg-[#F0F2F5] dark:bg-[#3A3B3C]/50 border border-[#E4E6EB] dark:border-[#393A3B] flex flex-col items-center justify-center space-y-3">
+          <Loader2 className="w-6 h-6 text-[#0866FF] animate-spin" />
+          <p className="text-xs text-[#65676B] dark:text-[#B0B3B8]">Đang tải hồ sơ người dùng bị báo cáo...</p>
         </div>
       )
     }
@@ -255,23 +251,18 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
     }
 
     return (
-      <div className="rounded-2xl bg-white dark:bg-[#242526] border border-slate-200 dark:border-slate-700 p-4 flex items-center gap-4">
-        {targetDetail.avatarUrl ? (
-          <img
-            src={targetDetail.avatarUrl}
-            alt=""
-            className="w-16 h-16 rounded-full object-cover border-2 border-slate-200 dark:border-slate-700"
-          />
-        ) : (
-          <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xl font-bold">
-            {(targetDetail.fullName || 'U').charAt(0).toUpperCase()}
-          </div>
-        )}
+      <div className="rounded-2xl bg-white dark:bg-[#242526] border border-[#E4E6EB] dark:border-[#393A3B] p-4 flex items-center gap-4">
+        <Avatar
+          src={targetDetail.avatarUrl}
+          name={targetDetail.fullName || targetDetail.username}
+          size="xl"
+          shape="rounded"
+        />
         <div className="space-y-1">
-          <h4 className="font-bold text-base text-slate-900 dark:text-white">{targetDetail.fullName}</h4>
-          <p className="text-xs text-slate-500 dark:text-slate-400">@{targetDetail.username || 'user'}</p>
+          <h4 className="font-bold text-base text-[#050505] dark:text-[#E4E6EB]">{targetDetail.fullName}</h4>
+          <p className="text-xs text-[#65676B] dark:text-[#B0B3B8]">@{targetDetail.username || 'user'}</p>
           {targetDetail.bio && (
-            <p className="text-xs text-slate-700 dark:text-slate-300 italic pt-1">"{targetDetail.bio}"</p>
+            <p className="text-xs text-[#050505] dark:text-[#E4E6EB] italic pt-1">"{targetDetail.bio}"</p>
           )}
         </div>
       </div>
@@ -293,7 +284,7 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
               onClick={() => onResolve(report.id, false, 'DISMISS')}
               disabled={isLoading}
             >
-              <XCircle className="w-4 h-4 mr-1.5 text-slate-400" />
+              <XCircle className="w-4 h-4 mr-1.5 text-[#65676B] dark:text-[#B0B3B8]" />
               Bác Bỏ Báo Cáo (Không Phạt)
             </Button>
 
@@ -313,10 +304,10 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
       >
         <div className="space-y-5">
           {/* Report Complaint Summary Header */}
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-rose-500/10 via-amber-500/5 to-transparent border border-rose-500/20 space-y-3">
+          <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="text-xs font-bold text-[#FA383E] uppercase tracking-wider flex items-center gap-1.5">
                   <AlertTriangle className="w-4 h-4" />
                   Lý do vi phạm:
                 </span>
@@ -325,30 +316,31 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
                 </Badge>
               </div>
 
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-[#65676B] dark:text-[#B0B3B8]">
                 Gửi lúc: {report.createdAt ? new Date(report.createdAt).toLocaleString('vi-VN') : 'Mới'}
               </span>
             </div>
 
             {/* Reporter info & Note */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1 text-xs">
-              <div className="p-2.5 rounded-xl bg-white/70 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-                <span className="text-[11px] font-semibold text-slate-400 block mb-1">Người gửi khiếu nại:</span>
+              <div className="p-2.5 rounded-xl bg-white/70 dark:bg-[#3A3B3C]/60 border border-[#E4E6EB]/60 dark:border-[#393A3B]/60">
+                <span className="text-[11px] font-semibold text-[#65676B] dark:text-[#B0B3B8] block mb-1">Người gửi khiếu nại:</span>
                 <div className="flex items-center gap-2">
-                  {report.reporter?.avatarUrl ? (
-                    <img src={report.reporter.avatarUrl} alt="" className="w-5 h-5 rounded-full object-cover" />
-                  ) : (
-                    <UserIcon className="w-4 h-4 text-slate-400" />
-                  )}
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">
+                  <Avatar
+                    src={report.reporter?.avatarUrl}
+                    name={report.reporter?.fullName || report.reporter?.username || 'Người dùng'}
+                    size="xs"
+                    shape="rounded"
+                  />
+                  <span className="font-semibold text-[#050505] dark:text-[#E4E6EB]">
                     {report.reporter?.fullName || report.reporterId || 'Người dùng ẩn danh'}
                   </span>
                 </div>
               </div>
 
-              <div className="p-2.5 rounded-xl bg-white/70 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-                <span className="text-[11px] font-semibold text-slate-400 block mb-1">Ghi chú từ người báo cáo:</span>
-                <p className="text-slate-800 dark:text-slate-200 italic truncate">
+              <div className="p-2.5 rounded-xl bg-white/70 dark:bg-[#3A3B3C]/60 border border-[#E4E6EB]/60 dark:border-[#393A3B]/60">
+                <span className="text-[11px] font-semibold text-[#65676B] dark:text-[#B0B3B8] block mb-1">Ghi chú từ người báo cáo:</span>
+                <p className="text-[#050505] dark:text-[#E4E6EB] italic truncate">
                   "{report.description || 'Không có ghi chú thêm.'}"
                 </p>
               </div>
@@ -358,11 +350,11 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
           {/* Reported Target Live Preview Section */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                <Eye className="w-3.5 h-3.5 text-[#1877f2]" />
+              <h4 className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB] uppercase tracking-wider flex items-center gap-1.5">
+                <Eye className="w-3.5 h-3.5 text-[#0866FF]" />
                 Xem xét nội dung mục tiêu ({report.targetType}):
               </h4>
-              <span className="text-[11px] text-slate-400 font-mono">
+              <span className="text-[11px] text-[#65676B] dark:text-[#B0B3B8] font-mono">
                 ID: #{report.targetId}
               </span>
             </div>
@@ -371,13 +363,13 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
           </div>
 
           {/* Action Checkbox */}
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#3a3b3c]/30 border border-slate-200 dark:border-slate-800">
-            <label className="flex items-center gap-3 text-xs text-slate-800 dark:text-slate-200 font-medium cursor-pointer">
+          <div className="p-3 rounded-xl bg-[#F0F2F5] dark:bg-[#3A3B3C]/30 border border-[#E4E6EB] dark:border-[#393A3B]">
+            <label className="flex items-center gap-3 text-xs text-[#050505] dark:text-[#E4E6EB] font-medium cursor-pointer">
               <input
                 type="checkbox"
                 checked={deleteTarget}
                 onChange={(e) => setDeleteTarget(e.target.checked)}
-                className="w-4 h-4 rounded text-[#1877f2] focus:ring-[#1877f2] border-slate-300 dark:border-slate-600 cursor-pointer"
+                className="w-4 h-4 rounded text-[#0866FF] focus:ring-[#0866FF] border-[#CED0D4] dark:border-[#393A3B] cursor-pointer"
               />
               <span>Đồng thời gỡ bỏ và xóa vĩnh viễn nội dung mục tiêu này khỏi mạng xã hội</span>
             </label>
@@ -388,13 +380,13 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
       {/* Full Image Zoom Preview Modal */}
       {previewMediaUrl && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200"
           onClick={() => setPreviewMediaUrl(null)}
         >
           <div className="relative max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl bg-black border border-white/10 shadow-2xl">
             <button
               onClick={() => setPreviewMediaUrl(null)}
-              className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center transition"
+              className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center transition cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -411,3 +403,4 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
 }
 
 export default ResolveReportModal
+

@@ -19,9 +19,9 @@ export const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
 
   if (isLoading || !data) {
     return (
-      <div className="bg-white dark:bg-[#242526] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 animate-pulse">
-        <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded-md w-1/3" />
-        <div className="h-64 bg-slate-100 dark:bg-slate-800/60 rounded-xl" />
+      <div className="bg-white dark:bg-[#242526] rounded-2xl border border-[#E4E6EB] dark:border-[#393A3B] p-6 space-y-4 animate-pulse">
+        <div className="h-6 bg-[#E4E6EB] dark:bg-[#3A3B3C] rounded-md w-1/3" />
+        <div className="h-64 bg-[#F0F2F5] dark:bg-[#3A3B3C]/50 rounded-xl" />
       </div>
     )
   }
@@ -29,55 +29,55 @@ export const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
   // Calculate max value in matrix for relative color scaling
   const maxVal = Math.max(
     ...data.matrix.flatMap((row) => row),
-    100
+    1
   )
 
   const getCellColor = (val: number) => {
     const ratio = val / maxVal
     if (ratio < 0.15) {
-      return 'bg-slate-100 dark:bg-[#18191a] text-slate-400 hover:ring-2 hover:ring-slate-300'
+      return 'bg-[#F0F2F5] dark:bg-[#18191A] text-[#65676B] dark:text-[#B0B3B8] hover:ring-2 hover:ring-[#CED0D4]'
     }
     if (ratio < 0.35) {
-      return 'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 hover:ring-2 hover:ring-blue-400'
+      return 'bg-[#E7F3FF] dark:bg-[#0866FF]/20 text-[#0866FF] hover:ring-2 hover:ring-[#0866FF]/40'
     }
     if (ratio < 0.6) {
-      return 'bg-indigo-200 dark:bg-indigo-900/70 text-indigo-800 dark:text-indigo-200 hover:ring-2 hover:ring-indigo-400'
+      return 'bg-[#0866FF]/40 text-[#050505] dark:text-white hover:ring-2 hover:ring-[#0866FF]/60'
     }
     if (ratio < 0.8) {
-      return 'bg-indigo-500 dark:bg-indigo-600 text-white hover:ring-2 hover:ring-indigo-300'
+      return 'bg-[#0866FF]/80 text-white hover:ring-2 hover:ring-[#0866FF]'
     }
-    return 'bg-gradient-to-tr from-violet-600 to-rose-500 text-white shadow-sm shadow-rose-500/20 hover:ring-2 hover:ring-rose-400'
+    return 'bg-[#0866FF] text-white shadow-xs hover:ring-2 hover:ring-[#0055D6]'
   }
 
   return (
-    <div className="bg-white dark:bg-[#242526] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs space-y-6">
+    <div className="bg-white dark:bg-[#242526] rounded-2xl border border-[#E4E6EB] dark:border-[#393A3B] p-6 shadow-xs space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-linear-to-tr from-amber-500 to-rose-500 flex items-center justify-center text-white shadow-md shadow-rose-500/20">
+            <div className="w-8 h-8 rounded-full bg-[#E7F3FF] dark:bg-[#0866FF]/20 flex items-center justify-center text-[#0866FF]">
               <Flame className="w-4 h-4" />
             </div>
-            <h3 className="text-base font-bold text-slate-900 dark:text-white">
+            <h3 className="text-base font-bold text-[#050505] dark:text-[#E4E6EB]">
               Bản Đồ Nhiệt Tương Tác & Khung Giờ Vàng (Peak Hours Heatmap)
             </h3>
           </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-[#65676B] dark:text-[#B0B3B8] mt-1">
             Mật độ người dùng truy cập, đăng bài và tương tác theo 24 giờ trong 7 ngày tuần
           </p>
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-2 text-[11px] text-slate-500 font-medium">
+        <div className="flex items-center gap-2 text-[11px] text-[#65676B] dark:text-[#B0B3B8] font-medium">
           <span>Ít</span>
           <div className="flex items-center gap-1">
-            <span className="w-3.5 h-3.5 rounded-sm bg-slate-100 dark:bg-[#18191a] border border-slate-200 dark:border-slate-700" />
-            <span className="w-3.5 h-3.5 rounded-sm bg-blue-100 dark:bg-blue-950" />
-            <span className="w-3.5 h-3.5 rounded-sm bg-indigo-300 dark:bg-indigo-800" />
-            <span className="w-3.5 h-3.5 rounded-sm bg-indigo-600" />
-            <span className="w-3.5 h-3.5 rounded-sm bg-gradient-to-tr from-violet-600 to-rose-500" />
+            <span className="w-3.5 h-3.5 rounded-sm bg-[#F0F2F5] dark:bg-[#18191A] border border-[#E4E6EB] dark:border-[#393A3B]" />
+            <span className="w-3.5 h-3.5 rounded-sm bg-[#E7F3FF] dark:bg-[#0866FF]/20" />
+            <span className="w-3.5 h-3.5 rounded-sm bg-[#0866FF]/40" />
+            <span className="w-3.5 h-3.5 rounded-sm bg-[#0866FF]/80" />
+            <span className="w-3.5 h-3.5 rounded-sm bg-[#0866FF]" />
           </div>
-          <span className="text-rose-600 font-bold">Rất cao (Giờ Vàng)</span>
+          <span className="text-[#0866FF] font-bold">Rất cao (Giờ Vàng)</span>
         </div>
       </div>
 
@@ -85,7 +85,7 @@ export const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
       <div className="overflow-x-auto pb-2">
         <div className="min-w-[700px] space-y-2">
           {/* Hour Labels */}
-          <div className="grid grid-cols-[70px_repeat(24,minmax(0,1fr))] gap-1.5 text-center text-[10px] font-semibold text-slate-400">
+          <div className="grid grid-cols-[70px_repeat(24,minmax(0,1fr))] gap-1.5 text-center text-[10px] font-semibold text-[#65676B] dark:text-[#B0B3B8]">
             <div className="text-left pl-1">Ngày</div>
             {data.hours.map((h) => (
               <div key={h} className="truncate">
@@ -97,7 +97,7 @@ export const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
           {/* Matrix Rows */}
           {data.days.map((day, dIdx) => (
             <div key={day} className="grid grid-cols-[70px_repeat(24,minmax(0,1fr))] gap-1.5 items-center">
-              <div className="text-xs font-bold text-slate-700 dark:text-slate-300 truncate pl-1">
+              <div className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB] truncate pl-1">
                 {day}
               </div>
               {data.hours.map((h) => {
@@ -129,19 +129,19 @@ export const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
       </div>
 
       {/* Hover Tooltip / Status Display */}
-      <div className="h-8 flex items-center justify-between px-3 py-1.5 bg-slate-50 dark:bg-[#1c1e21] rounded-xl border border-slate-200 dark:border-slate-800 text-xs">
+      <div className="h-8 flex items-center justify-between px-3 py-1.5 bg-[#F0F2F5] dark:bg-[#18191A] rounded-xl border border-[#E4E6EB] dark:border-[#393A3B] text-xs">
         {hoveredCell ? (
-          <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold">
-            <Zap className="w-3.5 h-3.5 text-amber-500" />
+          <div className="flex items-center gap-2 text-[#0866FF] font-semibold">
+            <Zap className="w-3.5 h-3.5 text-[#F5C33B]" />
             <span>
               {hoveredCell.day} vào lúc {hoveredCell.hour}:00 - {hoveredCell.hour + 1}:00:
             </span>
-            <span className="font-bold text-slate-900 dark:text-white">
+            <span className="font-bold text-[#050505] dark:text-[#E4E6EB]">
               {hoveredCell.value.toLocaleString()} lượt tương tác & truy cập
             </span>
           </div>
         ) : (
-          <span className="text-slate-400 italic text-[11px]">
+          <span className="text-[#65676B] dark:text-[#B0B3B8] italic text-[11px]">
             💡 Rê chuột lên các ô trên bản đồ nhiệt để xem số liệu chi tiết từng khung giờ.
           </span>
         )}
@@ -149,31 +149,31 @@ export const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
 
       {/* AI Telemetry Insights */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-        <div className="p-4 rounded-xl bg-indigo-50/70 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40 flex items-start gap-3">
-          <Clock className="w-5 h-5 text-indigo-600 dark:text-indigo-400 mt-0.5 shrink-0" />
+        <div className="p-4 rounded-xl bg-[#E7F3FF]/60 dark:bg-[#0866FF]/10 border border-[#0866FF]/20 flex items-start gap-3">
+          <Clock className="w-5 h-5 text-[#0866FF] mt-0.5 shrink-0" />
           <div>
-            <h4 className="text-xs font-bold text-indigo-950 dark:text-indigo-200">
+            <h4 className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB]">
               Khung Giờ Cao Điểm
             </h4>
-            <p className="text-base font-black text-indigo-600 dark:text-indigo-400 mt-0.5">
+            <p className="text-base font-black text-[#0866FF] mt-0.5">
               {data.peakTimeRange}
             </p>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-              Chiếm <span className="font-bold text-indigo-600">{data.eveningActivityRatio}%</span> hoạt động cả ngày
+            <p className="text-[11px] text-[#65676B] dark:text-[#B0B3B8] mt-1">
+              Chiếm <span className="font-bold text-[#0866FF]">{data.eveningActivityRatio}%</span> hoạt động cả ngày
             </p>
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-violet-50/70 dark:bg-violet-950/30 border border-violet-100 dark:border-violet-900/40 flex items-start gap-3">
-          <Calendar className="w-5 h-5 text-violet-600 dark:text-violet-400 mt-0.5 shrink-0" />
+        <div className="p-4 rounded-xl bg-[#F0F2F5] dark:bg-[#3A3B3C]/40 border border-[#E4E6EB] dark:border-[#393A3B] flex items-start gap-3">
+          <Calendar className="w-5 h-5 text-[#65676B] dark:text-[#B0B3B8] mt-0.5 shrink-0" />
           <div>
-            <h4 className="text-xs font-bold text-violet-950 dark:text-violet-200">
+            <h4 className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB]">
               Ngày Bùng Nổ Nhất
             </h4>
-            <p className="text-base font-black text-violet-600 dark:text-violet-400 mt-0.5">
+            <p className="text-base font-black text-[#050505] dark:text-[#E4E6EB] mt-0.5">
               {data.peakDay || 'Chưa xác định'}
             </p>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-[11px] text-[#65676B] dark:text-[#B0B3B8] mt-1">
               {data.totalWeeklyInteractions > 0
                 ? `Tổng ${data.totalWeeklyInteractions.toLocaleString()} lượt tương tác trong tuần`
                 : 'Chưa có đủ dữ liệu tương tác'}
@@ -181,18 +181,18 @@ export const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40 flex items-start gap-3">
-          <Sparkles className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mt-0.5 shrink-0" />
+        <div className="p-4 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-500/20 flex items-start gap-3">
+          <Sparkles className="w-5 h-5 text-[#31A24C] mt-0.5 shrink-0" />
           <div>
-            <h4 className="text-xs font-bold text-emerald-950 dark:text-emerald-200">
+            <h4 className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB]">
               Khuyến Nghị Tối Ưu
             </h4>
-            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-0.5">
+            <p className="text-xs font-semibold text-[#050505] dark:text-[#E4E6EB] mt-0.5">
               {data.peakTimeRange && data.peakTimeRange !== '--:--'
                 ? `Đăng bài vào khung ${data.peakTimeRange}`
                 : 'Thu thập thêm dữ liệu khung giờ'}
             </p>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-[11px] text-[#65676B] dark:text-[#B0B3B8] mt-1">
               Giúp tối đa hóa lượt xem và tương tác của thành viên
             </p>
           </div>
@@ -203,3 +203,4 @@ export const ActivityHeatmap: React.FC<ActivityHeatmapProps> = ({
 }
 
 export default ActivityHeatmap
+

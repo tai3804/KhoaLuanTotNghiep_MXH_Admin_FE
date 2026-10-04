@@ -3,6 +3,7 @@ import { AdminUser, AuthState } from '../../types/auth'
 
 let storedUser: AdminUser | null = null
 try {
+  localStorage.removeItem('admin_refresh_token')
   const userStr = localStorage.getItem('admin_user')
   if (userStr) storedUser = JSON.parse(userStr)
 } catch {
@@ -18,6 +19,50 @@ const initialState: AuthState = {
 }
 
 
+export const parseTokenPayload = (token: string): any => {
+  try {
+    const payload = token.split('.')[1]
+    if (!payload) return null
+    return JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')))
+  } catch {
+    return null
+  }
+}
+
+export const extractUserFromToken = (token: string): AdminUser | null => {
+  try {
+    const decoded = parseTokenPayload(token)
+    if (!decoded) return null
+    const roles: string[] = Array.isArray(decoded.roles) ? decoded.roles : []
+    const role = roles.includes('ROLE_ADMIN') || roles.includes('ADMIN')
+      ? 'ADMIN'
+      : roles.includes('ROLE_MODERATOR') || roles.includes('MODERATOR')
+      ? 'MODERATOR'
+      : 'USER'
+    const nameParts = [decoded.lastName, decoded.middleName, decoded.firstName].filter(
+      (s) => Boolean(s && String(s).trim())
+    )
+    const fullName =
+      nameParts.length > 0
+        ? nameParts.join(' ').trim()
+        : decoded.fullName || decoded.email?.split('@')[0] || 'Admin'
+    const avatarUrl = decoded.avatarUrl || decoded.avatar || undefined
+
+    return {
+      id: decoded.sub || 'admin',
+      username: decoded.email?.split('@')[0] || decoded.email || 'admin',
+      email: decoded.email || '',
+      fullName,
+      avatarUrl,
+      role,
+      roles,
+      isActive: true,
+    }
+  } catch {
+    return null
+  }
+}
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -27,12 +72,19 @@ export const authSlice = createSlice({
     },
     setCredentials: (
       state,
-      action: PayloadAction<{ token: string; user?: AdminUser }>
+      action: PayloadAction<{ token: string; user?: AdminUser; refreshToken?: string }>
     ) => {
       state.token = action.payload.token
+      // Pure in-memory access token, refresh token is handled strictly via HttpOnly cookie
       if (action.payload.user) {
         state.user = action.payload.user
         localStorage.setItem('admin_user', JSON.stringify(action.payload.user))
+      } else if (!state.user) {
+        const decodedUser = extractUserFromToken(action.payload.token)
+        if (decodedUser) {
+          state.user = decodedUser
+          localStorage.setItem('admin_user', JSON.stringify(decodedUser))
+        }
       }
       state.isAuthenticated = true
       state.isLoading = false
@@ -51,6 +103,7 @@ export const authSlice = createSlice({
       state.isLoading = false
       state.error = null
       localStorage.removeItem('admin_user')
+      localStorage.removeItem('admin_refresh_token')
     },
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload

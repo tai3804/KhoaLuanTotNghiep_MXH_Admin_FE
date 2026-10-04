@@ -30,10 +30,10 @@ export const GroupTable: React.FC<GroupTableProps> = ({
             type="group"
           />
           <div>
-            <p className="font-bold text-slate-900 dark:text-[#e4e6eb]">
+            <p className="font-bold text-[#050505] dark:text-[#E4E6EB]">
               {group.name}
             </p>
-            <p className="text-xs text-slate-400 dark:text-[#b0b3b8] line-clamp-1 max-w-xs">
+            <p className="text-xs text-[#65676B] dark:text-[#B0B3B8] line-clamp-1 max-w-xs">
               {group.description || 'Chưa có mô tả'}
             </p>
           </div>
@@ -56,7 +56,7 @@ export const GroupTable: React.FC<GroupTableProps> = ({
     {
       header: 'Trưởng Nhóm',
       cell: (group) => (
-        <span className="text-xs font-semibold text-slate-700 dark:text-[#e4e6eb]">
+        <span className="text-xs font-semibold text-[#050505] dark:text-[#E4E6EB]">
           {group.owner?.fullName || group.owner?.username || 'Chưa rõ'}
         </span>
       ),
@@ -64,13 +64,13 @@ export const GroupTable: React.FC<GroupTableProps> = ({
     {
       header: 'Thống Kê',
       cell: (group) => (
-        <div className="flex items-center gap-3 text-xs text-slate-500">
+        <div className="flex items-center gap-3 text-xs text-[#65676B] dark:text-[#B0B3B8]">
           <span className="flex items-center gap-1">
-            <Users className="w-3.5 h-3.5" />
+            <Users className="w-3.5 h-3.5 text-[#0866FF]" />
             {group.membersCount.toLocaleString()} thành viên
           </span>
           <span className="flex items-center gap-1">
-            <FileText className="w-3.5 h-3.5" />
+            <FileText className="w-3.5 h-3.5 text-[#0866FF]" />
             {group.postsCount ?? 0} bài
           </span>
         </div>
@@ -79,7 +79,7 @@ export const GroupTable: React.FC<GroupTableProps> = ({
     {
       header: 'Ngày Tạo',
       cell: (group) => (
-        <span className="text-xs text-slate-400">
+        <span className="text-xs text-[#65676B] dark:text-[#B0B3B8]">
           {group.createdAt ? new Date(group.createdAt).toLocaleDateString('vi-VN') : 'Mới'}
         </span>
       ),
@@ -107,3 +107,4 @@ export const GroupTable: React.FC<GroupTableProps> = ({
 }
 
 export default GroupTable
+

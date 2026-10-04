@@ -16,32 +16,32 @@ export const Badge: React.FC<BadgeProps> = ({
   className = '',
 }) => {
   const sizeStyles = {
-    sm: 'px-2 py-0.5 text-[11px] font-medium',
+    sm: 'px-2 py-0.5 text-[11px] font-semibold',
     md: 'px-2.5 py-1 text-xs font-semibold',
   }[size]
 
   const variantStyles = {
     success:
-      'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20',
+      'bg-[#e7f8ed] text-[#31a24c] dark:bg-[#31a24c]/20 dark:text-[#42b72a] border border-[#31a24c]/30',
     danger:
-      'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20',
+      'bg-[#ffebe8] text-[#fa383e] dark:bg-[#fa383e]/20 dark:text-[#ff5a5f] border border-[#fa383e]/30',
     warning:
-      'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20',
+      'bg-[#fff8e1] text-[#b78103] dark:bg-[#f5c33b]/20 dark:text-[#f5c33b] border border-[#f5c33b]/30',
     info:
-      'bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20',
+      'bg-[#e5f6fd] text-[#0288d1] dark:bg-[#0288d1]/20 dark:text-[#29b6f6] border border-[#0288d1]/30',
     primary:
-      'bg-[#1877f2]/10 text-[#1877f2] dark:text-[#2d88ff] border-[#1877f2]/20',
+      'bg-[#e7f3ff] text-[#0866ff] dark:bg-[#0866ff]/20 dark:text-[#2d88ff] border border-[#0866ff]/30',
     neutral:
-      'bg-slate-500/10 text-slate-600 dark:text-[#b0b3b8] border border-slate-500/20',
+      'bg-[#f0f2f5] text-[#65676b] dark:bg-[#3a3b3c] dark:text-[#b0b3b8] border border-[#ced0d4] dark:border-[#4e4f50]',
   }[variant]
 
   const dotColors = {
-    success: 'bg-emerald-500',
-    danger: 'bg-rose-500',
-    warning: 'bg-amber-500',
-    info: 'bg-sky-500',
-    primary: 'bg-[#1877f2]',
-    neutral: 'bg-slate-400 dark:bg-[#b0b3b8]',
+    success: 'bg-[#31a24c]',
+    danger: 'bg-[#fa383e]',
+    warning: 'bg-[#f5c33b]',
+    info: 'bg-[#0288d1]',
+    primary: 'bg-[#0866ff]',
+    neutral: 'bg-[#8a8d91] dark:bg-[#b0b3b8]',
   }[variant]
 
   return (

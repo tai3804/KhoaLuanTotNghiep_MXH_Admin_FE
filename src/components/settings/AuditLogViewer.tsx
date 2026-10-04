@@ -17,7 +17,7 @@ export const AuditLogViewer: React.FC<AuditLogViewerProps> = ({
     {
       header: 'Thời Gian',
       cell: (log) => (
-        <span className="text-xs font-mono text-slate-500">
+        <span className="text-xs font-mono text-[#65676B] dark:text-[#B0B3B8]">
           {new Date(log.createdAt).toLocaleString('vi-VN')}
         </span>
       ),
@@ -26,8 +26,8 @@ export const AuditLogViewer: React.FC<AuditLogViewerProps> = ({
       header: 'Quản Trị Viên',
       cell: (log) => (
         <div className="flex items-center gap-2">
-          <Shield className="w-4 h-4 text-indigo-500" />
-          <span className="text-xs font-bold text-slate-900 dark:text-slate-100">
+          <Shield className="w-4 h-4 text-[#0866FF] dark:text-[#2D88FF]" />
+          <span className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB]">
             @{log.adminUsername}
           </span>
         </div>
@@ -52,7 +52,7 @@ export const AuditLogViewer: React.FC<AuditLogViewerProps> = ({
     {
       header: 'Đối Tượng Mục Tiêu',
       cell: (log) => (
-        <span className="text-xs font-mono text-slate-700 dark:text-slate-300">
+        <span className="text-xs font-mono font-semibold text-[#050505] dark:text-[#E4E6EB]">
           {log.targetType} ({log.targetId})
         </span>
       ),
@@ -60,7 +60,7 @@ export const AuditLogViewer: React.FC<AuditLogViewerProps> = ({
     {
       header: 'Chi Tiết Thao Tác',
       cell: (log) => (
-        <span className="text-xs text-slate-600 dark:text-slate-300 max-w-sm truncate block">
+        <span className="text-xs text-[#65676B] dark:text-[#B0B3B8] max-w-sm truncate block">
           {log.details || 'Không có mô tả thêm'}
         </span>
       ),
@@ -68,7 +68,7 @@ export const AuditLogViewer: React.FC<AuditLogViewerProps> = ({
     {
       header: 'IP Address',
       cell: (log) => (
-        <span className="text-xs font-mono text-slate-400">
+        <span className="text-xs font-mono text-[#65676B] dark:text-[#B0B3B8]">
           {log.ipAddress || '127.0.0.1'}
         </span>
       ),
@@ -77,11 +77,11 @@ export const AuditLogViewer: React.FC<AuditLogViewerProps> = ({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2 text-slate-900 dark:text-[#e4e6eb]">
-        <History className="w-5 h-5 text-[#1877f2]" />
+      <div className="flex items-center gap-2 text-[#050505] dark:text-[#E4E6EB]">
+        <History className="w-5 h-5 text-[#0866FF] dark:text-[#2D88FF]" />
         <div>
           <h3 className="text-base font-bold">Nhật Ký Hoạt Động (Audit Logs)</h3>
-          <p className="text-xs text-slate-500 dark:text-[#b0b3b8]">
+          <p className="text-xs text-[#65676B] dark:text-[#B0B3B8]">
             Theo dõi và ghi nhận mọi hành động nhạy cảm của Ban Quản trị
           </p>
         </div>

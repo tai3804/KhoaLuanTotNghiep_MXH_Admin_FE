@@ -1,5 +1,5 @@
 import React from 'react'
-import { Eye, Trash2, Heart, MessageSquare, AlertTriangle } from 'lucide-react'
+import { Eye, Trash2, Heart, MessageSquare } from 'lucide-react'
 import { Post } from '../../types/post'
 import DataTable, { Column } from '../common/DataTable'
 import Badge from '../common/Badge'
@@ -31,10 +31,10 @@ export const PostTable: React.FC<PostTableProps> = ({
             shape="rounded"
           />
           <div>
-            <p className="font-bold text-slate-900 dark:text-slate-100">
+            <p className="font-bold text-[#050505] dark:text-[#e4e6eb]">
               {post.author?.fullName || 'Người dùng'}
             </p>
-            <p className="text-xs text-slate-400">@{post.author?.username}</p>
+            <p className="text-xs text-[#65676b] dark:text-[#b0b3b8]">@{post.author?.username}</p>
           </div>
         </div>
       ),
@@ -43,11 +43,11 @@ export const PostTable: React.FC<PostTableProps> = ({
       header: 'Nội Dung Bài Viết',
       cell: (post) => (
         <div className="max-w-md">
-          <p className="text-slate-800 dark:text-slate-200 line-clamp-2 text-xs">
+          <p className="text-[#050505] dark:text-[#e4e6eb] line-clamp-2 text-xs">
             {post.content}
           </p>
           {post.mediaUrls && post.mediaUrls.length > 0 && (
-            <span className="inline-block mt-1 text-[11px] font-medium text-indigo-500">
+            <span className="inline-block mt-1 text-[11px] font-semibold text-[#0866ff] dark:text-[#2d88ff]">
               📷 {post.mediaUrls.length} file đính kèm
             </span>
           )}
@@ -65,13 +65,13 @@ export const PostTable: React.FC<PostTableProps> = ({
     {
       header: 'Tương Tác',
       cell: (post) => (
-        <div className="flex items-center gap-3 text-xs text-slate-500">
+        <div className="flex items-center gap-3 text-xs font-semibold text-[#65676b] dark:text-[#b0b3b8]">
           <span className="flex items-center gap-1">
-            <Heart className="w-3.5 h-3.5 text-rose-500" />
+            <Heart className="w-3.5 h-3.5 text-[#fa383e]" />
             {post.likesCount}
           </span>
           <span className="flex items-center gap-1">
-            <MessageSquare className="w-3.5 h-3.5 text-indigo-500" />
+            <MessageSquare className="w-3.5 h-3.5 text-[#0866ff]" />
             {post.commentsCount}
           </span>
         </div>
@@ -97,7 +97,7 @@ export const PostTable: React.FC<PostTableProps> = ({
     {
       header: 'Thời Gian',
       cell: (post) => (
-        <span className="text-xs text-slate-400">
+        <span className="text-xs text-[#65676b] dark:text-[#b0b3b8]">
           {post.createdAt ? new Date(post.createdAt).toLocaleDateString('vi-VN') : 'Mới'}
         </span>
       ),
@@ -133,3 +133,4 @@ export const PostTable: React.FC<PostTableProps> = ({
 }
 
 export default PostTable
+

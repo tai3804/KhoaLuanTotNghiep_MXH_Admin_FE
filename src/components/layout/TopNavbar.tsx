@@ -13,7 +13,7 @@ import {
 } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { toggleTheme } from '../../store/slices/themeSlice'
-import { logout } from '../../store/slices/authSlice'
+import { logout, updateUser } from '../../store/slices/authSlice'
 import { authService } from '../../services/authService'
 import {
   isSoundEnabled,
@@ -22,6 +22,7 @@ import {
   playNotificationSound,
 } from '../../utils/soundAlert'
 import Badge from '../common/Badge'
+import Avatar from '../common/Avatar'
 import NotificationDropdown from './NotificationDropdown'
 import SearchAutocompleteDropdown from '../search/SearchAutocompleteDropdown'
 import notificationService from '../../services/notificationService'
@@ -96,6 +97,20 @@ export const TopNavbar: React.FC = () => {
     })
   }, [])
 
+  // Fetch fresh profile with avatarUrl for the logged-in admin if missing
+  useEffect(() => {
+    if (user?.id && !user.avatarUrl) {
+      authService
+        .getCurrentUser()
+        .then((profile) => {
+          if (profile) {
+            dispatch(updateUser(profile))
+          }
+        })
+        .catch(() => {})
+    }
+  }, [user?.id, user?.avatarUrl, dispatch])
+
   // Audio alert if new pending reports arrive
   useEffect(() => {
     if (pendingReportsCount > prevReportsRef.current && prevReportsRef.current > 0) {
@@ -134,16 +149,12 @@ export const TopNavbar: React.FC = () => {
   }
 
   return (
-    <header className="h-16 bg-white/90 dark:bg-[#242526]/90 backdrop-blur-md border-b border-[#e4e6eb] dark:border-[#393a3b] flex items-center justify-between px-6 shrink-0 z-30 transition-colors">
-      {/* Left Section: Search Bar with Autocomplete & History */}
+    <header className="h-16 bg-white dark:bg-[#242526] border-b border-[#e4e6eb] dark:border-[#393a3b] flex items-center justify-between px-6 shrink-0 z-30 transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.06)]">
+      {/* Left Section: Search Bar in Meta Pill Style */}
       <div className="flex items-center">
-        {/* Global Search Input Form */}
         <div className="relative w-72 md:w-96">
-          <form
-            onSubmit={handleSearchSubmit}
-            className="relative w-full"
-          >
-            <Search className="w-4 h-4 text-slate-400 dark:text-[#b0b3b8] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <form onSubmit={handleSearchSubmit} className="relative w-full">
+            <Search className="w-4 h-4 text-[#65676b] dark:text-[#b0b3b8] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               ref={searchInputRef}
               type="text"
@@ -161,8 +172,8 @@ export const TopNavbar: React.FC = () => {
                 setTopSearchQuery(e.target.value)
                 setIsSearchDropdownOpen(true)
               }}
-              placeholder="Tìm kiếm người dùng, bài viết, báo cáo..."
-              className="w-full bg-slate-100 dark:bg-[#3a3b3c]/60 text-xs text-slate-900 dark:text-[#e4e6eb] placeholder:text-slate-400 dark:placeholder:text-[#b0b3b8] pl-9.5 pr-4 py-2 rounded-xl border border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-[#1877f2] dark:focus:border-[#1877f2] focus:bg-white dark:focus:bg-[#3a3b3c] focus:outline-hidden transition-all shadow-2xs"
+              placeholder="Tìm kiếm trên Facebook Admin..."
+              className="w-full bg-[#f0f2f5] dark:bg-[#3a3b3c] hover:bg-[#e4e6eb] dark:hover:bg-[#4e4f50] text-sm text-[#050505] dark:text-[#e4e6eb] placeholder:text-[#65676b] dark:placeholder:text-[#b0b3b8] pl-10 pr-4 py-2 rounded-full border border-transparent focus:border-[#0866ff] focus:bg-white dark:focus:bg-[#3a3b3c] focus:outline-none transition-all shadow-xs"
             />
           </form>
 
@@ -176,13 +187,13 @@ export const TopNavbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Right Controls */}
-      <div className="flex items-center gap-3">
+      {/* Right Controls in Circular Facebook Header Style */}
+      <div className="flex items-center gap-2.5">
         {/* Reload Button */}
         <button
           onClick={handleReload}
           disabled={isReloading}
-          className="p-2.5 rounded-xl border border-[#e4e6eb] dark:border-[#393a3b] text-slate-600 dark:text-[#e4e6eb] hover:bg-slate-100 dark:hover:bg-[#3a3b3c] hover:text-[#1877f2] dark:hover:text-[#2d88ff] transition-colors disabled:opacity-60"
+          className="w-10 h-10 rounded-full bg-[#e4e6eb] hover:bg-[#d8dadf] dark:bg-[#3a3b3c] dark:hover:bg-[#4e4f50] text-[#050505] dark:text-[#e4e6eb] flex items-center justify-center transition-colors disabled:opacity-60 cursor-pointer"
           title="Tải lại trang (Reload)"
         >
           <RefreshCw className={`w-4 h-4 ${isReloading ? 'animate-spin' : ''}`} />
@@ -191,15 +202,15 @@ export const TopNavbar: React.FC = () => {
         {/* Sound Alert Toggle */}
         <button
           onClick={toggleSound}
-          className={`p-2.5 rounded-xl border transition-colors ${
+          className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
             soundActive
-              ? 'border-[#e4e6eb] dark:border-[#393a3b] text-slate-600 dark:text-[#e4e6eb] hover:bg-slate-100 dark:hover:bg-[#3a3b3c]'
-              : 'border-amber-200 dark:border-amber-900/40 text-amber-500 bg-amber-50/50 dark:bg-amber-500/10'
+              ? 'bg-[#e4e6eb] hover:bg-[#d8dadf] dark:bg-[#3a3b3c] dark:hover:bg-[#4e4f50] text-[#050505] dark:text-[#e4e6eb]'
+              : 'bg-[#fff8e1] dark:bg-[#f5c33b]/20 text-[#b78103] dark:text-[#f5c33b]'
           }`}
           title={soundActive ? 'Âm thanh thông báo: Đang bật (Click để tắt)' : 'Âm thanh thông báo: Đang tắt (Click để bật)'}
         >
           {soundActive ? (
-            <Volume2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+            <Volume2 className="w-4 h-4 text-[#31a24c]" />
           ) : (
             <VolumeX className="w-4 h-4" />
           )}
@@ -208,13 +219,13 @@ export const TopNavbar: React.FC = () => {
         {/* Dark/Light Mode Toggle */}
         <button
           onClick={() => dispatch(toggleTheme())}
-          className="p-2.5 rounded-xl border border-[#e4e6eb] dark:border-[#393a3b] text-slate-600 dark:text-[#e4e6eb] hover:bg-slate-100 dark:hover:bg-[#3a3b3c] transition-colors"
+          className="w-10 h-10 rounded-full bg-[#e4e6eb] hover:bg-[#d8dadf] dark:bg-[#3a3b3c] dark:hover:bg-[#4e4f50] text-[#050505] dark:text-[#e4e6eb] flex items-center justify-center transition-colors cursor-pointer"
           title={isDark ? 'Chuyển sang chế độ Sáng (Light)' : 'Chuyển sang chế độ Tối (Dark)'}
         >
           {isDark ? (
-            <Sun className="w-4 h-4 text-amber-400" />
+            <Sun className="w-4 h-4 text-[#f5c33b]" />
           ) : (
-            <Moon className="w-4 h-4 text-slate-600" />
+            <Moon className="w-4 h-4 text-[#65676b]" />
           )}
         </button>
 
@@ -222,17 +233,17 @@ export const TopNavbar: React.FC = () => {
         <div className="relative">
           <button
             onClick={() => setIsNotificationOpen((prev) => !prev)}
-            className={`p-2.5 rounded-xl border transition-colors ${
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
               isNotificationOpen
-                ? 'border-[#1877f2] bg-[#1877f2]/10 text-[#1877f2]'
-                : 'border-[#e4e6eb] dark:border-[#393a3b] text-slate-600 dark:text-[#e4e6eb] hover:bg-slate-100 dark:hover:bg-[#3a3b3c]'
+                ? 'bg-[#0866ff] text-white'
+                : 'bg-[#e4e6eb] hover:bg-[#d8dadf] dark:bg-[#3a3b3c] dark:hover:bg-[#4e4f50] text-[#050505] dark:text-[#e4e6eb]'
             }`}
             title="Xem thông báo quản trị"
           >
             <Bell className="w-4 h-4" />
           </button>
           {effectiveUnreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center shadow-xs animate-pulse">
+            <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#fa383e] text-white text-[10px] font-bold flex items-center justify-center shadow-xs animate-pulse pointer-events-none">
               {effectiveUnreadCount > 99 ? '99+' : effectiveUnreadCount}
             </span>
           )}
@@ -244,25 +255,30 @@ export const TopNavbar: React.FC = () => {
           />
         </div>
 
-        {/* Current Role Badge */}
-        <Badge
-          variant={
-            user?.role === 'MODERATOR' || (user?.roles && user.roles.includes('ROLE_MODERATOR') && !user.roles.includes('ROLE_ADMIN'))
-              ? 'warning'
-              : 'primary'
-          }
-          size="md"
-        >
-          <ShieldCheck className="w-3.5 h-3.5 mr-1" />
-          {user?.role === 'MODERATOR' || (user?.roles && user.roles.includes('ROLE_MODERATOR') && !user.roles.includes('ROLE_ADMIN'))
-            ? 'MODERATOR'
-            : user?.role || 'ADMIN'}
-        </Badge>
+        {/* Current Logged-in Admin Profile snippet */}
+        <div className="flex items-center gap-2 pl-2 pr-3 py-1 rounded-2xl bg-[#f0f2f5] dark:bg-[#3a3b3c]/60 border border-[#e4e6eb] dark:border-[#393a3b]">
+          <Avatar
+            src={user?.avatarUrl}
+            name={user?.fullName || 'Admin'}
+            size="sm"
+            shape="rounded"
+          />
+          <div className="hidden sm:flex flex-col text-left">
+            <span className="text-xs font-bold text-[#050505] dark:text-[#e4e6eb] max-w-[120px] truncate leading-tight">
+              {user?.fullName || 'Admin'}
+            </span>
+            <span className="text-[10px] font-bold text-[#0866ff] dark:text-[#2d88ff] uppercase tracking-wider mt-0.5">
+              {user?.role === 'MODERATOR' || (user?.roles && user.roles.includes('ROLE_MODERATOR') && !user.roles.includes('ROLE_ADMIN'))
+                ? 'MODERATOR'
+                : user?.role || 'ADMIN'}
+            </span>
+          </div>
+        </div>
 
         {/* Quick Logout Button */}
         <button
           onClick={handleLogout}
-          className="p-2.5 rounded-xl border border-rose-200 dark:border-rose-900/40 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
+          className="w-10 h-10 rounded-full bg-[#ffebe8] hover:bg-[#fed2cd] dark:bg-[#fa383e]/20 dark:hover:bg-[#fa383e]/30 text-[#fa383e] flex items-center justify-center transition-colors cursor-pointer ml-1"
           title="Đăng xuất khỏi hệ thống"
         >
           <LogOut className="w-4 h-4" />

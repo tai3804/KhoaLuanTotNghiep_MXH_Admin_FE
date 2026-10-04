@@ -13,16 +13,16 @@ export const GeneralConfigSection: React.FC<GeneralConfigSectionProps> = ({
   onChange,
 }) => {
   return (
-    <div className="bg-white dark:bg-[#242526] rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs space-y-6">
-      <div className="flex items-center gap-2.5 pb-4 border-b border-slate-100 dark:border-slate-800">
-        <div className="p-2 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-[#1877f2]">
+    <div className="bg-white dark:bg-[#242526] rounded-2xl border border-[#E4E6EB] dark:border-[#393A3B] p-6 shadow-xs space-y-6">
+      <div className="flex items-center gap-2.5 pb-4 border-b border-[#E4E6EB] dark:border-[#393A3B]">
+        <div className="p-2 rounded-xl bg-[#E7F3FF] dark:bg-[#0866FF]/20 text-[#0866FF] dark:text-[#2D88FF]">
           <Server className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-white">
+          <h3 className="text-base font-bold text-[#050505] dark:text-[#E4E6EB]">
             Cấu Hình Hệ Thống Chung
           </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-[#65676B] dark:text-[#B0B3B8]">
             Quản lý chế độ bảo trì, quyền đăng ký và giới hạn tài nguyên mạng xã hội
           </p>
         </div>
@@ -30,19 +30,19 @@ export const GeneralConfigSection: React.FC<GeneralConfigSectionProps> = ({
 
       <div className="space-y-5">
         {/* Maintenance Mode */}
-        <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800">
+        <div className="flex items-center justify-between p-4 rounded-xl bg-[#F0F2F5]/70 dark:bg-[#3A3B3C]/30 border border-[#E4E6EB] dark:border-[#393A3B]">
           <div className="space-y-0.5 max-w-xl">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-slate-900 dark:text-white">
+              <span className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB]">
                 Chế độ Bảo Trì Hệ Thống (Maintenance Mode)
               </span>
               {configs.maintenance_mode === 'true' && (
-                <span className="px-2 py-0.5 rounded-md bg-amber-500 text-white font-bold text-[10px] animate-pulse">
+                <span className="px-2 py-0.5 rounded-md bg-[#F5C33B] text-black font-bold text-[10px] animate-pulse">
                   ĐANG BẢO TRÌ
                 </span>
               )}
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-[#65676B] dark:text-[#B0B3B8]">
               Khi bật, người dùng thông thường sẽ thấy trang thông báo bảo trì, chỉ tài khoản Admin mới có thể truy cập hệ thống.
             </p>
           </div>
@@ -51,12 +51,12 @@ export const GeneralConfigSection: React.FC<GeneralConfigSectionProps> = ({
             onClick={() => onToggle('maintenance_mode')}
             className={`w-12 h-6.5 rounded-full transition-colors relative cursor-pointer ${
               configs.maintenance_mode === 'true'
-                ? 'bg-amber-500'
-                : 'bg-slate-300 dark:bg-slate-700'
+                ? 'bg-[#F5C33B]'
+                : 'bg-[#CED0D4] dark:bg-[#3A3B3C]'
             }`}
           >
             <div
-              className={`w-5 h-5 rounded-full bg-white absolute top-0.5 transition-transform shadow-xs ${
+              className={`w-5 h-5 rounded-full bg-white absolute top-0.75 transition-transform shadow-xs ${
                 configs.maintenance_mode === 'true'
                   ? 'translate-x-6'
                   : 'translate-x-1'
@@ -66,12 +66,12 @@ export const GeneralConfigSection: React.FC<GeneralConfigSectionProps> = ({
         </div>
 
         {/* Allow Registration */}
-        <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800">
+        <div className="flex items-center justify-between p-4 rounded-xl bg-[#F0F2F5]/70 dark:bg-[#3A3B3C]/30 border border-[#E4E6EB] dark:border-[#393A3B]">
           <div className="space-y-0.5 max-w-xl">
-            <span className="text-xs font-bold text-slate-900 dark:text-white">
+            <span className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB]">
               Cho Phép Đăng Ký Tài Khoản Mới
             </span>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-[#65676B] dark:text-[#B0B3B8]">
               Bật hoặc tắt tính năng đăng ký tài khoản mới trên ứng dụng client.
             </p>
           </div>
@@ -80,12 +80,12 @@ export const GeneralConfigSection: React.FC<GeneralConfigSectionProps> = ({
             onClick={() => onToggle('allow_registration')}
             className={`w-12 h-6.5 rounded-full transition-colors relative cursor-pointer ${
               configs.allow_registration === 'true'
-                ? 'bg-[#1877f2]'
-                : 'bg-slate-300 dark:bg-slate-700'
+                ? 'bg-[#0866FF]'
+                : 'bg-[#CED0D4] dark:bg-[#3A3B3C]'
             }`}
           >
             <div
-              className={`w-5 h-5 rounded-full bg-white absolute top-0.5 transition-transform shadow-xs ${
+              className={`w-5 h-5 rounded-full bg-white absolute top-0.75 transition-transform shadow-xs ${
                 configs.allow_registration === 'true'
                   ? 'translate-x-6'
                   : 'translate-x-1'
@@ -95,15 +95,15 @@ export const GeneralConfigSection: React.FC<GeneralConfigSectionProps> = ({
         </div>
 
         {/* Max Upload Size */}
-        <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800 space-y-2">
+        <div className="p-4 rounded-xl bg-[#F0F2F5]/70 dark:bg-[#3A3B3C]/30 border border-[#E4E6EB] dark:border-[#393A3B] space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <HardDrive className="w-4 h-4 text-slate-500" />
-              <label className="text-xs font-bold text-slate-900 dark:text-white">
+              <HardDrive className="w-4 h-4 text-[#65676B] dark:text-[#B0B3B8]" />
+              <label className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB]">
                 Giới Hạn Dung Lượng Tải Lên (Media Upload Limit)
               </label>
             </div>
-            <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
+            <span className="text-xs font-bold text-[#0866FF] dark:text-[#2D88FF]">
               {configs.max_upload_size_mb || '25'} MB
             </span>
           </div>
@@ -114,9 +114,9 @@ export const GeneralConfigSection: React.FC<GeneralConfigSectionProps> = ({
             step="5"
             value={configs.max_upload_size_mb || '25'}
             onChange={(e) => onChange('max_upload_size_mb', e.target.value)}
-            className="w-full accent-[#1877f2] cursor-pointer"
+            className="w-full accent-[#0866FF] cursor-pointer"
           />
-          <div className="flex justify-between text-[10px] text-slate-400 font-semibold">
+          <div className="flex justify-between text-[10px] text-[#65676B] dark:text-[#B0B3B8] font-semibold">
             <span>5 MB (Tiết kiệm)</span>
             <span>25 MB (Chuẩn)</span>
             <span>50 MB</span>

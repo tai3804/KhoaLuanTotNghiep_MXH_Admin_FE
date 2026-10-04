@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { KeyRound, RefreshCw, Copy, CheckCheck, AlertCircle, ShieldAlert } from 'lucide-react'
+import { KeyRound, RefreshCw, Copy, CheckCheck, AlertCircle } from 'lucide-react'
 import { User } from '../../types/user'
 import Modal from '../common/Modal'
 import Button from '../common/Button'
@@ -85,7 +85,7 @@ export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
     >
       <div className="space-y-4">
         {/* User Card */}
-        <div className="p-3 bg-slate-50 dark:bg-[#1c1e21] rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center gap-3">
+        <div className="p-3 bg-[#f0f2f5] dark:bg-[#18191a] rounded-2xl border border-[#e4e6eb] dark:border-[#393a3b] flex items-center gap-3">
           <Avatar
             src={user.avatarUrl}
             name={user.fullName || user.username}
@@ -93,15 +93,15 @@ export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
             shape="rounded"
           />
           <div className="min-w-0 flex-1">
-            <h4 className="font-bold text-slate-900 dark:text-white text-xs truncate">
+            <h4 className="font-bold text-[#050505] dark:text-[#e4e6eb] text-xs truncate">
               {user.fullName}
             </h4>
-            <p className="text-[11px] text-slate-400 truncate">@{user.username} • {user.email}</p>
+            <p className="text-[11px] text-[#65676b] dark:text-[#b0b3b8] truncate">@{user.username} • {user.email}</p>
           </div>
         </div>
 
         {/* Warning Callout */}
-        <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start gap-2 text-xs text-amber-700 dark:text-amber-400">
+        <div className="p-3 bg-[#fff8e1] dark:bg-[#f5c33b]/10 border border-[#f5c33b]/30 rounded-2xl flex items-start gap-2 text-xs text-[#b78103] dark:text-[#f5c33b]">
           <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
           <span>
             Hệ thống sẽ cập nhật mật khẩu mới và tự động hủy bỏ mọi phiên đăng nhập đang hoạt động của người dùng này trên tất cả các thiết bị.
@@ -111,13 +111,13 @@ export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
         {/* Password input & generator */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+            <label className="block text-xs font-semibold text-[#050505] dark:text-[#e4e6eb]">
               Mật khẩu mới
             </label>
             <button
               type="button"
               onClick={generateRandomPassword}
-              className="text-[11px] text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1 font-medium cursor-pointer"
+              className="text-[11px] text-[#0866ff] hover:underline flex items-center gap-1 font-bold cursor-pointer"
             >
               <RefreshCw className="w-3 h-3" />
               <span>Tạo ngẫu nhiên mật khẩu mạnh</span>
@@ -133,21 +133,21 @@ export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
                 setError('')
               }}
               placeholder="Nhập mật khẩu mới..."
-              className={`w-full bg-slate-50 dark:bg-[#1c1e21] text-xs font-mono font-bold text-slate-900 dark:text-white px-3 py-2.5 pr-20 rounded-xl border outline-none transition-colors ${
+              className={`w-full bg-[#f0f2f5] dark:bg-[#3a3b3c]/50 text-xs font-mono font-bold text-[#050505] dark:text-[#e4e6eb] px-3.5 py-2.5 pr-20 rounded-xl border outline-none transition-colors ${
                 error
-                  ? 'border-rose-500 focus:border-rose-500'
-                  : 'border-slate-200 dark:border-slate-700 focus:border-indigo-500'
+                  ? 'border-[#fa383e] focus:ring-2 focus:ring-[#fa383e]/20'
+                  : 'border-[#e4e6eb] dark:border-[#393a3b] focus:border-[#0866ff] focus:ring-2 focus:ring-[#0866ff]/20'
               }`}
             />
             <button
               type="button"
               onClick={handleCopy}
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg text-[11px] font-medium text-slate-700 dark:text-slate-200 flex items-center gap-1 transition-colors cursor-pointer"
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-2.5 py-1 bg-[#e4e6eb] hover:bg-[#d8dadf] dark:bg-[#4e4f50] dark:hover:bg-[#5a5b5c] rounded-lg text-[11px] font-semibold text-[#050505] dark:text-[#e4e6eb] flex items-center gap-1 transition-colors cursor-pointer"
             >
               {copied ? (
                 <>
-                  <CheckCheck className="w-3 h-3 text-emerald-500" />
-                  <span className="text-emerald-500">Đã chép</span>
+                  <CheckCheck className="w-3 h-3 text-[#31a24c]" />
+                  <span className="text-[#31a24c]">Đã chép</span>
                 </>
               ) : (
                 <>
@@ -157,11 +157,11 @@ export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
               )}
             </button>
           </div>
-          {error && <p className="text-rose-500 text-[11px] mt-1">{error}</p>}
+          {error && <p className="text-[#fa383e] text-[11px] mt-1 font-medium">{error}</p>}
         </div>
 
         {/* Tip */}
-        <p className="text-[11px] text-slate-400 italic">
+        <p className="text-[11px] text-[#65676b] dark:text-[#b0b3b8] italic">
           💡 Vui lòng sao chép mật khẩu mới để bàn giao lại cho người dùng sau khi hoàn tất.
         </p>
       </div>
@@ -170,3 +170,4 @@ export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
 }
 
 export default ResetPasswordModal
+

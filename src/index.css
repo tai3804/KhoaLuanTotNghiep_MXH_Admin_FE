@@ -3,19 +3,40 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.34;
   font-weight: 400;
   color-scheme: light dark;
-  --fb-bg: #18191a;
-  --fb-surface: #242526;
-  --fb-hover: #3a3b3c;
-  --fb-active: #4e4f50;
-  --fb-border: #393a3b;
-  --fb-blue: #1877f2;
-  --fb-blue-hover: #166fe5;
-  --fb-text-primary: #e4e6eb;
-  --fb-text-secondary: #b0b3b8;
+
+  /* Facebook / Meta Official Design System Tokens */
+  --fb-primary: #0866ff;
+  --fb-primary-hover: #0055d6;
+  --fb-primary-light: rgba(8, 102, 255, 0.08);
+  --fb-primary-dark: rgba(45, 136, 255, 0.2);
+
+  --fb-bg-light: #f0f2f5;
+  --fb-surface-light: #ffffff;
+  --fb-hover-light: #e4e6eb;
+  --fb-active-light: #d8dadf;
+  --fb-border-light: #e4e6eb;
+  --fb-divider-light: #ced0d4;
+
+  --fb-bg-dark: #18191a;
+  --fb-surface-dark: #242526;
+  --fb-hover-dark: #3a3b3c;
+  --fb-active-dark: #4e4f50;
+  --fb-border-dark: #393a3b;
+
+  --fb-text-primary-light: #050505;
+  --fb-text-secondary-light: #65676b;
+  --fb-text-tertiary-light: #8a8d91;
+
+  --fb-text-primary-dark: #e4e6eb;
+  --fb-text-secondary-dark: #b0b3b8;
+
+  --fb-green: #31a24c;
+  --fb-red: #fa383e;
+  --fb-amber: #f5c33b;
 }
 
 html, body {
@@ -24,15 +45,17 @@ html, body {
   min-height: 100vh;
   max-width: 100vw;
   overflow-x: hidden;
-  background-color: #f0f2f5;
-  color: #050505;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--fb-bg-light);
+  color: var(--fb-text-primary-light);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .dark body {
-  background-color: #18191a;
-  color: #e4e6eb;
+  background-color: var(--fb-bg-dark);
+  color: var(--fb-text-primary-dark);
 }
 
 #root {
@@ -44,10 +67,33 @@ html, body {
   box-sizing: border-box;
 }
 
-/* Custom Scrollbar */
+/* Facebook Meta Surface Utilities */
+.fb-card {
+  background-color: #ffffff;
+  border: 1px solid #e4e6eb;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.dark .fb-card {
+  background-color: #242526;
+  border-color: #393a3b;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.fb-button-primary {
+  background-color: #0866ff;
+  color: #ffffff;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+}
+.fb-button-primary:hover {
+  background-color: #0055d6;
+}
+
+/* Custom Scrollbar in Facebook Style */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -55,18 +101,18 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(156, 163, 175, 0.4);
+  background: #bcc0c4;
   border-radius: 9999px;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.3);
+  background: #4e4f50;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(107, 114, 128, 0.6);
+  background: #8a8d91;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.5);
+  background: #65676b;
 }

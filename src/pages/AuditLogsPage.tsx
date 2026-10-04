@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import { Download } from 'lucide-react'
+import { Download, ShieldCheck, History } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../store'
 import {
   setAuditLogs,
@@ -48,21 +48,7 @@ export const AuditLogsPage: React.FC = () => {
       }
     }
     fetchLogs()
-
-    // Poll service health every 30 seconds
-    const intervalId = setInterval(async () => {
-      try {
-        const healthData = await settingsService.getServiceHealth()
-        if (healthData && healthData.length > 0) {
-          dispatch(setServiceHealth(healthData))
-        }
-      } catch (e) {
-        console.error('Failed to poll service health:', e)
-      }
-    }, 30000)
-
-    return () => clearInterval(intervalId)
-  }, [dispatch, auditLogs.length])
+  }, [dispatch])
 
   // Extract unique actions list
   const actionsList = useMemo(() => {
@@ -133,10 +119,11 @@ export const AuditLogsPage: React.FC = () => {
     <div className="space-y-6 pb-12">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+          <h2 className="text-2xl font-bold text-[#050505] dark:text-[#E4E6EB] tracking-tight flex items-center gap-2.5">
+            <History className="w-7 h-7 text-[#0866FF] dark:text-[#2D88FF]" />
             Nhật Ký Hệ Thống & Giám Sát Dịch Vụ
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-sm text-[#65676B] dark:text-[#B0B3B8] mt-1">
             Theo dõi nhật ký kiểm duyệt của ban quản trị và trạng thái các cụm microservices
           </p>
         </div>
@@ -146,7 +133,7 @@ export const AuditLogsPage: React.FC = () => {
           onClick={handleExportCSV}
           leftIcon={<Download className="w-4 h-4" />}
         >
-          Xuất Nhật Ký CSV
+          Xuất CSV
         </Button>
       </div>
 

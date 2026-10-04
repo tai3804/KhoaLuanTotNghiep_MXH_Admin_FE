@@ -1,5 +1,6 @@
 import api from './api'
 import { Post } from '../types/post'
+import { userService, userProfileCache } from './userService'
 
 export const postService = {
   getAllPosts: async (): Promise<Post[]> => {
@@ -11,12 +12,36 @@ export const postService = {
       ? rawData.data
       : []
 
+    // Collect all unique author IDs and fetch their profiles in parallel
+    const authorIds = Array.from(
+      new Set(
+        postsList
+          .map((p) => String(p.authorId || p.userId || p.creatorId || p.author?.id || ''))
+          .filter((id) => Boolean(id && id !== 'unknown'))
+      )
+    )
+
+    if (authorIds.length > 0) {
+      await Promise.allSettled(authorIds.map((id) => userService.fetchUserProfile(id)))
+    }
+
     return postsList.map((p) => {
-      const author = p.author || {
-        id: p.userId || p.authorId || 'unknown',
-        username: p.username || p.authorUsername || 'user',
-        fullName: p.userFullName || p.authorFullName || p.authorName || 'Thành viên',
-        avatarUrl: p.userAvatar || p.authorAvatarUrl,
+      const authorId = String(
+        p.authorId || p.userId || p.creatorId || p.author?.id || p.author?.userId || ''
+      )
+      const cached = authorId ? userProfileCache[authorId] : null
+
+      const author = {
+        id: authorId || 'unknown',
+        username: cached?.username || p.author?.username || p.authorUsername || p.username || 'user',
+        fullName:
+          cached?.fullName ||
+          p.author?.fullName ||
+          p.userFullName ||
+          p.authorFullName ||
+          p.authorName ||
+          'Thành viên',
+        avatarUrl: cached?.avatarUrl || p.author?.avatarUrl || p.userAvatar || p.authorAvatarUrl,
       }
 
       const mediaUrls =
@@ -42,6 +67,14 @@ export const postService = {
   },
 
   deletePost: async (postId: string): Promise<void> => {
-    await api.delete(`/api/v1/posts/${postId}`)
+    try {
+      await api.delete(`/api/v1/posts/${postId}`)
+    } catch (err: any) {
+      if (err?.response?.status === 403 || err?.response?.status === 404) {
+        await api.delete(`/api/v1/posts/admin/${postId}`)
+      } else {
+        throw err
+      }
+    }
   },
 }

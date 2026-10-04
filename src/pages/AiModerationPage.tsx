@@ -7,6 +7,7 @@ import AiStatsOverview from '../components/ai-moderation/AiStatsOverview'
 import AiLogsTable from '../components/ai-moderation/AiLogsTable'
 import AiKeywordsManager from '../components/ai-moderation/AiKeywordsManager'
 import AiContentTester from '../components/ai-moderation/AiContentTester'
+import { Sparkles, FileText, BookOpen, Cpu } from 'lucide-react'
 
 export const AiModerationPage: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -133,11 +134,12 @@ export const AiModerationPage: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <h1 className="text-2xl font-bold tracking-tight text-[#050505] dark:text-[#E4E6EB] flex items-center gap-2.5">
+          <Cpu className="w-7 h-7 text-[#0866FF] dark:text-[#2D88FF]" />
           Kiểm duyệt tự động AI
         </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Hệ thống kiểm duyệt đa tầng kết hợp bộ lọc siêu tốc và trí tuệ nhân tạo Gemini 1.5 Flash
+        <p className="text-sm text-[#65676B] dark:text-[#B0B3B8] mt-1">
+          Hệ thống kiểm duyệt đa tầng kết hợp bộ lọc siêu tốc và trí tuệ nhân tạo Gemini AI
         </p>
       </div>
 
@@ -145,38 +147,41 @@ export const AiModerationPage: React.FC = () => {
       <AiStatsOverview stats={stats} isLoading={isStatsLoading} />
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700">
+      <div className="border-b border-[#E4E6EB] dark:border-[#393A3B]">
         <nav className="flex space-x-6">
           <button
             onClick={() => setActiveTab('logs')}
-            className={`py-3 text-sm font-medium border-b-2 transition-colors ${
+            className={`flex items-center gap-2 py-3.5 text-sm font-semibold border-b-2 transition-colors ${
               activeTab === 'logs'
-                ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400'
-                : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                ? 'border-[#0866FF] text-[#0866FF] dark:border-[#2D88FF] dark:text-[#2D88FF]'
+                : 'border-transparent text-[#65676B] hover:text-[#050505] dark:text-[#B0B3B8] dark:hover:text-[#E4E6EB]'
             }`}
           >
+            <FileText className="w-4 h-4" />
             Nhật ký kiểm duyệt ({logsTotalElements.toLocaleString()})
           </button>
 
           <button
             onClick={() => setActiveTab('keywords')}
-            className={`py-3 text-sm font-medium border-b-2 transition-colors ${
+            className={`flex items-center gap-2 py-3.5 text-sm font-semibold border-b-2 transition-colors ${
               activeTab === 'keywords'
-                ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400'
-                : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                ? 'border-[#0866FF] text-[#0866FF] dark:border-[#2D88FF] dark:text-[#2D88FF]'
+                : 'border-transparent text-[#65676B] hover:text-[#050505] dark:text-[#B0B3B8] dark:hover:text-[#E4E6EB]'
             }`}
           >
+            <BookOpen className="w-4 h-4" />
             Từ điển & AI tự học ({kwTotalElements.toLocaleString()})
           </button>
 
           <button
             onClick={() => setActiveTab('tester')}
-            className={`py-3 text-sm font-medium border-b-2 transition-colors ${
+            className={`flex items-center gap-2 py-3.5 text-sm font-semibold border-b-2 transition-colors ${
               activeTab === 'tester'
-                ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400'
-                : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+                ? 'border-[#0866FF] text-[#0866FF] dark:border-[#2D88FF] dark:text-[#2D88FF]'
+                : 'border-transparent text-[#65676B] hover:text-[#050505] dark:text-[#B0B3B8] dark:hover:text-[#E4E6EB]'
             }`}
           >
+            <Sparkles className="w-4 h-4" />
             Thử nghiệm đánh giá trực tiếp
           </button>
         </nav>

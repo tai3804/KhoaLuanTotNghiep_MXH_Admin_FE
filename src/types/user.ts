@@ -8,6 +8,7 @@ export interface User {
   email: string
   fullName: string
   firstName?: string
+  middleName?: string
   lastName?: string
   avatarUrl?: string
   coverUrl?: string

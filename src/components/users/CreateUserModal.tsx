@@ -4,16 +4,13 @@ import {
   ShieldCheck,
   ShieldAlert,
   User,
-  Key,
   Eye,
   EyeOff,
   Sparkles,
-  Loader2,
   CheckCircle2
 } from 'lucide-react'
 import Modal from '../common/Modal'
 import Button from '../common/Button'
-import Badge from '../common/Badge'
 
 export interface CreateUserModalProps {
   isOpen: boolean
@@ -141,14 +138,14 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
     >
       <form onSubmit={handleSubmit} className="space-y-5">
         {error && (
-          <div className="p-3 bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs rounded-xl font-medium">
+          <div className="p-3 bg-[#ffebe8] border border-[#fa383e]/30 text-[#fa383e] text-xs rounded-2xl font-semibold">
             {error}
           </div>
         )}
 
         {/* Role Selection Cards */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+          <label className="block text-xs font-bold text-[#65676b] dark:text-[#b0b3b8] uppercase tracking-wider mb-2">
             1. Chọn Vai Trò Tài Khoản (Role)
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -157,18 +154,18 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
               onClick={() => setRole('ADMIN')}
               className={`p-3.5 rounded-2xl border-2 cursor-pointer transition-all ${
                 role === 'ADMIN'
-                  ? 'border-[#1877f2] bg-blue-50/70 dark:bg-[#1877f2]/15 ring-2 ring-[#1877f2]/30 shadow-xs'
-                  : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 bg-white dark:bg-[#242526]'
+                  ? 'border-[#0866ff] bg-[#e7f3ff] dark:bg-[#0866ff]/15 ring-2 ring-[#0866ff]/20 shadow-xs'
+                  : 'border-[#e4e6eb] dark:border-[#393a3b] hover:border-[#bcc0c4] dark:hover:border-[#4e4f50] bg-white dark:bg-[#242526]'
               }`}
             >
               <div className="flex items-center justify-between mb-1.5">
-                <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-[#1877f2] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-xl bg-[#e7f3ff] dark:bg-[#0866ff]/20 text-[#0866ff] flex items-center justify-center">
                   <ShieldCheck className="w-4 h-4" />
                 </div>
-                {role === 'ADMIN' && <CheckCircle2 className="w-4 h-4 text-[#1877f2]" />}
+                {role === 'ADMIN' && <CheckCircle2 className="w-4 h-4 text-[#0866ff]" />}
               </div>
-              <p className="text-xs font-bold text-slate-900 dark:text-white">ADMIN</p>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+              <p className="text-xs font-bold text-[#050505] dark:text-[#e4e6eb]">ADMIN</p>
+              <p className="text-[11px] text-[#65676b] dark:text-[#b0b3b8] mt-0.5">
                 Toàn quyền quản trị, bảo mật & hệ thống
               </p>
             </div>
@@ -178,18 +175,18 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
               onClick={() => setRole('MODERATOR')}
               className={`p-3.5 rounded-2xl border-2 cursor-pointer transition-all ${
                 role === 'MODERATOR'
-                  ? 'border-amber-500 bg-amber-50/70 dark:bg-amber-500/15 ring-2 ring-amber-500/30 shadow-xs'
-                  : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 bg-white dark:bg-[#242526]'
+                  ? 'border-[#f5c33b] bg-[#fff8e1] dark:bg-[#f5c33b]/15 ring-2 ring-[#f5c33b]/20 shadow-xs'
+                  : 'border-[#e4e6eb] dark:border-[#393a3b] hover:border-[#bcc0c4] dark:hover:border-[#4e4f50] bg-white dark:bg-[#242526]'
               }`}
             >
               <div className="flex items-center justify-between mb-1.5">
-                <div className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-xl bg-[#fff8e1] dark:bg-[#f5c33b]/20 text-[#b78103] dark:text-[#f5c33b] flex items-center justify-center">
                   <ShieldAlert className="w-4 h-4" />
                 </div>
-                {role === 'MODERATOR' && <CheckCircle2 className="w-4 h-4 text-amber-500" />}
+                {role === 'MODERATOR' && <CheckCircle2 className="w-4 h-4 text-[#f5c33b]" />}
               </div>
-              <p className="text-xs font-bold text-slate-900 dark:text-white">MODERATOR</p>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+              <p className="text-xs font-bold text-[#050505] dark:text-[#e4e6eb]">MODERATOR</p>
+              <p className="text-[11px] text-[#65676b] dark:text-[#b0b3b8] mt-0.5">
                 Kiểm duyệt bài viết & xử lý báo cáo
               </p>
             </div>
@@ -199,18 +196,18 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
               onClick={() => setRole('USER')}
               className={`p-3.5 rounded-2xl border-2 cursor-pointer transition-all ${
                 role === 'USER'
-                  ? 'border-emerald-500 bg-emerald-50/70 dark:bg-emerald-500/15 ring-2 ring-emerald-500/30 shadow-xs'
-                  : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 bg-white dark:bg-[#242526]'
+                  ? 'border-[#31a24c] bg-[#e7f8ed] dark:bg-[#31a24c]/15 ring-2 ring-[#31a24c]/20 shadow-xs'
+                  : 'border-[#e4e6eb] dark:border-[#393a3b] hover:border-[#bcc0c4] dark:hover:border-[#4e4f50] bg-white dark:bg-[#242526]'
               }`}
             >
               <div className="flex items-center justify-between mb-1.5">
-                <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-xl bg-[#e7f8ed] dark:bg-[#31a24c]/20 text-[#31a24c] flex items-center justify-center">
                   <User className="w-4 h-4" />
                 </div>
-                {role === 'USER' && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
+                {role === 'USER' && <CheckCircle2 className="w-4 h-4 text-[#31a24c]" />}
               </div>
-              <p className="text-xs font-bold text-slate-900 dark:text-white">USER</p>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+              <p className="text-xs font-bold text-[#050505] dark:text-[#e4e6eb]">USER</p>
+              <p className="text-[11px] text-[#65676b] dark:text-[#b0b3b8] mt-0.5">
                 Thành viên mạng xã hội thông thường
               </p>
             </div>
@@ -219,57 +216,57 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
 
         {/* User Information */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+          <label className="block text-xs font-bold text-[#65676b] dark:text-[#b0b3b8] uppercase tracking-wider mb-2">
             2. Thông Tin Tài Khoản
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                Họ và Tên <span className="text-rose-500">*</span>
+              <label className="block text-xs font-semibold text-[#050505] dark:text-[#e4e6eb] mb-1">
+                Họ và Tên <span className="text-[#fa383e]">*</span>
               </label>
               <input
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="VD: Nguyễn Văn A"
-                className="w-full bg-slate-50 dark:bg-[#3a3b3c]/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white px-3.5 py-2.5 rounded-xl outline-none focus:border-[#1877f2] focus:bg-white dark:focus:bg-[#3a3b3c] transition"
+                className="w-full bg-[#f0f2f5] dark:bg-[#3a3b3c]/60 border border-[#e4e6eb] dark:border-[#393a3b] text-xs text-[#050505] dark:text-[#e4e6eb] px-3.5 py-2.5 rounded-xl outline-none focus:border-[#0866ff] focus:bg-white dark:focus:bg-[#3a3b3c] focus:ring-2 focus:ring-[#0866ff]/20 transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                Tên đăng nhập (Username) <span className="text-rose-500">*</span>
+              <label className="block text-xs font-semibold text-[#050505] dark:text-[#e4e6eb] mb-1">
+                Tên đăng nhập (Username) <span className="text-[#fa383e]">*</span>
               </label>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="VD: nguyenvana"
-                className="w-full bg-slate-50 dark:bg-[#3a3b3c]/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white px-3.5 py-2.5 rounded-xl outline-none focus:border-[#1877f2] focus:bg-white dark:focus:bg-[#3a3b3c] transition"
+                className="w-full bg-[#f0f2f5] dark:bg-[#3a3b3c]/60 border border-[#e4e6eb] dark:border-[#393a3b] text-xs text-[#050505] dark:text-[#e4e6eb] px-3.5 py-2.5 rounded-xl outline-none focus:border-[#0866ff] focus:bg-white dark:focus:bg-[#3a3b3c] focus:ring-2 focus:ring-[#0866ff]/20 transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                Địa chỉ Email <span className="text-rose-500">*</span>
+              <label className="block text-xs font-semibold text-[#050505] dark:text-[#e4e6eb] mb-1">
+                Địa chỉ Email <span className="text-[#fa383e]">*</span>
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="VD: nguyenvana@gmail.com"
-                className="w-full bg-slate-50 dark:bg-[#3a3b3c]/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white px-3.5 py-2.5 rounded-xl outline-none focus:border-[#1877f2] focus:bg-white dark:focus:bg-[#3a3b3c] transition"
+                className="w-full bg-[#f0f2f5] dark:bg-[#3a3b3c]/60 border border-[#e4e6eb] dark:border-[#393a3b] text-xs text-[#050505] dark:text-[#e4e6eb] px-3.5 py-2.5 rounded-xl outline-none focus:border-[#0866ff] focus:bg-white dark:focus:bg-[#3a3b3c] focus:ring-2 focus:ring-[#0866ff]/20 transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+              <label className="block text-xs font-semibold text-[#050505] dark:text-[#e4e6eb] mb-1">
                 Giới Tính
               </label>
               <select
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-[#3a3b3c]/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white px-3.5 py-2.5 rounded-xl outline-none focus:border-[#1877f2] focus:bg-white dark:focus:bg-[#3a3b3c] transition"
+                className="w-full bg-[#f0f2f5] dark:bg-[#3a3b3c]/60 border border-[#e4e6eb] dark:border-[#393a3b] text-xs font-semibold text-[#050505] dark:text-[#e4e6eb] px-3.5 py-2.5 rounded-xl outline-none focus:border-[#0866ff] focus:bg-white dark:focus:bg-[#3a3b3c] transition cursor-pointer"
               >
                 <option value="MALE">Nam (Male)</option>
                 <option value="FEMALE">Nữ (Female)</option>
@@ -282,13 +279,13 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
         {/* Password */}
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-              3. Mật Khẩu Khởi Tạo <span className="text-rose-500">*</span>
+            <label className="block text-xs font-bold text-[#65676b] dark:text-[#b0b3b8] uppercase tracking-wider">
+              3. Mật Khẩu Khởi Tạo <span className="text-[#fa383e]">*</span>
             </label>
             <button
               type="button"
               onClick={handleGeneratePassword}
-              className="text-[11px] font-semibold text-[#1877f2] dark:text-[#4599ff] hover:underline flex items-center gap-1"
+              className="text-[11px] font-bold text-[#0866ff] hover:underline flex items-center gap-1 cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Tạo ngẫu nhiên</span>
@@ -300,12 +297,12 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Nhập tối thiểu 6 ký tự..."
-              className="w-full bg-slate-50 dark:bg-[#3a3b3c]/60 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-900 dark:text-white pl-3.5 pr-10 py-2.5 rounded-xl outline-none focus:border-[#1877f2] focus:bg-white dark:focus:bg-[#3a3b3c] transition"
+              className="w-full bg-[#f0f2f5] dark:bg-[#3a3b3c]/60 border border-[#e4e6eb] dark:border-[#393a3b] text-xs font-mono text-[#050505] dark:text-[#e4e6eb] pl-3.5 pr-10 py-2.5 rounded-xl outline-none focus:border-[#0866ff] focus:bg-white dark:focus:bg-[#3a3b3c] focus:ring-2 focus:ring-[#0866ff]/20 transition"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#65676b] hover:text-[#050505] dark:hover:text-[#e4e6eb] cursor-pointer"
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
@@ -313,7 +310,7 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
         </div>
 
         {/* Footer Actions */}
-        <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-100 dark:border-slate-800">
+        <div className="pt-2 flex items-center justify-end gap-2 border-t border-[#e4e6eb] dark:border-[#393a3b]">
           <Button variant="outline" type="button" onClick={onClose} disabled={isLoading}>
             Hủy Bỏ
           </Button>
@@ -328,3 +325,4 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
 }
 
 export default CreateUserModal
+

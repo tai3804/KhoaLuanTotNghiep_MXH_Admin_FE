@@ -14,7 +14,7 @@ export interface CategoryPieChartProps {
   data: ReportCategoryStat[]
 }
 
-const COLORS = ['#1877f2', '#f02849', '#f7b125', '#45bd62', '#2abba7', '#8a8d91']
+const COLORS = ['#0866ff', '#fa383e', '#f5c33b', '#31a24c', '#0288d1', '#8a8d91']
 
 export const CategoryPieChart: React.FC<CategoryPieChartProps> = ({ data }) => {
   const isDark = useAppSelector((state) => state.theme.isDark)
@@ -22,18 +22,18 @@ export const CategoryPieChart: React.FC<CategoryPieChartProps> = ({ data }) => {
   return (
     <div className="p-6 rounded-2xl bg-white dark:bg-[#242526] border border-[#e4e6eb] dark:border-[#393a3b] shadow-xs flex flex-col justify-between">
       <div>
-        <h3 className="text-base font-bold text-slate-900 dark:text-[#e4e6eb]">
+        <h3 className="text-base font-bold text-[#050505] dark:text-[#e4e6eb]">
           Phân Bố Báo Cáo Vi Phạm
         </h3>
-        <p className="text-xs text-slate-500 dark:text-[#b0b3b8] mt-0.5">
+        <p className="text-xs text-[#65676b] dark:text-[#b0b3b8] mt-0.5">
           Tỷ lệ vi phạm theo nội dung bị tố cáo
         </p>
       </div>
 
       <div className="h-56 w-full my-2 flex items-center justify-center">
         {data.length === 0 ? (
-          <div className="flex flex-col items-center justify-center text-slate-400 dark:text-[#b0b3b8] gap-2">
-            <PieIcon className="w-8 h-8 opacity-40" />
+          <div className="flex flex-col items-center justify-center text-[#65676b] dark:text-[#b0b3b8] gap-2">
+            <PieIcon className="w-8 h-8 opacity-40 text-[#bcc0c4]" />
             <span className="text-xs">Chưa có phân loại báo cáo</span>
           </div>
         ) : (
@@ -80,9 +80,9 @@ export const CategoryPieChart: React.FC<CategoryPieChartProps> = ({ data }) => {
                   className="w-2.5 h-2.5 rounded-full"
                   style={{ backgroundColor: COLORS[idx % COLORS.length] }}
                 />
-                <span className="text-slate-600 dark:text-[#b0b3b8]">{item.category}</span>
+                <span className="text-[#65676b] dark:text-[#b0b3b8]">{item.category}</span>
               </div>
-              <span className="font-semibold text-slate-800 dark:text-[#e4e6eb]">
+              <span className="font-semibold text-[#050505] dark:text-[#e4e6eb]">
                 {item.percentage}% ({item.count})
               </span>
             </div>
@@ -94,4 +94,5 @@ export const CategoryPieChart: React.FC<CategoryPieChartProps> = ({ data }) => {
 }
 
 export default CategoryPieChart
+
 

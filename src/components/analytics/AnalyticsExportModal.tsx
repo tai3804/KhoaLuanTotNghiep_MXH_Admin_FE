@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
 import {
-  FileDown,
   Printer,
   FileSpreadsheet,
-  Sparkles,
   CheckCheck,
-  Calendar,
-  Layers,
 } from 'lucide-react'
 import Modal from '../common/Modal'
 import Button from '../common/Button'
@@ -135,12 +131,12 @@ export const AnalyticsExportModal: React.FC<AnalyticsExportModalProps> = ({
     >
       <div className="space-y-4">
         {/* Document Header */}
-        <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800 space-y-2">
+        <div className="p-4 rounded-2xl bg-[#F0F2F5] dark:bg-[#18191A] border border-[#E4E6EB] dark:border-[#393A3B] space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
+            <h4 className="text-sm font-black text-[#050505] dark:text-[#E4E6EB] uppercase tracking-wider">
               Báo Cáo Tổng Hợp Xu Hướng & Tương Tác
             </h4>
-            <span className="px-2 py-0.5 rounded-md bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-bold text-[11px]">
+            <span className="px-2 py-0.5 rounded-md bg-[#E7F3FF] dark:bg-[#0866FF]/20 text-[#0866FF] font-bold text-[11px]">
               {timeRange === '24h'
                 ? '24 Giờ qua'
                 : timeRange === '7d'
@@ -150,38 +146,38 @@ export const AnalyticsExportModal: React.FC<AnalyticsExportModalProps> = ({
                 : 'Quý này'}
             </span>
           </div>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-[#65676B] dark:text-[#B0B3B8]">
             Ngày lập báo cáo: {new Date().toLocaleDateString('vi-VN')} • Hệ thống Quản trị Mạng Xã Hội
           </p>
         </div>
 
         {/* Quick Preview Table */}
         <div className="space-y-2">
-          <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+          <h5 className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB] uppercase tracking-wider">
             Tóm Tắt Chỉ Số Chủ Đạo
           </h5>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-            <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800">
-              <span className="text-slate-400 block text-[10px]">Tương tác tuần</span>
-              <span className="font-bold text-slate-900 dark:text-white">
+            <div className="p-2.5 rounded-xl bg-[#F0F2F5] dark:bg-[#3A3B3C]/50 border border-[#E4E6EB] dark:border-[#393A3B]">
+              <span className="text-[#65676B] dark:text-[#B0B3B8] block text-[10px]">Tương tác tuần</span>
+              <span className="font-bold text-[#050505] dark:text-[#E4E6EB]">
                 {(heatmap?.totalWeeklyInteractions ?? 0).toLocaleString()}
               </span>
             </div>
-            <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800">
-              <span className="text-slate-400 block text-[10px]">Giờ cao điểm</span>
+            <div className="p-2.5 rounded-xl bg-[#F0F2F5] dark:bg-[#3A3B3C]/50 border border-[#E4E6EB] dark:border-[#393A3B]">
+              <span className="text-[#65676B] dark:text-[#B0B3B8] block text-[10px]">Giờ cao điểm</span>
               <span className="font-bold text-indigo-600 dark:text-indigo-400">
                 {heatmap?.peakTimeRange || '--:--'}
               </span>
             </div>
-            <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800">
-              <span className="text-slate-400 block text-[10px]">Top 1 Hashtag</span>
-              <span className="font-bold text-amber-600 dark:text-amber-400 truncate block">
+            <div className="p-2.5 rounded-xl bg-[#F0F2F5] dark:bg-[#3A3B3C]/50 border border-[#E4E6EB] dark:border-[#393A3B]">
+              <span className="text-[#65676B] dark:text-[#B0B3B8] block text-[10px]">Top 1 Hashtag</span>
+              <span className="font-bold text-[#B78103] dark:text-[#F5C33B] truncate block">
                 {trends[0]?.tag || 'Chưa có'}
               </span>
             </div>
-            <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#1c1e21] border border-slate-200 dark:border-slate-800">
-              <span className="text-slate-400 block text-[10px]">Tỷ lệ giữ chân</span>
-              <span className="font-bold text-emerald-600 dark:text-emerald-400">
+            <div className="p-2.5 rounded-xl bg-[#F0F2F5] dark:bg-[#3A3B3C]/50 border border-[#E4E6EB] dark:border-[#393A3B]">
+              <span className="text-[#65676B] dark:text-[#B0B3B8] block text-[10px]">Tỷ lệ giữ chân</span>
+              <span className="font-bold text-[#31A24C]">
                 {demographics?.averageRetentionRate != null && demographics.averageRetentionRate > 0
                   ? `${demographics.averageRetentionRate}%`
                   : '--%'}
@@ -192,12 +188,12 @@ export const AnalyticsExportModal: React.FC<AnalyticsExportModalProps> = ({
 
         {/* Top 5 Trends in Preview */}
         <div className="space-y-2">
-          <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+          <h5 className="text-xs font-bold text-[#050505] dark:text-[#E4E6EB] uppercase tracking-wider">
             Top Hashtag Xu Hướng Bàn Luận
           </h5>
-          <div className="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden text-xs">
+          <div className="border border-[#E4E6EB] dark:border-[#393A3B] rounded-xl overflow-hidden text-xs">
             <table className="w-full text-left">
-              <thead className="bg-slate-50 dark:bg-[#18191a] text-[10px] text-slate-400 uppercase font-bold border-b border-slate-200 dark:border-slate-800">
+              <thead className="bg-[#F0F2F5] dark:bg-[#18191A] text-[10px] text-[#65676B] dark:text-[#B0B3B8] uppercase font-bold border-b border-[#E4E6EB] dark:border-[#393A3B]">
                 <tr>
                   <th className="px-3 py-2">Hạng</th>
                   <th className="px-3 py-2">Hashtag</th>
@@ -206,23 +202,23 @@ export const AnalyticsExportModal: React.FC<AnalyticsExportModalProps> = ({
                   <th className="px-3 py-2 text-right">Tăng trưởng</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="divide-y divide-[#E4E6EB] dark:divide-[#393A3B]">
                 {trends.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-3 py-4 text-center text-slate-400">
+                    <td colSpan={5} className="px-3 py-4 text-center text-[#65676B] dark:text-[#B0B3B8]">
                       Chưa có hashtag thịnh hành
                     </td>
                   </tr>
                 ) : (
                   trends.slice(0, 5).map((t) => (
-                    <tr key={t.tag} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                      <td className="px-3 py-2 font-bold text-center w-10">#{t.rank}</td>
-                      <td className="px-3 py-2 font-semibold text-indigo-600 dark:text-indigo-400">
+                    <tr key={t.tag} className="hover:bg-[#F0F2F5]/80 dark:hover:bg-[#3A3B3C]/40">
+                      <td className="px-3 py-2 font-bold text-center w-10 text-[#050505] dark:text-[#E4E6EB]">#{t.rank}</td>
+                      <td className="px-3 py-2 font-semibold text-[#0866FF]">
                         {t.tag}
                       </td>
-                      <td className="px-3 py-2 text-slate-500">{t.category}</td>
-                      <td className="px-3 py-2 text-right font-bold">{t.postCount}</td>
-                      <td className="px-3 py-2 text-right font-bold text-emerald-600">
+                      <td className="px-3 py-2 text-[#65676B] dark:text-[#B0B3B8]">{t.category}</td>
+                      <td className="px-3 py-2 text-right font-bold text-[#050505] dark:text-[#E4E6EB]">{t.postCount}</td>
+                      <td className="px-3 py-2 text-right font-bold text-[#31A24C]">
                         +{t.growthPercentage}%
                       </td>
                     </tr>
@@ -233,7 +229,7 @@ export const AnalyticsExportModal: React.FC<AnalyticsExportModalProps> = ({
           </div>
         </div>
 
-        <p className="text-[11px] text-slate-400 italic">
+        <p className="text-[11px] text-[#65676B] dark:text-[#B0B3B8] italic">
           💡 Bạn có thể in trực tiếp thành file PDF chuẩn khổ A4 hoặc tải file CSV để phân tích nâng cao trên Excel / Google Sheets.
         </p>
       </div>
@@ -242,3 +238,4 @@ export const AnalyticsExportModal: React.FC<AnalyticsExportModalProps> = ({
 }
 
 export default AnalyticsExportModal
+
