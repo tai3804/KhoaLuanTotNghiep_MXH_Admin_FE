@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../store'
 import { setCredentials, setLoading, setError, extractUserFromToken } from '../store/slices/authSlice'
+import { AdminUser } from '../types/auth'
 import { toggleTheme } from '../store/slices/themeSlice'
 import { authService } from '../services/authService'
 import { addToast } from '../store/slices/toastSlice'
@@ -67,14 +68,15 @@ export const LoginPage: React.FC = () => {
       }
 
       const decodedUser = extractUserFromToken(token)
-      const user = res.user || res.data?.user || decodedUser || {
+      const fallbackUser: AdminUser = {
         id: parsedPayload?.sub || 'admin',
         username: parsedPayload?.email?.split('@')[0] || identifier,
         email: parsedPayload?.email || (identifier.includes('@') ? identifier : ''),
-        fullName: decodedUser?.fullName || identifier,
-        avatarUrl: decodedUser?.avatarUrl,
+        fullName: identifier,
+        avatarUrl: undefined,
         role: parsedPayload?.roles?.[0] || 'ADMIN',
       }
+      const user = res.user || res.data?.user || decodedUser || fallbackUser
 
       // Save to pure Redux in-memory state
       dispatch(setCredentials({ token, user }))
