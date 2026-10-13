@@ -9,7 +9,7 @@ import {
   Moon,
 } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../store'
-import { setCredentials, setLoading, setError, extractUserFromToken } from '../store/slices/authSlice'
+import { setCredentials, setLoading, setError, extractUserFromToken, parseTokenPayload } from '../store/slices/authSlice'
 import { AdminUser } from '../types/auth'
 import { toggleTheme } from '../store/slices/themeSlice'
 import { authService } from '../services/authService'
@@ -57,15 +57,7 @@ export const LoginPage: React.FC = () => {
         throw new Error('Không nhận được Access Token từ máy chủ')
       }
 
-      let parsedPayload: any = null
-      try {
-        const payloadStr = token.split('.')[1]
-        if (payloadStr) {
-          parsedPayload = JSON.parse(atob(payloadStr.replace(/-/g, '+').replace(/_/g, '/')))
-        }
-      } catch (e) {
-        // ignore
-      }
+      const parsedPayload = parseTokenPayload(token)
 
       const decodedUser = extractUserFromToken(token)
       const fallbackUser: AdminUser = {
