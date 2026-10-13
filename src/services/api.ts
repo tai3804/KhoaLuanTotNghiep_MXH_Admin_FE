@@ -3,7 +3,7 @@ import { store } from '../store'
 import { setCredentials, logout, extractUserFromToken } from '../store/slices/authSlice'
 import { getDeviceFingerprint } from '../utils/fingerprint'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_GATEWAY_URL || ''
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
