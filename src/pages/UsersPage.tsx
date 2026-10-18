@@ -58,7 +58,7 @@ export const UsersPage: React.FC = () => {
     } finally {
       dispatch(setLoading(false))
     }
-  }, [dispatch, users.length])
+  }, [dispatch])
 
   useEffect(() => {
     fetchUsers()

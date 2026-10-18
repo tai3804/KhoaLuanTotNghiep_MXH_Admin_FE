@@ -3,13 +3,17 @@ import { Post } from '../types/post'
 import { userService, userProfileCache } from './userService'
 
 export const postService = {
-  getAllPosts: async (): Promise<Post[]> => {
-    const response = await api.get('/api/v1/posts')
+  getAllPosts: async (page = 1, size = 100): Promise<Post[]> => {
+    const response = await api.get('/api/v1/posts', {
+      params: { page, size, sortBy: 'createdAt', sortDirection: 'DESC' },
+    })
     const rawData = response.data
     const postsList: any[] = Array.isArray(rawData)
       ? rawData
-      : rawData?.data && Array.isArray(rawData.data)
+      : Array.isArray(rawData?.data)
       ? rawData.data
+      : rawData?.data && Array.isArray(rawData.data.content)
+      ? rawData.data.content
       : []
 
     // Collect all unique author IDs and fetch their profiles in parallel
@@ -68,10 +72,10 @@ export const postService = {
 
   deletePost: async (postId: string): Promise<void> => {
     try {
-      await api.delete(`/api/v1/posts/${postId}`)
+      await api.delete(`/api/v1/posts/admin/${postId}`)
     } catch (err: any) {
-      if (err?.response?.status === 403 || err?.response?.status === 404) {
-        await api.delete(`/api/v1/posts/admin/${postId}`)
+      if (err?.response?.status === 404 || err?.response?.status === 405) {
+        await api.delete(`/api/v1/posts/${postId}`)
       } else {
         throw err
       }

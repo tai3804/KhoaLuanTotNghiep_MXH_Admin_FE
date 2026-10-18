@@ -5,6 +5,7 @@ import Button from '../common/Button'
 import Badge from '../common/Badge'
 import Avatar from '../common/Avatar'
 import { Heart, MessageSquare, Share2, Calendar, Globe } from 'lucide-react'
+import { getMediaUrl } from '../../utils/media'
 
 export interface PostPreviewModalProps {
   post: Post | null
@@ -89,7 +90,7 @@ export const PostPreviewModal: React.FC<PostPreviewModalProps> = ({
             {post.mediaUrls.map((url, idx) => (
               <img
                 key={idx}
-                src={url}
+                src={getMediaUrl(url)}
                 alt="Post media"
                 className="w-full h-48 object-cover rounded-xl border border-[#e4e6eb] dark:border-[#393a3b]"
               />

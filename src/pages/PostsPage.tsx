@@ -27,23 +27,19 @@ export const PostsPage: React.FC = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      if (posts.length === 0) {
-        dispatch(setLoading(true))
-      }
+      dispatch(setLoading(true))
       try {
-        const data = await postService.getAllPosts()
+        const data = await postService.getAllPosts(1, 100)
         dispatch(setPosts({ posts: data }))
       } catch (e) {
         console.error('Failed to load posts:', e)
-        if (posts.length === 0) {
-          dispatch(setPosts({ posts: [] }))
-        }
+        dispatch(setPosts({ posts: [] }))
       } finally {
         dispatch(setLoading(false))
       }
     }
     fetchPosts()
-  }, [dispatch, posts.length])
+  }, [dispatch])
 
   const filteredPosts = useMemo(() => {
     return posts.filter((p) => {

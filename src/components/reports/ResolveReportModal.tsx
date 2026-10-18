@@ -5,6 +5,7 @@ import Modal from '../common/Modal'
 import Button from '../common/Button'
 import Badge from '../common/Badge'
 import Avatar from '../common/Avatar'
+import { getMediaUrl } from '../../utils/media'
 import {
   AlertTriangle,
   Trash2,
@@ -187,7 +188,7 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
                     className="relative group aspect-video sm:aspect-square bg-black/10 rounded-lg overflow-hidden cursor-pointer border border-[#E4E6EB] dark:border-[#393A3B]"
                   >
                     <img
-                      src={url}
+                      src={getMediaUrl(url)}
                       alt={`Ảnh đính kèm ${idx + 1}`}
                       className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
                     />
@@ -391,7 +392,7 @@ export const ResolveReportModal: React.FC<ResolveReportModalProps> = ({
               <X className="w-5 h-5" />
             </button>
             <img
-              src={previewMediaUrl}
+              src={getMediaUrl(previewMediaUrl)}
               alt="Full Preview"
               className="w-full h-full object-contain max-h-[85vh]"
             />

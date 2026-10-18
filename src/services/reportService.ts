@@ -64,15 +64,19 @@ export const reportService = {
 
   getPendingReports: async (): Promise<Report[]> => {
     try {
-      const response = await api.get('/api/v1/moderation/reports?status=PENDING&size=100')
+      const response = await api.get('/api/v1/moderation/reports', {
+        params: { status: 'PENDING', 'filters[status]': 'PENDING', size: 100 },
+      })
       const rawData = response.data
-      const reportsList: any[] = Array.isArray(rawData)
+      const rawReportsList: any[] = Array.isArray(rawData)
         ? rawData
         : Array.isArray(rawData?.data)
         ? rawData.data
         : rawData?.data && Array.isArray(rawData.data.content)
         ? rawData.data.content
         : []
+
+      const reportsList = rawReportsList.filter((r) => !r.status || r.status === 'PENDING')
 
       const userIds = Array.from(
         new Set(
