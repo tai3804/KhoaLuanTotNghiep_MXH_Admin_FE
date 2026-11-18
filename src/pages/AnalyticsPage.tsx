@@ -23,6 +23,7 @@ import AnalyticsHeader from '../components/analytics/AnalyticsHeader'
 import AnalyticsKpiCards from '../components/analytics/AnalyticsKpiCards'
 import ActivityHeatmap from '../components/analytics/ActivityHeatmap'
 import TrendingHashtags from '../components/analytics/TrendingHashtags'
+import TrendingTopics from '../components/analytics/TrendingTopics'
 import DemographicsChart from '../components/analytics/DemographicsChart'
 import AnalyticsExportModal from '../components/analytics/AnalyticsExportModal'
 import { TimeRange } from '../types/analytics'
@@ -83,6 +84,7 @@ export const AnalyticsPage: React.FC = () => {
 
       {/* Trending Hashtags Section */}
       <TrendingHashtags hashtags={trends} isLoading={isLoading} />
+      <TrendingTopics />
 
       {/* Demographics & Devices */}
       <DemographicsChart data={demographics} isLoading={isLoading} />
